@@ -1,0 +1,10 @@
+import {readFile,writeFile,readdir} from 'node:fs/promises';
+const root=new URL('../',import.meta.url);
+const assets=await readdir(new URL('dist/assets/',root));
+const css=await readFile(new URL(`dist/assets/${assets.find(n=>n.endsWith('.css'))}`,root),'utf8');
+let js=await readFile(new URL(`dist/assets/${assets.find(n=>n.endsWith('.js'))}`,root),'utf8');
+const icon=await readFile(new URL('public/bear.svg',root),'utf8');
+const iconUri='data:image/svg+xml;base64,'+Buffer.from(icon).toString('base64');
+js=js.replaceAll('/bear.svg',iconUri).replaceAll('</script','<\\/script');
+await writeFile(new URL('BearMaxxing-preview.html',root),`<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BearMaxxing · Offline preview</title><link rel="icon" href="${iconUri}"><style>${css}</style></head><body><div id="root"></div><script type="module">${js}</script></body></html>`);
+console.log('Standalone preview written.');

@@ -1,0 +1,15 @@
+{
+  "version": "2026-10-03",
+  "joiners": [
+    {"name":"Amane","troop":"archer","effect":"attack","values":[0,5,10,15,20,25]},
+    {"name":"Yeonwoo","troop":"archer","effect":"lethality","values":[0,5,10,15,20,25]},
+    {"name":"Chenko","troop":"cavalry","effect":"lethality","values":[0,5,10,15,20,25]},
+    {"name":"Amadeus","troop":"infantry","effect":"lethality","values":[0,5,10,15,20,25]}
+  ],
+  "sources": [
+    {"title":"Player lookup API","url":"https://api.mightpulse.com/","status":"Provider documentation","note":"Arena defense heroes, equipped gear, forging, widgets, and public governor gear. Full inventory and research are not documented."},
+    {"title":"Bear Hunt joiner mechanics","url":"https://kingshotguides.com/guide/how-your-bear-damage-is-calculated-as-a-joiner/","status":"Community model","note":"Host stats and selected joiner skills apply to each participant. Troop inventory stays participant-specific."},
+    {"title":"Bear damage simulation","url":"https://kingshotguides.com/guide/bear-trap-damage-mechanics-and-example-simulation/","status":"Community model","note":"Square-root troop scaling, ten turns, and offensive stat factors. Our relative index is not a reproduction of the full simulator."},
+    {"title":"Joiner bonus reference","url":"https://kingshotguide.org/calculator/bear-trap-calculator","status":"Community reference","note":"Amane attack and Chenko/Yeonwoo lethality bonuses; intermediate skill values must be confirmed in game."}
+  ]
+}
