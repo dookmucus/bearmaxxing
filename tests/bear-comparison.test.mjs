@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {emptyProfile} from '../src/profile.mjs';
+import {enteredRosterProfile as emptyProfile} from './helpers/entered-roster.mjs';
 import {accountEffects,calculate} from '../src/calculator.mjs';
 import {evaluateHostTrio} from '../src/host-comparison.mjs';
 import {joiningRole} from '../src/hero-roles.mjs';
@@ -74,17 +74,13 @@ test('each upgrade re-optimizes a legal plan; unknown coefficients prevent damag
  assert.deepEqual(p,before);
 });
 
-test('optimizer invalidates cached troop-count, tier and capacity-dependent scenarios',()=>{
- const p=emptyProfile();
- for(const t of ['infantry','cavalry','archer']){p.stats[t]={attack:100,lethality:100};p.troops[t]={count:1000000,tier:6,tg:0};}
+test('normalized comparisons ignore deployment size and inventory but still invalidate changed tier mechanics',()=>{
+ const p=emptyProfile();for(const t of ['infantry','cavalry','archer']){p.stats[t]={attack:100,lethality:100};p.troops[t]={count:1000000,tier:6,tg:0};}
  p.capacityPlanningModel='shared-maximum';p.troopsPerMarch=18000;delete p.marchSizeByType;
- const a=optimizeMarchPlan(p,accountEffects(p));assert.ok(a.selected.host.bear.damage);
- p.troopsPerMarch=72000;const b=optimizeMarchPlan(p,accountEffects(p));
- assert.notEqual(a,b);const scenario='independent-late-counter';
- assert.ok(Math.abs(b.selected.host.bear.damage[scenario]/a.selected.host.bear.damage[scenario]-2)<1e-10);
- p.troops.archer.tg=8;const c=optimizeMarchPlan(p,accountEffects(p));
- assert.notEqual(b,c);assert.equal(c.selected.host.bear.damage,null);
- assert.ok(c.selected.host.bear.missing.some(m=>m.includes('Howling Wind')||m.includes('Truegold Wind')));
+ const a=optimizeMarchPlan(p,accountEffects(p));assert.ok(a.canRecommend);assert.ok(a.selected.host.bear.relativeOffense>0);assert.equal(a.selected.host.bear.damage,null);
+ p.troopsPerMarch=72000;p.troops.archer.count=0;const b=optimizeMarchPlan(p,accountEffects(p));assert.equal(b.selected.key,a.selected.key);assert.equal(b.selected.host.bear.relativeOffense,a.selected.host.bear.relativeOffense);assert.equal(b.selected.host.bear.damage,null);
+ p.troops.archer.tg=8;const c=optimizeMarchPlan(p,accountEffects(p));assert.notEqual(b,c);assert.equal(c.canRecommend,false);assert.equal(c.selected.host.bear.relativeOffense,null);
+ assert.ok(c.selected.host.bear.objectiveMissing.some(m=>m.includes('Howling Wind')||m.includes('Truegold Wind')));
 });
 
 test('plans with missing magnitudes remain unranked rather than comparing their omitted effects as zero',()=>{

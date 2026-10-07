@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {emptyProfile} from '../src/profile.mjs';
+import {enteredRosterProfile as emptyProfile} from './helpers/entered-roster.mjs';
 import {accountEffects} from '../src/calculator.mjs';
 import {heroBearEffects,joiningBearComparison,hostBearComparison} from '../src/bear-comparison.mjs';
 import {evaluateHostTrio} from '../src/host-comparison.mjs';

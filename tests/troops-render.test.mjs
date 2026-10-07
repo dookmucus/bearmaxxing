@@ -5,18 +5,24 @@ import {renderToStaticMarkup} from 'react-dom/server';
 import {createServer} from 'vite';
 import {emptyProfile} from '../src/profile.mjs';
 
-test('Troops editor exposes shared actual capacity and compact inventory with optional preserved setup',async t=>{
+test('Troops editor exposes only compact inventory while preserving saved planning inputs',async t=>{
  const vite=await createServer({server:{middlewareMode:true,hmr:false,ws:false},appType:'custom'});
  t.after(()=>vite.close());
  const {App}=await vite.ssrLoadModule('/src/main.jsx');
  const p=emptyProfile();p.hostCapacity=100000;p.joinCapacity=90000;
  const html=renderToStaticMarkup(React.createElement(App,{initialTab:'Troops',initialProfile:p}));
- for(const label of ['Quantity','Tier','Building TG','Maximum march size'])assert.ok(html.includes(label),label);
- for(const label of ['Infantry Quantity','Cavalry Quantity','Archers Quantity','Infantry maximum march count','Cavalry maximum march count','Archers maximum march count'])assert.ok(html.includes(label),label);
+ for(const label of ['Quantity','Tier','Building TG'])assert.ok(html.includes(label),label);
+ for(const label of ['Infantry Quantity','Cavalry Quantity','Archers Quantity'])assert.ok(html.includes(label),label);
  for(const label of ['Total available','Fallback capacity entries mean','Derive march capacity from a base value','Include a hosting march','Rally capacity contribution:','Hero-free pusher','Pusher capacity','Different capacities per march','Troops per march','Setup adjustments','March setup','Available march slots','Joining marches','Join 1 leader','Join 2 leader','Join 3 leader','Infantry (%)','Cavalry (%)','Archers (%)','Saved capacities need confirmation'])assert.ok(!html.includes(label),label);
  assert.ok(!html.includes('fallback'));
- assert.ok(html.includes('>10/10/80</span>'));
+ assert.ok(!html.includes('>10/10/80</span>'));
+ for(const label of ['Maximum march size','Infantry maximum march count','Cavalry maximum march count','Archers maximum march count','troop-march-setup','troop-march-size-fields'])assert.ok(!html.includes(label),label);
  assert.ok(html.includes('troop-columns'));
+ assert.ok(html.includes('Inventory-supported'));
+ assert.ok(html.includes('3 groups'));assert.ok(html.includes('4 groups'));
+ assert.ok(html.includes('troop-inventory-plans'));
+ assert.ok(!html.includes('5 groups:'));
+ assert.ok(html.includes('Limiting'));
  assert.ok(!html.includes('troop-capacity-options'));
  assert.ok(!html.includes('Full-capacity requirements'));
  assert.ok(!html.includes('Additional troops needed to fill all planned marches'));

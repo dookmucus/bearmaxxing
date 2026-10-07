@@ -1,10 +1,9 @@
 import {heroIdentity} from './host-comparison.mjs';
 import {supportedJoiningPlans,assembleJoiningSquads} from './joint-plan.mjs';
 import {joiningRole,roleEligible} from './hero-roles.mjs';
-import {pusherParticipates,usesSharedMaximum,usesActualMarchInputs,actualMarchCapacity} from './march-capacity-inputs.mjs';
-import {hasAccountBaseCapacity} from './input-defaults.mjs';
+import {comparisonProfile,inventoryGroups} from './inventory-planning.mjs';
 import capacityData from './data/hero-capacity.json' with {type:'json'};
-import {TYPES,split} from './engine.mjs';
+import {TYPES} from './engine.mjs';
 import {inventoryCount} from './troop-inventory.mjs';
 
 const whole=n=>n!==null&&n!==undefined&&n!==''&&Number.isInteger(Number(n))&&Number(n)>=0;
@@ -12,18 +11,12 @@ export const heroCapacity=level=>whole(level)?capacityData.deploymentByLevel[Num
 export const capacitySource=capacityData.source;
 export const marchEligible=roleEligible;
 
-function capacityFor(profile,heroes,fallback,effects,pusher=false,legacy=false){
-  if(!legacy&&whole(fallback)&&Number(fallback)>0)return {capacity:Number(fallback),basis:'actual in-game fallback'};
-  const heroValues=heroes.map(h=>h?heroCapacity(h.level):null);
-  if(hasAccountBaseCapacity(profile)&&(!pusher?heroes.length===3&&heroValues.every(whole):true))return {capacity:Number(profile.accountBaseCapacity)+(pusher?0:heroValues.reduce((a,b)=>a+b,0))+effects.deploy,basis:'derived'};
-  if(whole(fallback)&&Number(fallback)>0)return legacy?{capacity:Number(fallback)+effects.deploy,basis:'saved base plus modeled deployment bonus; review'}:{capacity:Number(fallback),basis:'actual in-game fallback'};
-  return {capacity:null,basis:'missing actual in-game capacity or account base'};
-}
 function candidateList(profile,used,classes){
   return profile.heroes.filter(h=>marchEligible(h)&&classes.includes(h.troop)&&!used.has(heroIdentity(h)))
-    .sort((a,b)=>(heroCapacity(b.level)??-1)-(heroCapacity(a.level)??-1)||a.name.localeCompare(b.name));
+    .sort((a,b)=>String(heroIdentity(a)).localeCompare(String(heroIdentity(b))));
 }
 export function assignMarchHeroes(profile,hostTeam=[],jointAssignment=null){
+ profile=comparisonProfile(profile);
  if(jointAssignment)return withMissingLeaderSlots(profile,{...jointAssignment,joins:[...jointAssignment.joins],issues:[...jointAssignment.issues]});
  const host=profile.hostEnabled?hostTeam.filter(Boolean):[];
  const selection=supportedJoiningPlans(profile,host).plans[0];
@@ -49,38 +42,11 @@ export function availableFillers(profile,assignment,joinIndex,slot){
   return candidateList(profile,occupied,classes);
 }
 export function completeMarchPlan(profile,hostTeam,effects,jointAssignment=null){
-  const assignment=assignMarchHeroes(profile,hostTeam,jointAssignment);
-  const rows=[];
-  if(usesActualMarchInputs(profile)){
-    if(profile.hostEnabled)rows.push({name:'Host',heroes:assignment.host,capacity:actualMarchCapacity(profile,'host'),basis:usesSharedMaximum(profile)?'approximate common maximum':'actual in-game capacity'});
-    assignment.joins.forEach((row,i)=>rows.push({...row,capacity:actualMarchCapacity(profile,'join',i),basis:usesSharedMaximum(profile)?'approximate common maximum':'actual in-game capacity',joinIndex:i}));
-    if(pusherParticipates(profile))rows.push({name:'Hero-free pusher',heroes:[],capacity:actualMarchCapacity(profile,'pusher'),basis:'pusher capacity not estimated',targetExcluded:usesSharedMaximum(profile)});
-  }else{
-  if(profile.hostEnabled){const info=capacityFor(profile,assignment.host,profile.hostCapacity,effects,false,profile.capacityInputMode==='legacy-base');rows.push({name:'Host',heroes:assignment.host,...info});}
-  assignment.joins.forEach((row,i)=>{const individual=whole(row.joiner?.capacity)&&Number(row.joiner.capacity)>0;const info=capacityFor(profile,row.heroes,individual?row.joiner.capacity:profile.joinCapacity,effects,false,!individual&&profile.capacityInputMode==='legacy-base');rows.push({...row,...info,joinIndex:i});});
-  if(pusherParticipates(profile)){const info=capacityFor(profile,[],profile.pusherCapacity,effects,true,profile.capacityInputMode==='legacy-base');rows.push({name:'Hero-free pusher',heroes:[],...info});}
-  }
-  // Targets and inventory allocations are planning amounts, not troops accepted by a rally.
-  const remaining=Object.fromEntries(TYPES.map(t=>[t,inventoryCount(profile,t)]));
-  const needed=Object.fromEntries(TYPES.map(t=>[t,0]));
-  let blocked=false;
-  for(const row of rows){
-    if(row.targetExcluded){row.target=null;row.available=null;row.gap=null;row.fill=null;continue;}
-    if(!whole(row.capacity)||Number(row.capacity)<1){row.target=null;row.available=null;row.gap=null;row.fill=null;blocked=true;continue;}
-    row.target=split(row.capacity,profile.ratios);
-    if(blocked||TYPES.some(t=>row.target[t]>0&&!whole(remaining[t]))){row.available=null;row.gap=null;row.fill=null;blocked=true;continue;}
-    row.available={};row.gap={};
-    for(const t of TYPES){needed[t]+=row.target[t];row.available[t]=row.target[t]===0?0:Math.min(row.target[t],remaining[t]);if(whole(remaining[t]))remaining[t]-=row.available[t];row.gap[t]=row.target[t]-row.available[t];}
-    row.fill=TYPES.reduce((sum,t)=>sum+row.available[t],0)/row.capacity;
-  }
-  const totalsKnown=!blocked;
-  const shortage=Object.fromEntries(TYPES.map(t=>[t,totalsKnown?(needed[t]===0?0:Math.max(0,needed[t]-Number(inventoryCount(profile,t)))):null]));
-  return {marches:rows,needed:totalsKnown?needed:null,remaining,shortage,assignment,issues:assignment.issues,capacityComplete:rows.filter(r=>!r.targetExcluded).every(r=>whole(r.capacity)),targetMarchCount:rows.filter(r=>!r.targetExcluded).length,totalsKnown};
+ profile=comparisonProfile(profile);
+ const assignment=assignMarchHeroes(profile,hostTeam,jointAssignment);
+ const marches=[{name:'Host',heroes:assignment.host},...assignment.joins.map((row,joinIndex)=>({...row,joinIndex}))]
+  .map(row=>({...row,capacity:null,basis:'deployment count unknown',target:null,available:null,gap:null,fill:null}));
+ return {marches,needed:null,remaining:Object.fromEntries(TYPES.map(t=>[t,inventoryCount(profile,t)])),shortage:Object.fromEntries(TYPES.map(t=>[t,null])),assignment,issues:assignment.issues,capacityComplete:false,targetMarchCount:4,totalsKnown:false};
 }
-
-// Inventory volume at 10/10/80 is not an estimate of deployment capacity.
-export function inventorySupportedTotal(profile){
- const values=TYPES.map(t=>inventoryCount(profile,t));
- if(!values.every(whole))return null;
- return Math.floor(Math.min(Number(values[0])*10,Number(values[1])*10,Number(values[2])*5/4));
-}
+// Kept for callers of the inventory helper; never a march-capacity estimate.
+export function inventorySupportedTotal(profile){return inventoryGroups(profile,1).totalPerGroup;}

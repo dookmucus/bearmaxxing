@@ -74,7 +74,7 @@ export function validateReports(data,audit){
      try{
       incomingEffects(base);
       const contexts=base.skills.some(s=>s.hero==='Vivian')?['add','strongest'].map((rule,i)=>({...base,id:`recorded-${rule}`,central:i===0,vivianOverlap:rule})):[base];
-      const replay=hero=>{const entry=evaluateHostTrio(audit.profileSnapshot,['Zoe','Petra',hero].map(n=>audit.profileSnapshot.heroes.find(h=>h.name===n)),accountEffects(audit.profileSnapshot));return hostBearComparison(audit.profileSnapshot,entry.team,{incomingContexts:contexts});};
+      const replay=hero=>{const entry=evaluateHostTrio(audit.profileSnapshot,['Zoe','Petra',hero].map(n=>audit.profileSnapshot.heroes.find(h=>h.name===n)),accountEffects(audit.profileSnapshot));return hostBearComparison(audit.profileSnapshot,entry.team,{incomingContexts:contexts,deployedCounts:expectedTroops(audit.profileSnapshot)});};
       const first=replay(a.hero),second=replay(b.hero),ratios=Object.keys(first.damageDimensions).filter(k=>first.damageDimensions[k]>0&&Number.isFinite(second.damageDimensions[k])).map(k=>({scenario:k,ratio:second.damageDimensions[k]/first.damageDimensions[k]}));
       model=ratios.length?{status:'conditional-relative-comparison',centralRatio:second.modeledDamage/first.modeledDamage,minScenarioRatio:Math.min(...ratios.map(r=>r.ratio)),maxScenarioRatio:Math.max(...ratios.map(r=>r.ratio)),limits:'Recorded selected skills are replayed separately for each host. Incoming Vivian overlap and other mechanics remain assumed. Effective report stats are not added a second time.'}:{status:'withheld',reason:'Relevant offensive magnitudes remain unmapped'};
      }catch(error){model={status:'withheld',reason:error.message};}

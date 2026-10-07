@@ -6,8 +6,8 @@ import {bearTroop,troopDamageMultiplier} from './bear-troops.mjs';
 import {heroReference,heroSkillName} from './hero-effects.mjs';
 import {heroReferenceName} from './hero-identity.mjs';
 import {effectiveSkillLevel} from './hero-skill-unlocks.mjs';
-import {actualMarchCapacity,usesActualMarchInputs} from './march-capacity-inputs.mjs';
-import {split,TYPES} from './engine.mjs';
+import {comparisonProfile} from './inventory-planning.mjs';
+import {TYPES} from './engine.mjs';
 import {inventoryCount} from './troop-inventory.mjs';
 import {combatBaselineInput} from './input-defaults.mjs';
 const stages={15:[0,3,6,9,12,15],25:[0,5,10,15,20,25],30:[0,6,12,18,24,30]};
@@ -111,6 +111,7 @@ function buildFiniteBaselineCases(input){
 }
 const eventCache=new Map();
 export function hostBearComparison(profile,entries,auditAssumptions=null){
+ profile=comparisonProfile(profile);
  const records=entries.map(e=>heroBearEffects(e.hero)),effects=records.flatMap(r=>r.effects).sort((a,b)=>`${a.hero}:${a.skill}`.localeCompare(`${b.hero}:${b.skill}`));
  // An explicit hypothetical trace is available for research only. Production
  // cannot silently choose one attack sequence and call Vivian the winner.
@@ -150,8 +151,10 @@ export function hostBearComparison(profile,entries,auditAssumptions=null){
    dimensions[`${scenarioKey}:${troop}`]=factor;classes[troop]??={};classes[troop][scenarioKey]=factor;
   }
  }
- const capacity=usesActualMarchInputs(profile)?actualMarchCapacity(profile,'host'):profile.hostCapacity;
- const counts=known(capacity)&&Number(capacity)>0?split(capacity,profile.ratios):null;
+ // Only offline audit callers may supply observed counts explicitly.
+ const observed=auditAssumptions?.deployedCounts;
+ const counts=observed&&TYPES.every(t=>Number.isSafeInteger(observed[t])&&observed[t]>=0)&&TYPES.reduce((sum,t)=>sum+observed[t],0)>0?observed:null;
+ const capacity=counts?TYPES.reduce((sum,t)=>sum+counts[t],0):null;
  const totalRatio=TYPES.reduce((n,t)=>n+Number(profile.ratios?.[t]??0),0);
  const ratioValid=totalRatio===100&&TYPES.every(t=>known(profile.ratios?.[t])&&Number(profile.ratios[t])>=0);
  const troopGaps=TYPES.filter(t=>Number(profile.ratios?.[t])>0).flatMap(t=>troops[t].missing);
@@ -197,16 +200,16 @@ export function hostBearComparison(profile,entries,auditAssumptions=null){
  if(unknownHowling)for(const b of baselines)for(const s of scenarioIds)for(const c of contextIds)for(const proc of ['independent','additive'])damageAt(`${b.id}:${s}:${proc}${c===centralIncoming.id?'':':'+c}`);
  const centralKey=`${centralBaseline.id}:${centralScenario}:independent`,modeledDamage=damageAt(centralKey);
  const baselineMissing=TYPES.filter(t=>Number(profile.ratios?.[t])>0).flatMap(t=>['attack','lethality'].filter(stat=>combatBaselineInput(profile,t,stat).value==null).map(stat=>`${t}: permanent ${stat} baseline is absent`));
- const missing=[...objectiveMissing,...baselineMissing,...(!counts?['Entered host troop count/capacity is unavailable']:[]),...TYPES.filter(t=>Number(profile.ratios?.[t])>0).flatMap(t=>!known(inventoryCount(profile,t))||counts&&Number(inventoryCount(profile,t))<counts[t]?[`${t}: planned troops are not verified available`]:[]),...(profile.mixedTiersEnabled?['Mixed-tier battle damage aggregation is unresolved']:[])];
+ const missing=[...objectiveMissing,...baselineMissing,...(counts?TYPES.filter(t=>Number(profile.ratios?.[t])>0).flatMap(t=>!known(inventoryCount(profile,t))||Number(inventoryCount(profile,t))<counts[t]?[`${t}: planned troops are not verified available`]:[]):[]),...(profile.mixedTiersEnabled?['Mixed-tier battle damage aggregation is unresolved']:[])];
  if(profile.mixedTiersEnabled){objectiveMissing.push('Mixed-tier battle damage aggregation is unresolved');for(const k of Object.keys(damageDimensions))delete damageDimensions[k];}
  const damage={};if(!missing.length)for(const scenario of HOST_SCENARIOS)damage[scenario.id]=damageAt(`finite-111:${scenario.id}:independent`);
  const widgetActive=entries.some(e=>e.contribution.widgetRallyAttack>0||e.contribution.widgetRallyLethality>0);
  const uncertainties=[...new Set([...effects.flatMap(e=>e.unresolved??[]),...incomingContexts.flatMap(c=>contextEffects.get(c.id).flatMap(e=>e.unresolved)),...TYPES.flatMap(t=>troops[t].effects.flatMap(e=>(e.uncertainties??[]).map(u=>`${e.name}: ${u}`))),...(widgetActive?mechanics.widget.unresolved:[]),'Troop skill/hero extra-attack correlation and counter timing',...TYPES.flatMap(t=>troops[t].conflicts.map(c=>`${t} T${c.tier} TG${c.tg}: published base Attack differs by one point`))])];
  return {incomingContexts:incomingContexts.map(c=>({...c,effects:contextEffects.get(c.id)})),centralIncomingContext:centralIncoming.id,incomingContextDamage:Object.fromEntries(incomingContexts.map(c=>[c.id,damageAt(`${centralBaseline.id}:${centralScenario}:independent${c.id===centralIncoming.id?'':':'+c.id}`)])),dimensions,classes,eventSummaries,effects,gaps,missing,objectiveMissing,troops,baselineCases:baselines,baselineInputs:Object.fromEntries(TYPES.map(t=>[t,Object.fromEntries(['attack','lethality'].map(stat=>[stat,combatBaselineInput(profile,t,stat)]))])),get damageKeys(){return getDamageKeys();},damageAt,get damageDimensions(){return materializeDamage();},unresolvedTroopTerms,
-  modeledDamage:profile.mixedTiersEnabled?null:modeledDamage,centralKey,units:counts?'community Bear-example damage units':'formation-relative damage units',
-  estimated:baselineMissing.length>0||uncertainties.length>0,damage:missing.length?null:damage,
-  scenarioAssumptions:HOST_SCENARIOS,assumptions:['Incoming contexts specify selected primary skills only; levels and mixes are assumptions, not player inputs or probabilities. Own outgoing joining squads are excluded','Incoming Vivian additive versus strongest-only overlap are sensitivity assumptions, not verified stacking rules',...(trace?['Hypothetical Vivian attack sequence supplied for audit; not verified or used for production selection']:[]),...(volley&&!volley.stageVerified?['Volley 10% is a conditional generic-source case; exact entered tier/TG applicability remains unresolved. Zero/20%/100% cases test that assumption without editing troop inputs']:[]),'Canonical troop attack order is Infantry/Cavalry/Archer, independent of hero portrait order; Volley branches advance Focus Fire only','Petra forward-round case applies its first proc to the current and subsequent hits, expires at round end; lifetime/apply timing remains assumed',...effects.filter(e=>e.hostFamilyAssumption).map(e=>`${e.hero}: ${e.name} hosting operation family is a transfer assumption`),...(baselineMissing.length?['Missing permanent bonuses use finite 200/500/1000pp sensitivity assumptions; these are not player values']:[]),...(!counts?['Only formation-relative damage can be compared without march size']:[])],
-  uncertainties,coverageComplete:!missing.length&&!uncertainties.length,scope:objectiveMissing.length?'Unranked: known stat/effect subtotals only; unresolved effects are excluded from totals, not valued as zero':'Estimated total Bear damage for the entered formation; finite baseline and mechanic variations flag uncertainty separately'};
+  modeledDamage:profile.mixedTiersEnabled?null:modeledDamage,relativeOffense:!counts&&!profile.mixedTiersEnabled?modeledDamage:null,centralKey,units:counts?'offline reference damage units':'normalized 10/10/80 relative-offense units',
+  estimated:baselineMissing.length>0||uncertainties.length>0,damage:!counts||missing.length?null:damage,
+  scenarioAssumptions:HOST_SCENARIOS,assumptions:['Incoming contexts specify selected primary skills only; levels and mixes are assumptions, not player inputs or probabilities. Own outgoing joining squads are excluded','Incoming Vivian additive versus strongest-only overlap are sensitivity assumptions, not verified stacking rules',...(trace?['Hypothetical Vivian attack sequence supplied for audit; not verified or used for production selection']:[]),...(volley&&!volley.stageVerified?['Volley 10% is a conditional generic-source case; exact entered tier/TG applicability remains unresolved. Zero/20%/100% cases test that assumption without editing troop inputs']:[]),'Canonical troop attack order is Infantry/Cavalry/Archer, independent of hero portrait order; Volley branches advance Focus Fire only','Petra forward-round case applies its first proc to the current and subsequent hits, expires at round end; lifetime/apply timing remains assumed',...effects.filter(e=>e.hostFamilyAssumption).map(e=>`${e.hero}: ${e.name} hosting operation family is a transfer assumption`),...(baselineMissing.length?['Missing permanent bonuses use finite 200/500/1000pp sensitivity assumptions; these are not player values']:[]),...(!counts?['A normalized 10/10/80 formation compares relative offense; this is not a Bear damage forecast']:[])],
+  uncertainties,coverageComplete:!missing.length&&!uncertainties.length,scope:objectiveMissing.length?'Unranked: known stat/effect subtotals only; unresolved effects are excluded from totals, not valued as zero':'Normalized 10/10/80 relative-offense comparison; not predicted Bear damage'};
 }
 // A class-local unknown is not a common factor of I + C + A. Cancellation
 // requires identical Archer contribution and identical offensive trigger logic.

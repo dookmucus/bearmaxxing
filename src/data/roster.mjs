@@ -1,7 +1,6 @@
 import {primaryGearLocation} from '../active-gear.mjs';
 import {normalizeHeroAvailability,normalizeActiveBearPlan} from '../bear-plan-defaults.mjs';
 import {normalizePetInput} from '../pet-inputs.mjs';
-import {normalizeMarchCapacities} from '../march-capacity-migration.mjs';
 import {applyInputDefaults} from '../input-defaults.mjs';
 // Names and known troop classes from the community hero index. A blank class
 // means the class still needs confirmation; no combat value is inferred.
@@ -60,5 +59,5 @@ export function migrateProfile(old) {
   p.marchSlots??=4;p.pusherEnabled??=false;p.pusherCapacity??=null;p.otherPetRefinement??={attack:null,lethality:null};
   p.petRefinementMode=p.petRefinementMode==='combined'?'combined':'per-pet';
   p.combinedPetRefinement={infantry:null,cavalry:null,archer:null,...p.combinedPetRefinement};
-  return normalizeActiveBearPlan(normalizeMarchCapacities(applyInputDefaults(p)));
+  return normalizeActiveBearPlan(applyInputDefaults(p));
 }

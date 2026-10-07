@@ -1,4 +1,5 @@
 import {HERO_ROSTER,heroReferenceName,canonicalHeroId} from './hero-identity.mjs';
+import {comparisonProfile} from './inventory-planning.mjs';
 const key=name=>String(name??'').normalize('NFKC').trim().toLowerCase().replace(/[\s_-]+/g,'');
 // Identity recovery applies to the whole roster, never to a reserved role.
 export function normalizeHeroAvailability(hero){
@@ -22,8 +23,12 @@ export function normalizeActiveBearPlan(profile){
  p.hostEnabled??=true;p.joinCount??=3;p.marchSlots??=4;
  p.ratios??={infantry:10,cavalry:10,archer:80};
  p.joiners??=Array.from({length:p.joinCount},()=>({name:'',skill:null}));
- p.capacityPlanningModel??='shared-maximum';
+ if(p.inventoryPlanVersion!==1){
+  const fields=['ratios','hostEnabled','joinCount','marchSlots','hostCapacity','joinCapacity','pusherCapacity','accountBaseCapacity','capacityInputMode','capacityPlanningModel','troopsPerMarch','marchSizeByType','differentMarchCapacities','actualMarchCapacities','actualPusherCapacity','capacityConfirmation','pusherEnabled','joiners'];
+  p.legacyTroopPlanning??=structuredClone(Object.fromEntries(fields.filter(field=>Object.hasOwn(profile,field)).map(field=>[field,profile[field]])));
+ }
+ p.inventoryPlanVersion=1;
  p.rolePlanVersion=1;
- return p;
+ return comparisonProfile(p);
 }
 export function setBearPusher(profile,enabled){return {...profile,pusherEnabled:enabled,marchSlots:profile.capacityPlanningModel==='shared-maximum'?4:enabled?5:4};}

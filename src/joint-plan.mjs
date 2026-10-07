@@ -1,9 +1,8 @@
 import {englishMessage} from './english-messages.mjs';
 import {compareHosts,heroIdentity} from './host-comparison.mjs';
-import {roleEligible,roleCapacity,joiningRole,roleInventoryIssues} from './hero-roles.mjs';
+import {roleEligible,joiningRole,roleInventoryIssues} from './hero-roles.mjs';
 import {TYPES} from './engine.mjs';
-import {usesActualMarchInputs} from './march-capacity-inputs.mjs';
-import {hasAccountBaseCapacity} from './input-defaults.mjs';
+import {comparisonProfile} from './inventory-planning.mjs';
 import {planBearDimensions,dimensionDominates,joiningBearComparison} from './bear-comparison.mjs';
 import {optionalFillerPool} from './optional-fillers.mjs';
 const id=h=>heroIdentity(h);
@@ -15,13 +14,11 @@ function combinations(items,count,start=0,prefix=[],out=[]){
  return out;
 }
 export function assembleJoiningSquads(profile,host,leaders,allowPartial=false){
+ profile=comparisonProfile(profile);
  if(roleInventoryIssues(profile).length)return null;
  const occupied=new Set([...host.map(e=>id(e.hero??e)),...leaders.map(l=>l.id)]);
  if(occupied.size!==host.length+leaders.length)return null;
- const pools=Object.fromEntries(TYPES.map(t=>[t,profile.heroes.filter(h=>roleEligible(h)&&h.troop===t&&!occupied.has(id(h))).sort((a,b)=>{
-  const ac=roleCapacity(a),bc=roleCapacity(b);
-  return ac===null?(bc===null?stable(a,b):1):bc===null?-1:bc-ac||stable(a,b);
- })]));
+ const pools=Object.fromEntries(TYPES.map(t=>[t,profile.heroes.filter(h=>roleEligible(h)&&h.troop===t&&!occupied.has(id(h))).sort(stable)]));
  const suggestions=optionalFillerPool(profile);
  for(const t of TYPES)pools[t].push(...suggestions.filter(h=>h.troop===t&&!occupied.has(id(h))));
  const joins=leaders.map((role,index)=>({name:`Join ${index+1}`,heroes:[role.hero,null,null],leaderRole:role,equivalent:[[],[],[]],manual:[false,false,false],joiner:{...profile.joiners?.[index],name:role.hero.name},reason:`${role.hero.name} offers ${offerText(role)}; the other heroes complete the troop classes.`}));
@@ -31,12 +28,10 @@ export function assembleJoiningSquads(profile,host,leaders,allowPartial=false){
  }
  const used=new Set(joins.flatMap(row=>row.heroes).filter(Boolean).map(id));
  for(const row of joins)for(const slot of [1,2]){
-  const chosen=row.heroes[slot];if(!chosen||chosen.optionalFiller)continue;const cap=roleCapacity(chosen);
-  // Stable IDs only choose a display representative; equal effects are ties.
-  row.equivalent[slot]=cap===null?[]:profile.heroes.filter(h=>roleEligible(h)&&h.troop===chosen.troop&&id(h)!==id(chosen)&&!host.some(e=>id(e.hero??e)===id(h))&&!leaders.some(l=>l.id===id(h))&&roleCapacity(h)===cap).map(h=>h.name);
+  const chosen=row.heroes[slot];if(!chosen||chosen.optionalFiller)continue;
+  row.equivalent[slot]=profile.heroes.filter(h=>roleEligible(h)&&h.troop===chosen.troop&&id(h)!==id(chosen)&&!host.some(e=>id(e.hero??e)===id(h))&&!leaders.some(l=>l.id===id(h))).map(h=>h.name);
  }
- const values=joins.flatMap(row=>row.heroes).map(roleCapacity);
- return {host:host.map(e=>e.hero??e),joins,issues:joins.flatMap(row=>row.heroes.flatMap((h,i)=>h?[]:[`${row.name} slot ${i+1}: no available compatible hero.`])),fillerCapacity:values.every(v=>v!==null)?values.reduce((n,v)=>n+v,0):null,used};
+ return {host:host.map(e=>e.hero??e),joins,issues:joins.flatMap(row=>row.heroes.flatMap((h,i)=>h?[]:[`${row.name} slot ${i+1}: no available compatible hero.`])),fillerCapacity:null,used};
 }
 export function offerText(role){
  const labels={attack:'Attack',lethality:'Lethality',damageTaken:englishMessage("messages.joint.plan.offerText.enemy.damage.taken"),attackMultiplier:englishMessage("messages.joint.plan.offerText.attack.multiplier"),lethalityMultiplier:englishMessage("messages.joint.plan.offerText.lethality.multiplier"),damageDealt:englishMessage("messages.joint.plan.offerText.damage.dealt"),extraDamage:englishMessage("messages.joint.plan.offerText.extra.damage"),extraStrike:englishMessage("messages.joint.plan.offerText.extra.strike.damage"),damageOverTime:englishMessage("messages.joint.plan.offerText.damage.over.time")};
@@ -63,27 +58,25 @@ function metrics(host,leaders,assignment,profile){
  // long host/leader string for every legal combination in every hypothesis.
  let signature,dimensions;
  const unknownSignature=leaderMetrics.unknown.length?[...(host?.bear.gaps??[]),...leaderMetrics.unknown].sort().join('|'):hostMetadata.missingSignature;
- return {hostIndex:host?.index??null,offers,steadyOffers,get signature(){return signature??=[...hostMetadata.unknown,...leaderMetrics.signature].sort().join('|');},get dimensions(){return dimensions??=planBearDimensions(host,leaders);},joinDimensions:leaderMetrics.joinDimensions,unknownSignature,capacity:!usesActualMarchInputs(profile)&&hasAccountBaseCapacity(profile)?assignment.fillerCapacity:null};
+ return {hostIndex:host?.index??null,offers,steadyOffers,get signature(){return signature??=[...hostMetadata.unknown,...leaderMetrics.signature].sort().join('|');},get dimensions(){return dimensions??=planBearDimensions(host,leaders);},joinDimensions:leaderMetrics.joinDimensions,unknownSignature,capacity:null};
 }
 const hostDimensionKeys=new WeakMap();
 function dominates(a,b){
  if(a.metrics.unknownSignature!==b.metrics.unknownSignature)return false;
- if((a.metrics.capacity===null)!==(b.metrics.capacity===null))return false;
- if(a.metrics.capacity!==null&&a.metrics.capacity<b.metrics.capacity)return false;
  // The same host shares every hosting dimension; compare its separate joins
  // without copying thousands of identical incoming/baseline cases.
- if(a.host===b.host){const av=joinDimensions(a),bv=joinDimensions(b);return dimensionDominates(av,bv)||a.metrics.capacity>b.metrics.capacity&&Object.keys(bv).every(k=>av[k]>=bv[k]-1e-10);}
+ if(a.host===b.host){const av=joinDimensions(a),bv=joinDimensions(b);return dimensionDominates(av,bv);}
  const av=joinDimensions(a),bv=joinDimensions(b);
  if(!Object.keys(bv).every(k=>av[k]>=bv[k]-1e-10))return false;
  if(Number.isFinite(hostScore(a))&&Number.isFinite(hostScore(b))&&hostScore(a)<hostScore(b)-1e-10)return false;
  const ah=a.host?.bear.damageDimensions??{},bh=b.host?.bear.damageDimensions??{};
  let keys=hostDimensionKeys.get(bh);if(!keys){keys=Object.keys(bh);hostDimensionKeys.set(bh,keys);}
- let better=Object.keys(bv).some(k=>av[k]>bv[k]+1e-10)||a.metrics.capacity>b.metrics.capacity;
+ let better=Object.keys(bv).some(k=>av[k]>bv[k]+1e-10);
  for(const k of keys){if(!Number.isFinite(ah[k])||ah[k]<bh[k]-1e-10)return false;if(ah[k]>bh[k]+1e-10)better=true;}
  return better;
 }
 const displayOrder=(a,b)=>a.key.localeCompare(b.key);
-// Hosting total damage is the primary objective. Joining contexts are separate
+// Normalized hosting relative offense is the primary objective. Joining contexts are separate
 // constraints/tradeoffs, never equal-weighted terms in a host damage score.
 const hostScore=o=>o.host?.bear?.modeledDamage??null;
 const joinDimensions=o=>o.metrics.joinDimensions??Object.fromEntries(Object.entries(o.metrics.dimensions).filter(([k])=>k.startsWith('separate-join:')));
@@ -102,7 +95,7 @@ export function selectCurrentPlan(options){
   const hostKey=[...pool].sort(displayOrder)[0].host?.team.map(e=>id(e.hero)).join(',')??'';
   finalists=pool.filter(o=>(o.host?.team.map(e=>id(e.hero)).join(',')??'')===hostKey);
  }
- const joins=finalists.filter(o=>!finalists.some(other=>other!==o&&other.metrics.unknownSignature===o.metrics.unknownSignature&&(dimensionDominates(joinDimensions(other),joinDimensions(o))||Object.keys(joinDimensions(o)).every(k=>Math.abs(joinDimensions(other)[k]-joinDimensions(o)[k])<1e-10)&&other.metrics.capacity!=null&&o.metrics.capacity!=null&&other.metrics.capacity>o.metrics.capacity)));
+ const joins=finalists.filter(o=>!finalists.some(other=>other!==o&&other.metrics.unknownSignature===o.metrics.unknownSignature&&dimensionDominates(joinDimensions(other),joinDimensions(o))));
  joins.sort(displayOrder);
  const selected=joins[0]??finalists[0];
  selected.hostObjective=hostScore(selected);selected.scenarioRegret=null;
@@ -155,6 +148,7 @@ function decidingUncertainty(selected,comparison,account){
  return account.unsupported?.length?englishMessage("messages.joint.plan.decidingUncertainty.some.account.offensive.effects.are.incomplete"):englishMessage("messages.joint.plan.decidingUncertainty.the.selected.joining.skills.must.be.accepted.by.each.rally");
 }
 export function supportedJoiningPlans(profile,host=[]){
+ profile=comparisonProfile(profile);
  const all=profile.heroes.filter(roleEligible).map(joiningRole),roles=all.filter(r=>!r.rejection&&!host.some(e=>id(e.hero??e)===r.id));
  const count=Number(profile.joinCount??3),plans=[];
  if(!Number.isInteger(count)||count<1||count>6)return {plans,gaps:all.filter(r=>r.rejection)};
@@ -168,15 +162,16 @@ export function supportedJoiningPlans(profile,host=[]){
  return {plans,gaps:all.filter(r=>r.rejection)};
 }
 const cache=new WeakMap();
-export function releaseHypothesisPlan(profile){cache.delete(profile);}
+export function releaseHypothesisPlan(profile){cache.delete(comparisonProfile(profile));}
 export function optimizeMarchPlan(profile,account){
- const fingerprint=JSON.stringify({heroes:profile.heroes,gear:profile.gear,stats:profile.stats,ratios:profile.ratios,hostEnabled:profile.hostEnabled,joinCount:profile.joinCount,marchSlots:profile.marchSlots,joiners:profile.joiners,capacityInputMode:profile.capacityInputMode,capacityPlanningModel:profile.capacityPlanningModel,accountBaseCapacity:profile.accountBaseCapacity,hostCapacity:profile.hostCapacity,joinCapacity:profile.joinCapacity,troopsPerMarch:profile.troopsPerMarch,marchSizeByType:profile.marchSizeByType,troops:profile.troops,mixedTiersEnabled:profile.mixedTiersEnabled,tierInventory:profile.tierInventory,assumedInputs:profile.assumedInputs,account});
+ profile=comparisonProfile(profile);
+ const fingerprint=JSON.stringify({heroes:profile.heroes,gear:profile.gear,stats:profile.stats,ratios:profile.ratios,troops:Object.fromEntries(TYPES.map(t=>[t,{tier:profile.troops?.[t]?.tier,tg:profile.troops?.[t]?.tg,progressionNeedsConfirmation:profile.troops?.[t]?.progressionNeedsConfirmation}])),assumedInputs:profile.assumedInputs,account});
  const cached=cache.get(profile);if(cached?.fingerprint===fingerprint)return cached.result;
  const validation=roleInventoryIssues(profile);
  const comparison=compareHosts(profile,account),hosts=profile.hostEnabled?(comparison.options??[]):[null];
  const all=profile.heroes.filter(roleEligible).map(joiningRole),roles=all.filter(r=>!r.rejection);
  const combos=validation.length?[]:combinations(roles,Number(profile.joinCount??3));
- const needsFillerCapacity=!usesActualMarchInputs(profile)&&hasAccountBaseCapacity(profile);
+ const needsFillerCapacity=false;
  const comparisons=[];let evaluated=0;
  for(const host of hosts){
  const remaining=roles.filter(l=>!(host?.team??[]).some(e=>id(e.hero)===l.id));
@@ -185,7 +180,7 @@ export function optimizeMarchPlan(profile,account){
   const team=host?.team??[];
   if(leaders.some(l=>team.some(e=>id(e.hero)===l.id)))continue;
   // Missing fillers are optional class suggestions, never offensive inputs.
-  // Materialize on demand when entered capacity already includes heroes.
+  // Materialize class-completion fillers only when the assignment is needed.
   if(!host&&!leaders.length)continue;
   let assignment=needsFillerCapacity?assembleJoiningSquads(profile,team,leaders,true):null;
   if(needsFillerCapacity&&!assignment)continue;
@@ -219,10 +214,10 @@ export function optimizeMarchPlan(profile,account){
  const unresolvedCandidates=[...new Set([...(comparison.options??[]).flatMap(o=>o.bear.objectiveMissing??[]),...(comparison.gaps??[]).flatMap(g=>g.reasons.map(r=>`${g.name}: ${r}`))])];
  const result={selected,canRecommend,get alternatives(){return getAlternatives();},get frontier(){return getFrontier();},comparisons,evaluated,comparison,leaderGaps:all.filter(r=>r.rejection),overallWinner:false,unresolvedCandidates,
   recommendationUncertainty:decidingUncertainty(selected,comparison,account),
-  scenario:'Hosting uses total modeled Bear damage for the entered formation and a documented central mechanic case. Finite baseline and mechanic variations only check stability. Joining contexts are separate rallies with no assumed captain strength or context probabilities.',
-  objective:'Maximize central total modeled hosting Bear damage among complete legal plans; compare joining offers by context dominance only among equal-damage hosts. Incomparable joining outcomes remain tradeoffs, not an equal-weighted score.',
+  scenario:'Hosting uses formation-relative Bear effects at automatic 10/10/80 and a documented central mechanic case. Finite baseline and mechanic variations only check stability. Joining contexts are separate rallies with no assumed captain strength or context probabilities.',
+  objective:'Compare central formation-relative hosting Bear effects among complete legal plans; compare joining offers by context dominance only among equal-damage hosts. Incomparable joining outcomes remain tradeoffs, not an equal-weighted score.',
   selectionStatus:!selected?'no legal supported plan':!canRecommend?'unranked legal arrangement; no hosting or joining recommendation':'estimated hosting-damage recommendation with separate joining tradeoffs',
-  scope:'Estimated total hosting Bear damage for the entered formation. Joining contexts and uncertainty checks stay separate from the hosting objective; incomplete coefficients or mechanics do not become zero.',
+  scope:'Formation-relative hosting comparison at 10/10/80; actual deployment size is unknown. Joining contexts and uncertainty checks stay separate from the hosting objective; incomplete coefficients or mechanics do not become zero.',
   blockingValidation:validation,issues:selected?[]:validation.length?validation:['No complete supported plan fits the available heroes and troop classes.']};
  cache.set(profile,{fingerprint,result});return result;
 }

@@ -450,3 +450,15 @@ html:not(:lang(en)) .calculator :is(.heroes-columns,.gear-columns,.master-column
 html:lang(ko) body{font-family:system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif}
 html:lang(zh-Hans) body{font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif}
 html:lang(zh-Hant) body{font-family:system-ui,-apple-system,"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif}
+
+/* Combined Pets Stats share the existing fields and compact progression rows. */
+.pets-combined-design{max-width:508px}
+.pets-combined-design .pet-refinement-combined{grid-template-columns:repeat(2,minmax(0,1fr));margin:0 0 20px}
+.pets-combined-design .pet-columns,.pets-combined-design .pet-compact-row{grid-template-columns:48px 76px 112px;justify-content:center}
+.pets-combined-design .pet-columns>span:first-child,.pets-combined-design .pet-portrait{grid-row:auto}
+.pets-combined-design .pet-advancement-check{margin:0;gap:6px;font-size:var(--label-size)}
+.pets-combined-design .pet-advancement-check input{width:16px;height:16px;min-height:0;padding:0;flex:none;accent-color:var(--accent-yellow)}
+@media(max-width:700px){.pets-combined-design .pet-refinement-combined{grid-template-columns:1fr}.pets-combined-design .pet-columns,.pets-combined-design .pet-compact-row{grid-template-columns:44px 96px 112px;gap:8px}}
+@media(max-width:380px){.pets-combined-design .pet-columns,.pets-combined-design .pet-compact-row{grid-template-columns:40px 84px 96px}}
+
+.troop-inventory-plans{margin-top:20px;border-top:1px solid var(--border);padding-top:16px}.troop-inventory-plans>h3{display:flex;align-items:center;gap:6px}.troop-inventory-group{margin:14px 0}.troop-inventory-group h3{margin:0 0 6px}.troop-inventory-group p{font-size:12px;margin:4px 0}.troop-inventory-plans>.hint{font-size:12px}

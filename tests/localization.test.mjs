@@ -35,10 +35,14 @@ test('star progression remains unambiguous in tooltips and nested engine copy tr
  }finally{languages.de=previousDe;}
 });
 
-import {improvementCopy} from '../src/results-copy.mjs';
-test('training advice uses verified display metadata and correct plurals',()=>{
- const profile={heroes:[],gear:[],pets:[]};const item={id:'troop-shortage',marchCount:1,troopShortages:{archer:1},title:'Original English',reason:'Original English'};
- const before=structuredClone(item),copy=improvementCopy(item,profile);assert.equal(copy.title,'Train troops for 1 full march');assert.equal(copy.benefit,'Add 1 Archer.');assert.deepEqual(item,before);
+test('inventory-supported copy translates equal-group counts and limiting types in all eight languages',()=>{
+ for(const code of Object.keys(languages)){
+  const copy=t('troops.inventory.perGroup',{infantry:1000,cavalry:1000,archers:8000,total:10000},code);
+  for(const n of [1000,8000,10000])assert.ok(copy.includes(formatNumber(n,{useGrouping:true},code)),`${code}: ${copy}`);
+  const types=[t('troops.infantry',{},code),t('troops.archer',{},code)].join(', ');
+  assert.ok(t('troops.inventory.limiting',{types},code).includes(types));
+  assert.ok(t('troops.inventory.groups3',{},code).includes('3'));assert.ok(t('troops.inventory.groups4',{},code).includes('4'));assert.ok(t('troops.inventory.groups5',{},code).includes('5'));
+ }
 });
 
 const placeholders=text=>[...text.matchAll(/\{([a-zA-Z][\w]*)\}/g)].map(match=>match[1]).sort();

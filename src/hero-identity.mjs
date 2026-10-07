@@ -16,6 +16,9 @@ const HERO_ALIASES={jaegar:'Jaeger'};
 export const canonicalHeroId=name=>`roster-${key(HERO_ALIASES[key(name)]??name).replace(/[^a-z0-9]+/g,'-')}`;
 const namesById=new Map(HERO_ROSTER.map(([name])=>[canonicalHeroId(name),name]));
 const namesByKey=new Map(HERO_ROSTER.map(([name])=>[key(name),name]));
+// Hidden at the user's request; retain reference identities and saved data.
+const hiddenHeroes=new Set(['Charles','Ava','Diego','Wee & Woo','Liz','Luna']);
+export const heroAvailableInPlanner=hero=>!hiddenHeroes.has(heroReferenceName(hero));
 export function heroReferenceName(hero){
  const record=typeof hero==='object'&&hero!==null?hero:null;
  const id=record?.canonicalHeroId??(typeof record?.id==='string'&&record.id.startsWith('roster-')?record.id:null);

@@ -2,10 +2,10 @@ import {optimizeMarchPlan,releaseHypothesisPlan} from './joint-plan.mjs';
 import {dimensionDominates,heroBearEffects} from './bear-comparison.mjs';
 import {gearCostEfficiency} from './gear-upgrade-costs.mjs';
 import {evaluateHostTrio} from './host-comparison.mjs';
-import {joiningRole,roleCapacity} from './hero-roles.mjs';
+import {joiningRole} from './hero-roles.mjs';
 
 // Exact rejection bound for a bench hero's next stat-only upgrade. Its joining
-// offer/capacity and account effects must be unchanged. Every existing hosting
+// offer and account effects must be unchanged. Every existing hosting
 // trio containing it is re-evaluated; if even their unconstrained maximum cannot
 // beat the current legal host, complete role allocation cannot create a gain.
 // Unknown/newly unlocked mappings bypass this shortcut, never become zero.
@@ -15,7 +15,7 @@ function benchUpgradeCannotImprove(profile,changed,accountFor,before){
  const edits=profile.heroes.filter(h=>JSON.stringify(h)!==JSON.stringify(changed.heroes.find(n=>n.id===h.id)));
  if(edits.length!==1)return false;
  const hero=edits[0],next=changed.heroes.find(h=>h.id===hero.id);
- if(!next||before.selected.host.team.some(e=>e.hero.id===hero.id)||roleCapacity(hero)!==roleCapacity(next)||hero.troop!==next.troop||hero.owned!==next.owned||hero.included!==next.included||hero.marchAvailable!==next.marchAvailable)return false;
+ if(!next||before.selected.host.team.some(e=>e.hero.id===hero.id)||hero.troop!==next.troop||hero.owned!==next.owned||hero.included!==next.included||hero.marchAvailable!==next.marchAvailable)return false;
  const account=accountFor(changed);
  if(JSON.stringify(account)!==JSON.stringify(accountFor(profile)))return false;
  const offer=h=>{const role=joiningRole(h);return {effects:role.effects,rejection:role.rejection,bear:role.bear};};
@@ -95,7 +95,7 @@ export function evaluateUpgrade(profile,changed,accountFor,baseline=null){
  const baselineSensitivity=s?{evaluated:s.evaluated,stableAcrossTestedCases:s.stableAcrossTestedCases,incomingReversal:s.incomingReversal,closestHost:s.closestHost,centralRelativeAdvantage:s.centralRelativeAdvantage,scope:s.scope,caseCount:after.selected.host?.bear.damageKeys?.length??0}:null;
  return withBenefits({incomingContextGains,investmentScope:hostInvestment?'Hero-specific; depends on the selected hosting role':'Transferable gear/account upgrade or separate joining contribution',joiningBenefits:Object.fromEntries(Object.keys(joinB).map(k=>[k,joinB[k]>0?joinA[k]/joinB[k]-1:null])),personalPointsDelta,damageGain,objectiveUnavailable:damageGain===null,estimated:true,selectionDependent,changedHeroes,baselineSensitivity,reoptimized:true,beforeKey:before.selected.key,afterKey:after.selected.key,retainedKey:retained.key,
   selectedHost:after.selected.host?.team.map(e=>e.hero.id)??[],selectedJoiningLeaders:after.selected.leaders.map(l=>l.id),
-  comparisonScope:damageGain===null?'Verified local stat improvement; total damage ranking unavailable for the entered troop mechanics':'Estimated total hosting Bear damage after legal re-optimization; joining contexts and sensitivity are separate',
+  comparisonScope:damageGain===null?'Verified local stat improvement; relative offense cannot be ranked for the entered troop mechanics':'Normalized 10/10/80 relative-offense comparison after legal re-optimization; not a Bear damage forecast',
   unresolved:[...(retained.host?.bear.uncertainties??[]),...(retained.host?.bear.missing??[])]},getBenefits);
 }
 export function compareUpgradeBenefits(a,b){

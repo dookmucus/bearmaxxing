@@ -23,12 +23,12 @@ export function auditHostMechanics(audit){
  // Reconstruct per-class terms from production totals, including the same count
  // scale. These permit algebraic checks of a common Archer-only proc factor;
  // they do not establish how a new attack would advance Vivian's counter.
- const replay=row=>{const result=evaluateHostTrio(profile,row.heroes.map(n=>profile.heroes.find(h=>h.name===n)),accountEffects(profile));
-  if(!audit.centralContext)result.bear=hostBearComparison(profile,result.team,{incomingContexts:[{id:'historical-no-incoming',central:true,skills:[]}]});
-  return result;};
- const current=rows.map(replay);
  const troopCount=Object.values(profile.marchSizeByType??{}).reduce((n,c)=>n+Number(c),0)||Number(profile.troopsPerMarch??profile.maximumMarchSize);
  const counts=profile.marchSizeByType??Object.fromEntries(TYPES.map(t=>[t,Math.round(troopCount*profile.ratios[t]/100)]));
+ const replay=row=>{const result=evaluateHostTrio(profile,row.heroes.map(n=>profile.heroes.find(h=>h.name===n)),accountEffects(profile));
+  result.bear=hostBearComparison(profile,result.team,{deployedCounts:counts,...(!audit.centralContext?{incomingContexts:[{id:'historical-no-incoming',central:true,skills:[]}]}:{})});
+  return result;};
+ const current=rows.map(replay);
  const target=BEAR_MECHANICS.bear,scale=Math.sqrt(troopCount*Math.min(troopCount,target.targetCount))*target.rounds/(target.targetDefense*target.targetHealth/100)/100;
  const decompositions=current.map((r,index)=>{
   const rallyAttack=r.team.reduce((n,e)=>n+e.contribution.widgetRallyAttack,0),rallyLethality=r.team.reduce((n,e)=>n+e.contribution.widgetRallyLethality,0);

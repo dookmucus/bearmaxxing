@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {emptyProfile} from '../src/profile.mjs';
+import {enteredRosterProfile as emptyProfile} from './helpers/entered-roster.mjs';
 import {migrateProfile} from '../src/data/roster.mjs';
 import {accountEffects,calculate} from '../src/calculator.mjs';
 import {evaluateHostTrio} from '../src/host-comparison.mjs';
@@ -11,7 +11,7 @@ import {createServer} from 'vite';
 
 const master=(p,name)=>p.masters.find(m=>m.name===name);
 // Isolate Master effects from the separately tested owned-hero talent.
-function isolated(){const p=emptyProfile();p.pets=[];for(const m of p.masters){m.affinityLevel=0;}return p;}
+function isolated(){const p=emptyProfile();p.heroes.find(h=>h.name==='Helga').owned=false;p.pets=[];for(const m of p.masters){m.affinityLevel=0;}return p;}
 
 test('Isnor and Aena use entered decimals independently of Level and never add reference bonuses',()=>{
  for(const [name,kind] of [['Isnor','lethality'],['Aena','attack']]){

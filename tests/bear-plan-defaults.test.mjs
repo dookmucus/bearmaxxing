@@ -12,7 +12,7 @@ test('active migration archives old automatic leader names while preserving conf
  const p=ready();p.activeBearPlanVersion=1;p.joiners=[{name:'Chenko',capacity:80000,slot2:'roster-helga'},{name:'Amane',capacity:90000},{name:'Yeonwoo',capacity:70000}];
  p.ratios={infantry:20,cavalry:30,archer:50};p.differentMarchCapacities=true;p.actualMarchCapacities={host:120000,joins:[80000,90000,70000]};
  const before=structuredClone(p),m=migrateProfile(p);
- assert.deepEqual(m.joiners,p.joiners);assert.deepEqual(m.legacyAutomaticReservations.joiners,p.joiners);assert.deepEqual(m.ratios,p.ratios);assert.deepEqual(m.actualMarchCapacities,p.actualMarchCapacities);
+ assert.deepEqual(m.joiners,p.joiners);assert.deepEqual(m.legacyAutomaticReservations.joiners,p.joiners);assert.deepEqual(m.ratios,{infantry:10,cavalry:10,archer:80});assert.deepEqual(m.legacyTroopPlanning.ratios,p.ratios);assert.deepEqual(m.actualMarchCapacities,p.actualMarchCapacities);
  assert.equal(m.rolePlanVersion,1);assert.deepEqual(migrateProfile(m),m);assert.deepEqual(p,before);
 });
 test('canonical identity recovery applies to every hero without forcing ownership or a role',()=>{
@@ -27,9 +27,9 @@ test('import absence does not revive unowned candidates and explicit all-march e
  const m=migrateProfile(manual);assert.equal(hero(m,'Amane').marchAvailable,false);assert.equal(hero(m,'Amane').provenance.marchAvailable,'user-confirmed');
  assert.ok(calculate(m,'joining').plan.assignment.joins.every(r=>r.heroes.every(h=>h?.name!=='Amane')));
 });
-test('four jointly selected complete squads conserve entered inventory and capacity',()=>{
+test('four jointly selected complete squads preserve heroes and inventory without deployment targets',()=>{
  const p=ready(),result=calculate(p,'joining').plan;
  const squads=result.marches.map(r=>r.heroes);assert.equal(squads.length,4);assert.equal(squads.flat().length,12);assert.equal(new Set(squads.flat().map(h=>h.id)).size,12);
- assert.deepEqual(result.marches.map(r=>r.capacity),[100000,100000,100000,100000]);assert.deepEqual(result.needed,{infantry:40000,cavalry:40000,archer:320000});
- for(const t of ['infantry','cavalry','archer'])assert.equal(result.marches.reduce((n,r)=>n+r.available[t],0)+result.remaining[t],p.troops[t].count);
+ assert.deepEqual(result.marches.map(r=>r.capacity),[null,null,null,null]);assert.equal(result.needed,null);
+ for(const t of ['infantry','cavalry','archer'])assert.equal(result.remaining[t],p.troops[t].count);
 });

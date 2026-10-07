@@ -1,3 +1,4 @@
+import {enteredRosterProfile} from './helpers/entered-roster.mjs';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -72,7 +73,7 @@ test('unconfirmed baseline zero remains saved and finite; explicit zero stays co
 test('bench-stat rejection bound agrees with complete re-optimization',async()=>{
  const {optimizeMarchPlan}=await import('../src/joint-plan.mjs');
  const {evaluateUpgrade}=await import('../src/upgrade-model.mjs');
- const p=emptyProfile();
+ const p=enteredRosterProfile();
  for(const h of p.heroes)h.included=['Zoe','Petra','Yang','Jabel'].includes(h.name);
  const before=optimizeMarchPlan(p,accountEffects(p));
  const bench=before.comparison.options.flatMap(o=>o.team.map(e=>e.hero)).find(h=>!before.selected.host.team.some(e=>e.hero.id===h.id));

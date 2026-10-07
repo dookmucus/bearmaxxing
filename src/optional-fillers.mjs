@@ -1,7 +1,7 @@
-import {HERO_ROSTER,canonicalHeroId,heroReferenceName} from './hero-identity.mjs';
+import {HERO_ROSTER,canonicalHeroId,heroReferenceName,heroAvailableInPlanner} from './hero-identity.mjs';
 import {heroRarity} from './hero-rarity.mjs';
 
-const common=HERO_ROSTER.filter(([name])=>['r','sr'].includes(heroRarity(name)));
+const common=HERO_ROSTER.filter(([name])=>heroAvailableInPlanner(name)&&['r','sr'].includes(heroRarity(name)));
 export function optionalFillerPool(profile){
  const entered=new Set(profile.heroes.map(heroReferenceName));
  // An existing record, including an explicitly unavailable one, is never

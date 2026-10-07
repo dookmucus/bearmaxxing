@@ -43,11 +43,11 @@ test('essential host widget gaps do not block independent joining roles',()=>{
  assert.ok(joined.assignment.host.every(h=>h===null));
  const ids=joined.marches.flatMap(m=>m.heroes.filter(Boolean)).map(h=>h.canonicalHeroId??h.id);assert.equal(new Set(ids).size,ids.length);assert.equal(joined.assignment.host.length,0);
 });
-test('incomplete joining squads retain only an explicitly shared planning assumption',()=>{
+test('incomplete joining squads never acquire an assumed deployment capacity',()=>{
  const p=ready();p.troopsPerMarch=100000;
  for(const h of p.heroes){h.skillLevels[1]=0;h.skillLevelSource[1]='user-confirmed';}
  const result=calculate(p,'joining'),row=result.plan.marches[1];
- assert.ok(row.heroes.some(h=>h===null));assert.equal(row.capacity,100000);assert.equal(row.basis,'approximate common maximum');
+ assert.ok(row.heroes.some(h=>h===null));assert.equal(row.capacity,null);assert.equal(row.target,null);assert.equal(row.available,null);assert.equal(result.plan.needed,null);
  assert.ok(result.leaderGaps.some(s=>s.includes('no available supported joining leader')));
 });
 test('Results renders compact recommendations with portraits and no dashboard editors',async t=>{

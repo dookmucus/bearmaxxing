@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {gearOffense} from '../src/engine.mjs';
 import {GEAR_QUALITY,completedImbuement,gearEnhancementXp,gearIssues,gearLevelLabel,gearProgression,requiredGearMastery} from '../src/gear-progression.mjs';
 import {emptyProfile} from '../src/profile.mjs';
+import {enteredRosterProfile} from './helpers/entered-roster.mjs';
 import {migrateProfile} from '../src/data/roster.mjs';
 import {heroProgression} from '../src/hero-effects.mjs';
 import {compareHosts} from '../src/host-comparison.mjs';
@@ -55,7 +56,7 @@ test('migration retains IDs, progression, manual values and extra inventory with
   assert.equal(p.gear.find(g=>g.id==='extra-1').slot,'boots');
 });
 test('host comparison uses the same derived imbuement Attack as gear assignment',()=>{
-  const p=emptyProfile();for(const type of ['infantry','cavalry','archer'])p.stats[type]={attack:0,lethality:0};
+  const p=enteredRosterProfile();for(const type of ['infantry','cavalry','archer'])p.stats[type]={attack:0,lethality:0};
   for(const hero of p.heroes)if(heroProgression(hero.name)?.widgetLethality)hero.widget=0;
   const before=compareHosts(p,accountEffects(p)).best?.index;
   assert.ok(before>0);
@@ -65,7 +66,7 @@ test('host comparison uses the same derived imbuement Attack as gear assignment'
   assert.ok(after>before);
 });
 test('upgrade advice uses a sourced offensive milestone and its required materials',()=>{
-  const p=emptyProfile();for(const type of ['infantry','cavalry','archer'])p.stats[type]={attack:0,lethality:0};
+  const p=enteredRosterProfile();for(const type of ['infantry','cavalry','archer'])p.stats[type]={attack:0,lethality:0};
   for(const hero of p.heroes)if(heroProgression(hero.name)?.widgetLethality)hero.widget=0;
   const helmet=p.gear.find(g=>g.id==='set-infantry-helmet');
   Object.assign(helmet,piece('red',119,11),{id:helmet.id});

@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {emptyProfile} from '../src/profile.mjs';
+import {enteredRosterProfile as emptyProfile} from './helpers/entered-roster.mjs';
 import {bearTroop,REPORTED_TG6_HOWLING_WIND} from '../src/bear-troops.mjs';
 import {combatBaselineInput} from '../src/input-defaults.mjs';
 import {finiteBaselineCases,compareWithUnknownTroopEffect} from '../src/bear-comparison.mjs';

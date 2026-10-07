@@ -4,55 +4,41 @@ import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 import {createServer} from 'vite';
 import {emptyProfile} from '../src/profile.mjs';
-import {PET_NAMES} from '../src/data/roster.mjs';
+import {setPetLevel,setPetAdvancement,petMilestones} from '../src/pet-inputs.mjs';
 
-test('Pets editor shows portraits and per-pet refinement inputs without ownership selection with shared effect headings and no activation controls',async t=>{
-  const vite=await createServer({server:{middlewareMode:true,hmr:false,ws:false},appType:'custom'});
-  t.after(()=>vite.close());
-  const {App}=await vite.ssrLoadModule('/src/main.jsx');
-  const p=emptyProfile();
-  p.pets.find(pet=>pet.name==='Giant Rhino').owned=true;
-  p.pets.find(pet=>pet.name==='Gray Wolf').owned=true;
-  p.pets.find(pet=>pet.name==='Lynx').level=35;
-  p.pets.push({id:'saved-utility',name:'Unmapped utility pet',owned:true,level:8,notes:'saved'});
-  const html=renderToStaticMarkup(React.createElement(App,{initialTab:'Pets',initialProfile:p}));
-  for(const name of [...PET_NAMES,'Unmapped utility pet'])assert.ok(html.includes(`aria-label="Show ${name} name"`),`${name} must have a row`);
-  assert.ok(!html.includes('Lynx ownership'));
-  assert.ok(!html.includes('class="pet-name"'));
-  assert.ok(!html.includes('Refinement entry'));
-  assert.ok(!html.includes('>Unknown</option>'));
-  assert.ok(html.includes('Gray Wolf Infantry Lethality (%)'));
-  assert.ok(html.includes('placeholder="Kingshot ID"'));
-  assert.ok(!html.includes('Add a pet'));
-  assert.ok(!html.includes('Remove Giant Rhino'));
-  assert.ok(!html.includes('Wild Charge active for this hunt'));
-  assert.ok(!html.includes('Use pet buffs for this hunt'));
-  assert.ok(!html.includes('Exclude unavailable buffs'));
-  assert.ok(html.includes('About pet effects'));
-  assert.ok(html.includes('About pet levels'));
-  assert.ok(html.includes('About Infantry pet refinement'));
-  assert.ok(!html.includes('About Gray Wolf Infantry Lethality (%)'));
-  const home=renderToStaticMarkup(React.createElement(App,{initialTab:'Home',initialProfile:p}));
-  assert.ok(!home.includes('Activate your Bear pet buffs before starting.'));
-  assert.ok(!html.includes('Gray Wolf Active for this hunt'));
-  assert.ok(!html.includes('Cheetah Active for this hunt'));
-  assert.ok(html.includes('Unmapped utility pet Level'));
-  assert.equal(PET_NAMES.length,14);
-  assert.equal((html.match(/class="pet-advancement-cell"/g)??[]).length,15);
-  assert.ok(html.includes('>Advancement'));
-  assert.ok(html.includes('value="0"'));
-  assert.ok(html.includes('Not owned. Refinement is excluded.'));
-  p.pets.find(pet=>pet.name==='Lion').level=60;
-  p.pets.find(pet=>pet.name==='Grizzly Bear').level=60;
-  p.pets.find(pet=>pet.name==='Giant Rhino').level=100;
-  const milestones=renderToStaticMarkup(React.createElement(App,{initialTab:'Pets',initialProfile:p}));
-  for(const label of ['Lion level 60 advanced at this level','Grizzly Bear level 60 advanced at this level','Giant Rhino level 100 advanced at this level'])assert.ok(milestones.includes(label),label);
-  assert.ok(milestones.includes('Advanced at this level?'));
-  assert.ok(!milestones.includes('pet-row-extra'));
-  p.pets.find(pet=>pet.name==='Gray Wolf').level=50;
-  p.pets.find(pet=>pet.name==='Gray Wolf').refinement={infantry:'1.50',cavalry:'2.010001',archer:'6.70'};
-  const colored=renderToStaticMarkup(React.createElement(App,{initialTab:'Pets',initialProfile:p}));
-  for(const color of ['#9cdaa7','#92caf3','#aeb5c5'])assert.ok(colored.includes('--refinement-color:'+color),color);
-  assert.ok(!milestones.includes('Gray Wolf level 0 advanced at this level'));
-
+const retained=['Alpha Black Panther','Giant Rhino','Mighty Bison','Great Moose'];
+test('Pets shows four Stats inputs and four compact progression rows with checkpoint-only checkboxes',async t=>{
+ const vite=await createServer({server:{middlewareMode:true,hmr:false,ws:false},appType:'custom'});t.after(()=>vite.close());
+ const {App}=await vite.ssrLoadModule('/src/main.jsx');
+ const p=emptyProfile();p.pets.push({id:'saved-utility',name:'Unmapped utility pet',level:8,notes:'saved'});
+ const render=()=>renderToStaticMarkup(React.createElement(App,{initialTab:'Pets',initialProfile:p}));
+ let html=render();
+ for(const label of ['Squads’ Attack (%)','Infantry Lethality (%)','Cavalry Lethality (%)','Archer Lethality (%)'])assert.ok(html.includes(`aria-label="${label}"`),label);
+ assert.equal((html.match(/type="number"/g)??[]).length,4);
+ for(const name of retained)assert.ok(html.includes(`aria-label="Show ${name} name"`),name);
+ for(const name of ['Gray Wolf','Lynx','Lion','Grizzly Bear','Ironclad War Bear','Unmapped utility pet'])assert.ok(!html.includes(`aria-label="Show ${name} name"`),name);
+ assert.equal((html.match(/class="pet-advancement-cell"/g)??[]).length,4);
+ assert.ok(!html.includes('type="checkbox"'));
+ assert.ok(!html.includes('pet-refinement-control'));
+ for(const label of ['Use entered refinements','Refinement entry','Wild Charge active for this hunt','Use pet buffs for this hunt'])assert.ok(!html.includes(label),label);
+ for(const name of retained){
+  const pet=p.pets.find(p=>p.name===name),level=petMilestones(name).at(-1);
+  p.pets=p.pets.map(p=>p===pet?setPetLevel(p,level):p);
+ }
+ html=render();assert.equal((html.match(/type="checkbox"/g)??[]).length,4);
+ assert.ok(!/type="checkbox"[^>]*checked/.test(html));
+ p.pets=p.pets.map(p=>retained.includes(p.name)?setPetAdvancement(p,true):p);
+ html=render();assert.equal((html.match(/type="checkbox"[^>]*checked=""/g)??[]).length,4);
+ p.pets=p.pets.map(p=>retained.includes(p.name)?setPetLevel(p,11):p);
+ html=render();assert.ok(!html.includes('type="checkbox"'));
+ p.pets=p.pets.map(p=>retained.includes(p.name)?setPetLevel(p,0):p);
+ assert.ok(!render().includes('type="checkbox"'));
+ const {setLanguage,t:translate}=await vite.ssrLoadModule('/src/i18n.mjs');
+ try{
+  for(const language of ['en','es','fr','de','tr','ko','zh-Hans','zh-Hant']){
+   setLanguage(language,{persist:false});html=render();
+   for(const stat of ['attack','infantry','cavalry','archer'])assert.ok(html.includes(translate(`pets.combined.${stat}`)),`${language}: ${stat}`);
+   assert.ok(!html.includes('pets.combinedHelp'));assert.equal((html.match(/type="number"/g)??[]).length,4);
+  }
+ }finally{setLanguage('en',{persist:false});}
 });

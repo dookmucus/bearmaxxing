@@ -4,15 +4,18 @@ import {gearIssues,gearProgression} from './gear-progression.mjs';
 import {TYPES,bestGear,gearOffense} from './engine.mjs';
 import {heroContributions} from './hero-effects.mjs';
 import {hostBearComparison} from './bear-comparison.mjs';
-import {heroReferenceName} from './hero-identity.mjs';
+import {heroReferenceName,heroAvailableInPlanner} from './hero-identity.mjs';
+import {comparisonProfile} from './inventory-planning.mjs';
 
 const known=n=>n!==null&&n!==undefined&&n!==''&&Number.isFinite(Number(n))&&Number(n)>=0;
 const key=n=>String(n??'').trim().toLocaleLowerCase();
 export const heroIdentity=h=>{const id=h.canonicalHeroId??h.id;return id==='roster-jaegar'?'roster-jaeger':id;};
 export function includedHostCandidates(profile){
-  return TYPES.map(t=>profile.heroes.filter(h=>h.troop===t&&h.owned===true&&h.included!==false&&h.marchAvailable!==false));
+  return TYPES.map(t=>profile.heroes.filter(h=>heroAvailableInPlanner(h)&&h.troop===t&&h.owned===true&&h.included!==false&&h.marchAvailable!==false));
 }
 export function evaluateHostTrio(profile,heroes,account,prepared){
+  profile=comparisonProfile(profile);
+  if(!known(account.attack)||!known(account.lethality)||TYPES.some(t=>!known(account.classLethality[t])))return null;
   const reuse=prepared?prepared.reuse:hostingReuseContext(profile,account),cached=reusedHosting(reuse,heroes);
   if(cached)return cached;
   const contributions=heroes.map(h=>prepared?.contributions.get(heroIdentity(h))??heroContributions(h));
@@ -43,6 +46,7 @@ export function evaluateHostTrio(profile,heroes,account,prepared){
   return retainHosting(reuse,heroes,{team:entries,index,bear,coverageComplete:contributions.every(c=>c.offenseCoverageComplete)&&bear.coverageComplete,unresolvedOffensive:contributions.flatMap((c,i)=>c.unresolvedOffensive.map(e=>({...e,hero:heroes[i].name}))),assumptions:contributions.flatMap(c=>c.assumptions),uncertain:[...new Set([...contributions.flatMap(c=>c.uncertain),...bear.uncertainties,...bear.missing])]});
 }
 export function compareHosts(profile,account){
+  profile=comparisonProfile(profile);
   const groups=includedHostCandidates(profile);
   const gaps=groups.flat().flatMap(h=>{
     const c=heroContributions(h),reasons=[];

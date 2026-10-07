@@ -1,8 +1,9 @@
 import {heroDisplayName} from './entity-display.mjs';
 import {useLanguage} from './use-language.jsx';
 import {languages} from './locales/registry.mjs';
-import {canonicalHeroId} from './hero-identity.mjs';
+import {canonicalHeroId,heroAvailableInPlanner} from './hero-identity.mjs';
 import {canonicalPetId} from './pet-identity.mjs';
+import {inventoryGroups} from './inventory-planning.mjs';
 import {t as tr,formatNumber,formatPercent,localizeText,entityName,englishMessage} from './i18n.mjs';
 import {useCalculations,diagnosticText} from './use-calculations.jsx';
 import {heroPlanGuidance,heroFieldGuidance,gearFieldGuidance,masterFieldGuidance,masterResearchGuidance,petGuidance} from './player-guidance.mjs';
@@ -12,8 +13,7 @@ import {actionableImprovements,hostingChoiceExplanation} from './results-improve
 import {activeGearInventory,activeGearLabel} from './active-gear.mjs';
 import {orderHeroes} from './hero-order.mjs';
 import {petOwned,setPetLevel,setPetAdvancement} from './pet-inputs.mjs';
-import {refinementQuality,petPortraitColor} from './pet-refinement-quality.mjs';
-import {maximumMarchSize,setMarchSizeByType} from './march-capacity-inputs.mjs';
+import {petPortraitColor} from './pet-refinement-quality.mjs';
 import React, {useEffect, useId, useMemo, useRef, useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import {TYPES, gearOffense, validateProfile} from './engine.mjs';
@@ -31,7 +31,7 @@ import {commonSkillValue,setCommonSkillLevel,expeditionSlots} from './hero-skill
 import {heroRarity} from './hero-rarity.mjs';
 import {heroCatalogueOptions,setProfileHeroPresence} from './hero-roster-presence.mjs';
 import {GEAR_QUALITY,IMBUEMENT_GATES,gearIssues,gearLevelLabel,gearProgression,normalizeGearQuality,gearSlotEffect} from './gear-progression.mjs';
-import {PET_MAX_LEVEL,petLevelEffect,petRefinementEffect,replaceCombinedRefinement,petBuffDetails,petBuffDescription} from './pet-effects.mjs';
+import {PET_MAX_LEVEL,petLevelEffect,petCollectsProgression,setCombinedPetStat,petBuffDetails,petBuffDescription} from './pet-effects.mjs';
 import {heroPortraitFile,PET_PORTRAITS} from './portrait-assets.mjs';
 import {MAIN_TABS,SETUP_STEPS,PLAN_STEPS,planStepIndex,navigatePlanStep,essentialSetupError,persistAppState,restoreAppState} from './setup-state.mjs';
 import './styles.css';
@@ -79,17 +79,6 @@ function FieldHeader({id,label,displayLabel,info}) {
 function Field({label, displayLabel, value, onChange, hint, info, type = 'number', step = 1, min = 0, max, placeholder, disabled=false, hideVisibleLabel=false}) {
   const id=useId();
   return <div className={`field${hideVisibleLabel?' visually-hidden-label':''}`}><FieldHeader id={id} label={label} displayLabel={displayLabel} info={hideVisibleLabel?undefined:info??hint}/><input id={id} aria-label={localizeText(label)} type={type} value={value ?? (type==='number'?min:'')} step={step} min={min} max={max} disabled={disabled} placeholder={placeholder ?? (type === 'number' ? String(min) : '')} onChange={e => onChange(type === 'number' ? (e.target.value === '' ? min : Number(e.target.value)) : e.target.value)}/>{hideVisibleLabel&&(info??hint)&&<InfoTooltip label={label}>{info??hint}</InfoTooltip>}</div>;
-}
-function PetRefinementControl({pet,troop,onChange}) {
-  const id=useId(),descriptionId=useId();
-  const [open,setOpen]=useState(false);
-  const quality=refinementQuality(pet,pet.refinement?.[troop]);
-  const owned=petOwned(pet),label=tr('fields.petRefinement',{pet:pet.name,troop:LABELS[troop]});
-  return <div className="field visually-hidden-label pet-refinement-control" tabIndex={owned?undefined:0} aria-label={owned?undefined:label} aria-describedby={owned?undefined:descriptionId} style={{'--refinement-color':quality.color}} onPointerEnter={e=>{if(e.pointerType==='mouse')setOpen(true);}} onPointerLeave={e=>{if(e.pointerType==='mouse')setOpen(false);}} onPointerUp={e=>{if(e.pointerType!=='mouse')setOpen(true);}} onClick={()=>setOpen(true)} onFocus={()=>setOpen(true)} onBlur={()=>setOpen(false)}>
-    <FieldHeader id={id} label={label} displayLabel={tr("main.PetRefinementControl.let", {troop: LABELS[troop]})}/>
-    <input id={id} aria-label={label} aria-describedby={descriptionId} type="number" min="0" step="any" disabled={!owned} value={pet.refinement?.[troop]??0} onClick={()=>setOpen(true)} onKeyDown={e=>{if(e.key==='Escape')setOpen(false);}} onChange={e=>onChange(e.target.value===''?0:e.target.value)}/>
-    <span id={descriptionId} className="pet-refinement-tooltip" role="tooltip" hidden={!open}>{owned?`${Number(pet.refinement?.[troop])>0?tr("main.PetRefinementControl.bear.offense.lethality", {percentage: decimal(pet.refinement[troop]), troop: LABELS[troop]}):''}${quality.quality?localizeText(quality.description):tr("main.PetRefinementControl.provisional.color.indicator")}`:tr("main.PetRefinementControl.not.owned.refinement.is.excluded")}</span>
-  </div>;
 }
 function Select({label, displayLabel, hideVisibleLabel=false, value, onChange, options, hint, info, empty, disabled=false}) {
   const id=useId();
@@ -148,6 +137,7 @@ export function App({initialTab, initialProfile} = {}) {
   const [importSummary, setImportSummary] = useState('');
   const [busy, setBusy] = useState(false);
   const [heroPickerOpen,setHeroPickerOpen]=useState(false);
+  const [showPusherInventory,setShowPusherInventory]=useState(false);
   const heroPickerRef=useRef(null);
   useEffect(()=>{
     if(!heroPickerOpen)return;
@@ -179,7 +169,6 @@ export function App({initialTab, initialProfile} = {}) {
   const row = (section, id, key, value) => change(x => ({...x, [section]: x[section].map(item => item.id === id ? {...item, [key]: value,provenance:{...(typeof item.provenance==='object'?item.provenance:{}),[key]:'user-confirmed'}} : item)}));
   const nested = (section, troop, key, value) => change(x => ({...x, [section]: {...x[section], [troop]: {...x[section][troop], [key]: value}}}));
   const masterSkill=(id,slot,value)=>change(x=>({...x,masters:x.masters.map(m=>m.id===id?{...m,skillLevels:{...m.skillLevels,[slot]:value}}:m)}));
-  const petRefinement=(id,t,value)=>change(x=>({...x,pets:x.pets.map(pet=>pet.id===id?{...pet,refinement:{...pet.refinement,[t]:value}}:pet)}));
   const troopValue=(troop,key,value)=>change(x=>{
     const current=x.troops[troop];
     const updated={...current,[key]:value};
@@ -210,7 +199,7 @@ export function App({initialTab, initialProfile} = {}) {
     </>;
   }
   function heroEditor() {
-    const visible=orderHeroes(p.heroes.filter(h=>h.included!==false&&h.owned!==false));
+    const visible=orderHeroes(p.heroes.filter(h=>heroAvailableInPlanner(h)&&h.included!==false&&h.owned!==false));
     const best=new Set((results.hosting.team??[]).map(entry=>entry.hero.id));
     const icons={infantry:'infantry.png',cavalry:'cavalry.png',archer:'archer.png'};
     return <div className="heroes-design">
@@ -235,16 +224,14 @@ export function App({initialTab, initialProfile} = {}) {
     </div>;
   }
   function petEffectsTooltip() {
-    const totals=petRefinementEffect(p);
-    return <InfoTooltip label={tr("main.petEffectsTooltip.pet.effects")}>{tr('pets.effects',{refinements:TYPES.map(t=>tr("main.petEffectsTooltip.refinement", {t: LABELS[t], percentage: decimal(totals[t])})).join(' · ')})}</InfoTooltip>;
+    return <InfoTooltip label={tr("main.petEffectsTooltip.pet.effects")}>{tr('pets.combinedHelp')}</InfoTooltip>;
   }
 
   function petEditor() {
-    const pending=p.petRefinementMode==='combined';
-    return <div className="pets-design">
-      {pending&&<div className="pet-refinement-review" role="status"><span>{tr("main.petEditor.enter.per.pet.refinements.then.confirm.to.replace.saved")}</span><button type="button" className="secondary" onClick={()=>change(replaceCombinedRefinement)}>{tr("main.petEditor.use.entered.refinements")}</button></div>}
-      <div className="pet-columns"><span aria-hidden="true"></span><span>{tr("main.petEditor.level")}<InfoTooltip label={tr("main.petEditor.pet.levels")}>{tr("main.petEditor.0.means.not.owned.higher.levels.increase.passive.attack")}</InfoTooltip></span><span>{tr("main.petEditor.advancement")}<InfoTooltip label={tr("main.petEditor.pet.advancement")}>{tr("main.petEditor.select.yes.if.you.completed.advancement.at.this.level")}</InfoTooltip></span>{TYPES.map(t=><span key={t}>{tr('main.PetRefinementControl.let',{troop:LABELS[t]})}<InfoTooltip label={tr("main.petEditor.pet.refinement", {t: LABELS[t]})}>{tr('pets.refinementHelp',{troop:LABELS[t]})}</InfoTooltip></span>)}</div>
-      <div className="pets-rows">{p.pets.map(pet=>{
+    return <div className="pets-design pets-combined-design">
+      <div className="pet-refinement-combined grid">{['attack',...TYPES].map(stat=><Field key={stat} label={tr(`pets.combined.${stat}`)} value={p.combinedPetRefinement?.[stat]??''} step="any" placeholder={tr('main.Select.review.saved.value')} onChange={value=>change(x=>setCombinedPetStat(x,stat,value))}/>)}</div>
+      <div className="pet-columns"><span aria-hidden="true"></span><span>{tr("main.petEditor.level")}<InfoTooltip label={tr("main.petEditor.pet.levels")}>{tr('pets.activeLevelsHelp')}</InfoTooltip></span><span>{tr("main.petEditor.advancement")}<InfoTooltip label={tr("main.petEditor.pet.advancement")}>{tr('pets.activeAdvancementHelp')}</InfoTooltip></span></div>
+      <div className="pets-rows">{p.pets.filter(petCollectsProgression).map(pet=>{
         const effect=petLevelEffect(pet),maxLevel=PET_MAX_LEVEL[pet.name];
         const levelOptions=Number.isInteger(maxLevel)?Array.from({length:maxLevel+1},(_,i)=>({value:String(i),label:String(i)})):[];
         if(pet.level!=null&&!levelOptions.some(option=>option.value===String(pet.level)))levelOptions.unshift({value:String(pet.level),label:tr("main.petEditor.saved.review", {level: pet.level})});
@@ -253,11 +240,11 @@ export function App({initialTab, initialProfile} = {}) {
           <IdentityPortrait name={pet.name} kind="pet" tooltip={levelInfo} src={PET_PORTRAITS[pet.name]&&`/figma-pets/${PET_PORTRAITS[pet.name]}`}/>
           {Number.isInteger(maxLevel)?<Select hideVisibleLabel label={tr("main.petEditor.level.2", {pet: pet.name})} displayLabel={tr("main.petEditor.level")} value={String(pet.level??'')} empty="Unknown" options={levelOptions} onChange={v=>change(x=>({...x,pets:x.pets.map(item=>item.id===pet.id?setPetLevel(item,v===''?0:Number(v)):item)}))}/>:<Field hideVisibleLabel displayLabel={tr("main.petEditor.level")} min={0} label={tr("main.petEditor.level.2", {pet: pet.name})} value={pet.level} onChange={v=>change(x=>({...x,pets:x.pets.map(item=>item.id===pet.id?setPetLevel(item,v):item)}))}/>}
 
-          <div className="pet-advancement-cell">{petOwned(pet)&&effect.checkpoint===true&&<Select hideVisibleLabel label={tr("main.petEditor.level.advanced.at.this.level", {pet: pet.name, level: pet.level})} displayLabel={tr("main.petEditor.advanced.at.this.level")} value={String(pet.advancementConfirmed===true)} options={[{value:'false',label:tr("main.petEditor.no")},{value:'true',label:tr("main.petEditor.yes")}]} onChange={v=>change(x=>({...x,pets:x.pets.map(item=>item.id===pet.id?setPetAdvancement(item,v==='true'):item)}))} info={tr("main.petEditor.bear.offense.advancing.at.level.raises.passive.attack.from", {level: pet.level, percentage: decimal(petLevelEffect({...pet,advancementConfirmed:false}).attack), percentage2: decimal(petLevelEffect({...pet,advancementConfirmed:true}).attack)})}/>}</div>
-          {TYPES.map(t=><PetRefinementControl key={t} pet={pet} troop={t} onChange={v=>petRefinement(pet.id,t,v)}/>)}
+          <div className="pet-advancement-cell">{petOwned(pet)&&effect.checkpoint===true&&<label className="check pet-advancement-check"><input type="checkbox" aria-label={tr("main.petEditor.level.advanced.at.this.level", {pet:pet.name,level:pet.level})} checked={pet.advancementConfirmed===true} onChange={e=>change(x=>({...x,pets:x.pets.map(item=>item.id===pet.id?setPetAdvancement(item,e.target.checked):item)}))}/><span>{tr('pets.advanced')}</span></label>}</div>
 
         </div>;
       })}</div>
+
     </div>;
   }
   function troopInventory() {
@@ -272,20 +259,16 @@ export function App({initialTab, initialProfile} = {}) {
           <Field hideVisibleLabel displayLabel={tr("main.troopInventory.building.tg")} label={tr("main.troopInventory.building.tg.2", {t: LABELS[t]})} value={troop.tg} onChange={v=>troopValue(t,'tg',v)}/>
         </div>;
       })}</div>
-    </div>;
-  }
-  function troopMarchSetup() {
-    const ratio=TYPES.map(t=>p.ratios[t]).join('/');
-    return <section className="troop-march-setup">
-      <div className="troop-strategy"><span>{ratio}</span><InfoTooltip label={tr("main.troopMarchSetup.march.strategy")}>{tr('troops.formation',{mix:TYPES.map(t=>tr("main.troopMarchSetup.message",{t:p.ratios[t],t2:LABELS[t]})).join(', ')})}</InfoTooltip></div>
-      <div className="troop-primary-capacity">
-        <div className="field-label"><span>{tr("main.troopMarchSetup.maximum.march.size")}</span></div>
-        <div className="troop-march-size-fields">{TYPES.map(t=><Field key={t} label={tr("main.troopMarchSetup.maximum.march.count", {t: LABELS[t]})} displayLabel={LABELS[t]} value={p.marchSizeByType?.[t]??0} onChange={v=>change(x=>setMarchSizeByType(x,t,v))}/>)}</div>
-        <div className="troop-march-size-total" role="status">{tr(!Object.hasOwn(p,'marchSizeByType')&&maximumMarchSize(p)!==null?'common.savedTotal':'common.total',{count:maximumMarchSize(p)??0})}</div>
+      <div className="troop-inventory-plans">
+        <h3>{tr('troops.inventory.title')}<InfoTooltip label={tr('troops.inventory.title')}>{tr('troops.inventory.help')}</InfoTooltip></h3>
+        {[3,4,...(showPusherInventory?[5]:[])].map(groups=>{const plan=inventoryGroups(p,groups);return <div className="troop-inventory-group" key={groups}>
+          <h3>{tr(`troops.inventory.groups${groups}`)}</h3>
+          {plan.known?<><p>{tr('troops.inventory.perGroup',{infantry:plan.perGroup.infantry,cavalry:plan.perGroup.cavalry,archers:plan.perGroup.archer,total:plan.totalPerGroup})}</p><p className="hint">{tr('troops.inventory.limiting',{types:plan.limiting.map(t=>tr(`troops.${t}`)).join(', ')})}</p></>:<p className="hint">{tr('troops.inventory.unknown')}</p>}
+        </div>;})}
+        <label className="check"><input type="checkbox" checked={showPusherInventory} onChange={e=>setShowPusherInventory(e.target.checked)}/><span>{tr('troops.inventory.showPusher')}</span></label>
+        <p className="hint">{tr('troops.inventory.scope')}</p>
       </div>
-
-
-    </section>;
+    </div>;
   }
   function gearPiece(g) {
     const quality=normalizeGearQuality(g.quality),effect=gearProgression(g),issues=gearIssues(g),label=entityName('gear',g.id,activeGearLabel(g));
@@ -358,7 +341,7 @@ export function App({initialTab, initialProfile} = {}) {
         </div>
       </Section></section>}
       {currentTab === 'Pets' && <section className="panel pets-panel"><Section title={tr("main.App.pets")}>{petEditor()}</Section></section>}
-      {currentTab === 'Troops' && <section className="panel troops-panel"><Section title={tr("main.App.troops")} hint={tr("main.App.enter.total.available.troops.for.each.class.plus.its")}>{troopInventory()}</Section>{troopMarchSetup()}</section>}
+      {currentTab === 'Troops' && <section className="panel troops-panel"><Section title={tr("main.App.troops")} hint={tr("main.App.enter.total.available.troops.for.each.class.plus.its")}>{troopInventory()}</Section></section>}
     </div>
     {notice&&<p className="notice" role="alert">{localizeText(notice)}</p>}
     {!setup.completed&&<div className="setup-actions"><button type="button" className="secondary" disabled={currentStep===0} onClick={()=>navigateStep(currentStep-1)}>{tr("main.App.back")}</button><button type="button" className="primary" disabled={currentStep===PLAN_STEPS.length-1} onClick={()=>navigateStep(currentStep+1,true)}>{tr("main.App.continue")}</button></div>}

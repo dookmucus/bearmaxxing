@@ -35,43 +35,28 @@ test('joining requirements do not ask for account inventory or combat stats', ()
   assert.equal(p.heroes.length, 37);
   assert.equal(p.gear.length, 12);
   const result = calculate(p, 'joining');
-  assert.equal(result.plan.marches.length, 3);
-  assert.equal(result.plan.marches[0].capacity, 100003);
-  assert.equal(result.plan.needed.archer, 240009);
+  assert.equal(result.plan.marches.length,4);
+  assert.ok(result.plan.marches.every(m=>m.capacity===null&&m.target===null));
+  assert.equal(result.plan.needed,null);
 });
-test('unknown troop inventory and capacity block results, confirmed zero produces exact gaps', () => {
-  const p = joins(); p.troops.archer.count = null;
-  assert.ok(calculate(p, 'joining').missing.some(s => s.includes('archers')));
-  assert.equal(calculate(p, 'joining').plan, undefined);
-  assert.throws(() => troopPlan(p), /known whole troop/);
-  p.troops.archer.count = 0;
-  assert.equal(calculate(p, 'joining').plan.shortage.archer, 240009);
-  p.joinCapacity = null;
-  assert.ok(requirements(p, 'joining').some(s => s===CAPACITY_PROMPT));
-  p.joinCapacity = 100.5;
-  assert.ok(calculate(p, 'joining').missing.length);
+test('unknown or zero inventory affects only inventory planning and legacy capacities never block recommendations',()=>{
+ const p=joins();p.troops.archer.count=null;
+ assert.deepEqual(calculate(p,'joining').missing,[]);assert.ok(calculate(p,'joining').plan);assert.equal(troopPlan(p).joining.known,false);
+ p.troops.archer.count=0;assert.equal(troopPlan(p).joining.totalPerGroup,0);assert.deepEqual(troopPlan(p).joining.limiting,['archer']);
+ for(const capacity of [null,100.5,-1,'invalid']){p.joinCapacity=capacity;assert.deepEqual(requirements(p,'joining'),[]);assert.equal(calculate(p,'joining').plan.needed,null);}
 });
-test('no inventory requested for a zero-ratio troop type, remaining count stays unknown', () => {
-  const p = joins(); p.ratios = {infantry: 0, cavalry: 0, archer: 100};
-  p.troops.infantry.count = null; p.troops.cavalry.count = 55;
-  const result = calculate(p, 'joining');
-  assert.deepEqual(result.missing, []);
-  assert.equal(result.plan.remaining.infantry, null);
-  assert.equal(result.plan.remaining.cavalry, 55);
-  assert.equal(result.plan.marches[0].available.infantry, 0);
+
+test('custom formation remains inactive and unknown inventory is preserved without deployment allocation',()=>{
+ const p=joins();p.ratios={infantry:0,cavalry:0,archer:100};p.troops.infantry.count=null;p.troops.cavalry.count=55;
+ const result=calculate(p,'joining');assert.deepEqual(result.missing,[]);assert.equal(result.plan.remaining.infantry,null);assert.equal(result.plan.remaining.cavalry,55);assert.ok(result.plan.marches.every(m=>m.available===null));
+ assert.equal(troopPlan(p).joining.known,false);
 });
-test('unknown simultaneous hosting choice blocks allocation and enabling it requires capacity', () => {
-  const p = joins(); p.hostEnabled = null;
-  assert.ok(requirements(p, 'joining').some(s => s.includes('simultaneous')));
-  p.hostEnabled = true;
-  assert.ok(requirements(p, 'joining').some(s => s===CAPACITY_PROMPT));
-  p.hostCapacity = 100000;
-  assert.deepEqual(requirements(p, 'joining'), []);
-  const result = calculate(p, 'joining');
-  assert.equal(result.plan.marches.length, 4);
-  assert.equal(result.hostEnabled, true);
-  assert.equal(result.leaderGaps.length, 0); // This fixture explicitly includes the available leaders
+
+test('legacy host participation cannot block automatic one-host plus three-join comparisons',()=>{
+ const p=joins();for(const enabled of [null,false,true]){p.hostEnabled=enabled;p.hostCapacity=null;
+ assert.deepEqual(requirements(p,'joining'),[]);const result=calculate(p,'joining');assert.equal(result.plan.marches.length,4);assert.equal(result.hostEnabled,true);assert.equal(result.leaderGaps.length,0);}
 });
+
 test('saved joining names do not reserve heroes, even with casing or duplicate legacy names',()=>{
  const p=enteredRosterProfile();p.capacityPlanningModel='shared-maximum';p.troopsPerMarch=100000;
  for(const t of ['infantry','cavalry','archer'])p.troops[t].count=500000;
@@ -190,17 +175,12 @@ test('a valid upgrade remains visible while another upgrade needs data', () => {
   assert.equal(result.upgrades[0].factorGain, 5);
   assert.ok(result.missing.some(s => s.includes('Unknown step')));
 });
-test('capacity upgrades show exact targets and shortages without a fabricated damage factor', () => {
-  const p = emptyProfile(); p.hostCapacity = 100000;
-  for(const t of ['infantry','cavalry','archer'])p.troops[t].count=null;
-  p.upgrades = [{id: 'u', name: 'Capacity', kind: 'capacity', delta: 10003, cost: null}];
-  assert.ok(requirements(p, 'upgrades').some(s => s.includes('available archers')));
-  for (const t of ['infantry', 'cavalry', 'archer']) p.troops[t].count = 10000;
-  const result = calculate(p, 'upgrades').upgrades[0];
-  assert.deepEqual(result.additional, {infantry: 1000, cavalry: 1000, archer: 8003});
-  assert.equal(result.shortage.archer, 78003);
-  assert.equal(result.factorGain, undefined);
+test('archived capacity upgrades generate neither validation gates nor training targets',()=>{
+ const p=emptyProfile();p.hostCapacity=100000;p.upgrades=[{id:'u',name:'Capacity',kind:'capacity',delta:10003,cost:null}];
+ for(const t of ['infantry','cavalry','archer'])p.troops[t].count=null;
+ assert.deepEqual(requirements(p,'upgrades'),[]);assert.deepEqual(calculate(p,'upgrades').upgrades,[]);assert.equal(p.upgrades[0].delta,10003);
 });
+
 test('profile round trip retains unknowns and legacy profiles do not gain effective totals', () => {
   const p = emptyProfile();
   assert.equal(validateProfile(JSON.parse(JSON.stringify(p))).hostCapacity, 0);

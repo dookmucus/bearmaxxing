@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {attackEventExpectation,effectiveWidgetStat} from '../src/bear-attack-events.mjs';
 import {periodicActive,bearExampleDamage,heroBearEffects} from '../src/bear-comparison.mjs';
 import {evaluateHostTrio} from '../src/host-comparison.mjs';
-import {emptyProfile} from '../src/profile.mjs';
+import {enteredRosterProfile as emptyProfile} from './helpers/entered-roster.mjs';
 import {accountEffects} from '../src/calculator.mjs';
 const close=(a,b)=>assert.ok(Math.abs(a-b)<1e-9,`${a} != ${b}`);
 test('production matches handoff Daryl T6 and one-widget fixtures, without double applying a report multiplier',()=>{

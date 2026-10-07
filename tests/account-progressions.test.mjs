@@ -1,3 +1,4 @@
+import {inventoryGroups} from '../src/inventory-planning.mjs';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {emptyProfile} from '../src/profile.mjs';
@@ -40,12 +41,12 @@ test('other masters count sourced affinity while event skills remain irrelevant'
     assert.ok(MASTER_SKILLS[name].skills.every(skill=>skill[1]===null));
   }
 });
-test('entered owned pet levels stack rolls once and unlocked active effects use the established planning assumption',()=>{
+test('combined pet totals count once and unlocked active effects use the established planning assumption',()=>{
   const p=emptyProfile();
   const wolf=p.pets.find(x=>x.name==='Gray Wolf');
   wolf.level=1;wolf.owned=true;wolf.refinement={infantry:2,cavalry:3,archer:4};
   const rhino=p.pets.find(x=>x.name==='Giant Rhino');
-  rhino.owned=true;rhino.refinement={infantry:1,cavalry:2,archer:3};rhino.level=11;
+  rhino.owned=true;rhino.refinement={infantry:1,cavalry:2,archer:3};rhino.level=11;p.combinedPetRefinement={attack:0,infantry:3,cavalry:5,archer:7};
   assert.deepEqual(accountEffects(p).classLethality,{infantry:3,cavalry:5,archer:7});
   const before=accountEffects(p).attack;rhino.active=true;
   assert.equal(accountEffects(p).attack,before); // Legacy toggle does not override unlocked-rank planning.
@@ -60,7 +61,7 @@ test('legacy refinement Attack is retained without conversion or counting',()=>{
   assert.deepEqual(rhino.refinement,{infantry:0,cavalry:0,archer:0}); // Existing migration defaults are unchanged.
   assert.equal(accountEffects(p).attack,0);
   assert.equal(accountEffects(p).classLethality.infantry,0);
-  assert.match(accountEffects(p).unsupported.join(' '),/legacy refinement/);
+  assert.equal(p.pets.find(x=>x.name==='Giant Rhino').attack,8);
 });
 test('old Valora levels migrate to numbered skill slots',()=>{
   const old=emptyProfile();old.masters=[{id:'valora',name:'Valora',owned:true,rallyLevel:10,deployLevel:10,talentLevel:10}];
@@ -68,16 +69,13 @@ test('old Valora levels migrate to numbered skill slots',()=>{
   assert.equal(m.skillLevels[1],10);assert.equal(m.skillLevels[4],10);
   assert.equal(masterEffects(m).rally,300000);
 });
-test('mixed-tier inventory conserves exact troops including pusher and shortages',()=>{
-  let p=emptyProfile();p.hostCapacity=100000;p.joinCapacity=100000;p.pusherEnabled=true;p.pusherCapacity=50000;p.marchSlots=5;
-  p.troops.infantry.count=45000;p.troops.cavalry.count=45000;p.troops.archer.count=350000;
-  p=enableMixedTiers(p);p.tierInventory.archer={9:100000,10:250000};
-  assert.equal(inventoryCount(p,'archer'),350000);
-  const plan=calculate(p,'joining').plan;
-  assert.equal(plan.needed.archer,360000);assert.equal(plan.shortage.archer,10000);
-  for(const t of ['infantry','cavalry','archer'])assert.ok(plan.marches.reduce((n,m)=>n+m.available[t],0)<=inventoryCount(p,t));
-  assert.equal(troopPlan(aggregateTroops(p)).shortage.archer,10000);
-  assert.throws(()=>validateProfile({...p,tierInventory:{...p.tierInventory,archer:{9:0.5}}}),/mixed-tier/);
+test('mixed-tier inventory conserves whole blocks in three, four and optional five groups',()=>{
+ let p=emptyProfile();Object.assign(p,{hostCapacity:100000,joinCapacity:100000,pusherEnabled:true,pusherCapacity:50000,marchSlots:5});
+ p.troops.infantry.count=45000;p.troops.cavalry.count=45000;p.troops.archer.count=350000;
+ p=enableMixedTiers(p);p.tierInventory.archer={9:100000,10:250000};assert.equal(inventoryCount(p,'archer'),350000);
+ for(const groups of [3,4,5]){const plan=inventoryGroups(p,groups);for(const t of ['infantry','cavalry','archer']){assert.equal(plan.used[t]+plan.unused[t],inventoryCount(p,t));assert.ok(Number.isInteger(plan.perGroup[t]));}}
+ assert.deepEqual(troopPlan(aggregateTroops(p)).optionalPusher,inventoryGroups(p,5));
+ assert.throws(()=>validateProfile({...p,tierInventory:{...p.tierInventory,archer:{9:0.5}}}),/mixed-tier/);
 });
 
 test('masters default levels and entered progression apply without ownership',()=>{

@@ -1,7 +1,14 @@
 import {canonicalPetId} from './pet-identity.mjs';
 import levels from './data/pet-levels.json' with {type:'json'};
 export const petOwned=pet=>pet.level!=null&&pet.level!==''&&Number.isInteger(Number(pet.level))&&Number(pet.level)>0;
-export const petMilestones=name=>Object.entries(levels.pets[name]?.attackByLevel??{}).filter(([,values])=>values.length===2).map(([level])=>Number(level));
+export const petMilestones=name=>levels.pets[name]?.advancementAudit?.milestones??[];
+export function petAdvancementStage(pet){
+ const level=Number(pet.level),milestones=petMilestones(pet.name);
+ const checkpoint=petOwned(pet)&&milestones.includes(level);
+ const saved=pet.advancementByLevel?.[level];
+ const advanced=checkpoint&&(typeof pet.advancementConfirmed==='boolean'?pet.advancementConfirmed:saved===true);
+ return {checkpoint,advanced,rank:petOwned(pet)?milestones.filter(m=>m<level).length+(advanced?1:0):0};
+}
 export function normalizePetInput(pet,assumed={}){
  const next={...pet,advancementByLevel:{...pet.advancementByLevel},advancementSources:{...pet.advancementSources}};
  const canonicalId=canonicalPetId(pet);

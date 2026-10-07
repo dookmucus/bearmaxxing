@@ -1,7 +1,8 @@
+import {comparisonProfile} from './inventory-planning.mjs';
 import {withHostingReuse} from './hosting-reuse.mjs';
 import {englishMessage} from './english-messages.mjs';
 import {heroProgression,heroContributions} from './hero-effects.mjs';
-import {petLevelEffect,PET_MAX_LEVEL} from './pet-effects.mjs';
+import {petLevelEffect,PET_MAX_LEVEL,petCollectsProgression,petUpgradeProfile} from './pet-effects.mjs';
 import {gearProgression,gearSlotEffect} from './gear-progression.mjs';
 import {heroReferenceName} from './hero-identity.mjs';
 import {starStageLabel} from './star-progression.mjs';
@@ -15,6 +16,7 @@ import {gearCostEfficiency} from './gear-upgrade-costs.mjs';
 
 // Benefits are modeled-effect changes, never a cross-resource return or damage forecast.
 export function actionableImprovements(profile,results,accountFor,options={}){
+ profile=comparisonProfile(profile);
  return withHostingReuse(profile,accountFor(profile),results.hosting.joint?.comparison?.options,()=>calculateImprovements(profile,results,accountFor,options));
 }
 function calculateImprovements(profile,results,accountFor,{audit=[]}={}){
@@ -50,14 +52,15 @@ function calculateImprovements(profile,results,accountFor,{audit=[]}={}){
   }
  }
  for(const pet of profile.pets??[]){
-  if(!(Number(pet.level)>0))continue;
+  if(!petCollectsProgression(pet)||!(Number(pet.level)>0))continue;
   const before=petLevelEffect(pet);
   const advanced=before.checkpoint&&!pet.advancementConfirmed;
   const candidate=advanced?{...pet,advancementConfirmed:true}:{...pet,level:Number(pet.level)+1,advancementConfirmed:false};
   if(candidate.level>(PET_MAX_LEVEL[pet.name]??0))continue;
   const after=petLevelEffect(candidate);
   if(before.attack===null||after.attack===null||after.attack<=before.attack)continue;
-  add({id:`${pet.id}-passive`,title:`${pet.name}: ${advanced?englishMessage("messages.results.improvements.actionableImprovements.complete.advancement"):englishMessage("messages.results.improvements.actionableImprovements.next.level")}`,reason:englishMessage("messages.results.improvements.actionableImprovements.verified.passive.attack.percentage.points.entered.refinement.is.unchanged",{attack:before.attack,attack2:after.attack,detail:(after.attack-before.attack).toFixed(2)}),resource:advanced?'Pet advancement materials':'Pet food',cost:englishMessage("messages.results.improvements.actionableImprovements.exact.material.cost.not.verified"),target:advanced?englishMessage("messages.results.improvements.actionableImprovements.level.advanced",{level:pet.level}):englishMessage("messages.results.improvements.actionableImprovements.level",{level:candidate.level}),editor:'Pets',measuredBenefit:null},{...profile,pets:profile.pets.map(p=>p.id===pet.id?candidate:p)});
+  const changed=petUpgradeProfile(profile,pet,candidate);if(!changed)continue;
+  add({id:`${pet.id}-passive`,petStatDelta:Number((after.attack-before.attack).toFixed(10)),title:`${pet.name}: ${advanced?englishMessage("messages.results.improvements.actionableImprovements.complete.advancement"):englishMessage("messages.results.improvements.actionableImprovements.next.level")}`,reason:englishMessage('pets.upgradeDelta',{delta:Number((after.attack-before.attack).toFixed(10))}),resource:advanced?'Pet advancement materials':'Pet food',cost:englishMessage("messages.results.improvements.actionableImprovements.exact.material.cost.not.verified"),target:advanced?englishMessage("messages.results.improvements.actionableImprovements.level.advanced",{level:pet.level}):englishMessage("messages.results.improvements.actionableImprovements.level",{level:candidate.level}),editor:'Pets',measuredBenefit:null},changed);
  }
  const personal=results.upgrades.personalStep;
  if(personal){const valora=profile.masters.find(m=>m.name==='Valora');add({...personal,id:'valora-personal',reason:personal.benefit,resource:'Master talent materials',target:personal.title.split(' → ')[1],editor:'Masters',measuredBenefit:null},{...profile,masters:profile.masters.map(m=>m===valora?{...m,talentLevel:Number(m.talentLevel)+1}:m)});}
@@ -85,15 +88,7 @@ function calculateImprovements(profile,results,accountFor,{audit=[]}={}){
  }
  // Sort within each material path. Interleave paths without claiming cross-resource ROI.
  const lists=[...groups.values()].map(list=>list.sort(compareUpgradeBenefits));
- const plan=results.joining?.plan;
- const shortages=plan?.totalsKnown?Object.entries(plan.shortage).filter(([,count])=>Number.isInteger(count)&&count>0):[];
- const labels={infantry:'Infantry',cavalry:'Cavalry',archer:'Archers'};
- const selected=shortages.length?[{
-  id:'troop-shortage',marchCount:plan.targetMarchCount,troopShortages:Object.fromEntries(shortages),title:englishMessage("messages.results.improvements.actionableImprovements.train.troops.for.full.marches",{detail:plan.targetMarchCount===4?'four':plan.targetMarchCount}),
-  reason:englishMessage("messages.results.improvements.actionableImprovements.add",{detail:shortages.map(([troop,count])=>`${count.toLocaleString('en-US')} ${labels[troop]}`).join(' and ')}),
-  resource:'Troop training',target:Object.fromEntries(shortages.map(([troop])=>[troop,plan.needed[troop]])),editor:'Troops',measuredBenefit:null,
-  uncertainty:englishMessage("messages.results.improvements.actionableImprovements.based.on.your.entered.maximum.march.size.for.simultaneous.hero",{targetMarchCount:plan.targetMarchCount,detail:['infantry','cavalry','archer'].map(t=>profile.ratios[t]).join('/'),detail2:shortages.map(([troop])=>`${plan.needed[troop].toLocaleString('en-US')} ${labels[troop]}`).join(', ')})
- }]:[];
+ const selected=[];
  // One concrete future replacement, rather than another displayed team list.
  // Retain room for current-plan upgrades and other material paths.
  // An assumed-mechanic challenger milestone is diagnostic evidence, not an

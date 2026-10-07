@@ -1,4 +1,4 @@
-import {petOwned,petMilestones} from './pet-inputs.mjs';
+import {petOwned,petAdvancementStage} from './pet-inputs.mjs';
 import levels from './data/pet-levels.json' with {type:'json'};
 import catalog from './data/bear-catalog.json' with {type:'json'};
 
@@ -6,9 +6,10 @@ export const PET_ACTIVE_NAMES={
   'Giant Rhino':'Wild Charge','Alpha Black Panther':'Deadly Bite',
   'Mighty Bison':'Fearless Roar','Great Moose':'Antler Impact'
 };
+export const petCollectsProgression=pet=>Object.hasOwn(PET_ACTIVE_NAMES,pet.name);
 export const PET_ACTIVE_CATALOG=catalog.pets.filter(p=>Object.hasOwn(PET_ACTIVE_NAMES,p.name));
 export const PET_MAX_LEVEL=Object.fromEntries(Object.entries(levels.pets).map(([name,entry])=>[name,Math.max(...Object.keys(entry.attackByLevel).map(Number))]));
-const valid=n=>n!==null&&n!==undefined&&n!==''&&Number.isFinite(Number(n))&&Number(n)>=0;
+const valid=n=>n!==null&&n!==undefined&&n!==''&&typeof n!=='boolean'&&Number.isFinite(Number(n))&&Number(n)>=0;
 export function petHasBearContribution(pet){
   return Boolean(levels.pets[pet.name]?.attackByLevel)
     ||PET_ACTIVE_CATALOG.some(effect=>effect.name===pet.name)
@@ -20,11 +21,8 @@ export function petLevelEffect(pet){
   const level=Number(pet.level),entry=levels.pets[pet.name];
   if(!valid(pet.level)||!Number.isInteger(level)||level<1||!entry?.attackByLevel[level])return {attack:null,rank:null,issue:valid(pet.level)?`${pet.name} level ${pet.level} has no verified passive lookup`:null};
   const values=entry.attackByLevel[level];
-  const checkpoint=values.length===2;
-  const advanced=pet.advancementConfirmed===true;
+  const {checkpoint,advanced,rank}=petAdvancementStage(pet);
   const attack=values[checkpoint&&advanced?1:0];
-  const milestones=petMilestones(pet.name);
-  const rank=milestones.filter(m=>m<level).length+(checkpoint&&advanced?1:0);
   return {attack,rank,checkpoint,issue:null,source:entry.source};
 }
 
@@ -35,22 +33,45 @@ export function petActiveEffect(pet){
   return {name:PET_ACTIVE_NAMES[pet.name],kind:ref.kind,rank,value:rank>0?ref.stages[rank-1]??null:null,issue:passive.issue};
 }
 
-export function petRefinementEffect(profile){
-  const totals={infantry:0,cavalry:0,archer:0};
-  const mode=profile.petRefinementMode==='combined'?'combined':'per-pet';
-  if(mode==='combined'&&(profile.pets??[]).some(pet=>!petOwned(pet)))return totals;
-  if(mode==='combined')for(const troop of Object.keys(totals)){
-    if(valid(profile.combinedPetRefinement?.[troop]))totals[troop]=Number(profile.combinedPetRefinement[troop]);
+// Migrate before editable defaults are filled. Existing totals (including zero)
+// always win, regardless of the archived entry mode or individual ownership.
+export function normalizeCombinedPetStats(profile){
+ const totals={...profile.combinedPetRefinement},sources={...profile.combinedPetRefinementSources};
+ for(const stat of ['attack','infantry','cavalry','archer']){
+  if((totals[stat]!=null&&totals[stat]!=='')||(profile.petStatsVersion===1&&Object.hasOwn(totals,stat))){
+   sources[stat]??={source:profile.petRefinementSource??'saved combined total'};
+   continue;
   }
-  else for(const pet of (profile.pets??[]).filter(petOwned))for(const troop of Object.keys(totals)){
-    if(valid(pet.refinement?.[troop]))totals[troop]+=Number(pet.refinement[troop]);
-  }
-  return totals;
+  const contributions=(profile.pets??[]).filter(petOwned).map(pet=>{
+   const effect=stat==='attack'?petLevelEffect(pet):null;
+   const raw=stat==='attack'?effect.attack:pet.refinement?.[stat];
+   const absent=raw==null||raw==='';
+   return {petId:pet.id,value:stat==='attack'?raw:absent?0:valid(raw)?Number(raw):null,
+    source:stat==='attack'?effect.source??'unknown passive lookup':profile.assumedInputs?.[`pets.${pet.id}.refinement.${stat}`]??pet.provenance?.refinement??(absent?'assumed zero':'saved refinement'),
+    levelSource:pet.levelSource??'saved',advancementSource:pet.advancementSource??'not at checkpoint'};
+  });
+  totals[stat]=contributions.some(c=>c.value===null)?null:Number(contributions.reduce((sum,c)=>sum+c.value,0).toFixed(10));
+  sources[stat]={source:totals[stat]===null?'unknown saved contribution':contributions.length?'derived from saved pet calculations':'assumed zero',contributions};
+ }
+ return {...profile,petStatsVersion:1,combinedPetRefinement:totals,combinedPetRefinementSources:sources};
 }
-
-// Keep the legacy total as the sole source until the player confirms all rolls.
-export function replaceCombinedRefinement(profile){
-  return {...profile,petRefinementMode:'per-pet',petRefinementSource:'user-confirmed per-pet'};
+export function combinedPetStats(profile){
+ const totals=normalizeCombinedPetStats(profile).combinedPetRefinement;
+ return Object.fromEntries(['attack','infantry','cavalry','archer'].map(stat=>[stat,valid(totals[stat])?Number(totals[stat]):null]));
+}
+export function petRefinementEffect(profile){
+ const {attack,...totals}=combinedPetStats(profile);return totals;
+}
+export function setCombinedPetStat(profile,stat,value){
+ const next=normalizeCombinedPetStats(profile);
+ return {...next,combinedPetRefinement:{...next.combinedPetRefinement,[stat]:value},combinedPetRefinementSources:{...next.combinedPetRefinementSources,[stat]:{source:'user-confirmed'}}};
+}
+export function petUpgradeProfile(profile,pet,candidate){
+ if(!petCollectsProgression(pet))return null;
+ const before=petLevelEffect(pet),after=petLevelEffect(candidate),stats=combinedPetStats(profile);
+ if(stats.attack===null||before.attack===null||after.attack===null)return null;
+ const delta=Number((after.attack-before.attack).toFixed(10)),next=normalizeCombinedPetStats(profile);
+ return {...next,pets:profile.pets.map(p=>p.id===pet.id?candidate:p),combinedPetRefinement:{...next.combinedPetRefinement,attack:Number((stats.attack+delta).toFixed(10))},combinedPetRefinementSources:{...next.combinedPetRefinementSources,attack:{source:'documented upgrade delta',delta,previous:next.combinedPetRefinementSources.attack,reference:after.source}}};
 }
 
 // Temporary combat stats are host-only. Deployment capacity belongs to each

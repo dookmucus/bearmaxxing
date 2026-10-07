@@ -39,7 +39,8 @@ test('every retained plan has four legal trios, twelve distinct heroes and no eq
  }
  const joining=calculate(p,'joining'),hosting=calculate(p,'hosting');
  assert.deepEqual(joining.plan.assignment.host,hosting.team.map(e=>e.hero));
- for(const t of ['infantry','cavalry','archer'])assert.equal(joining.plan.marches.reduce((n,m)=>n+m.available[t],0)+joining.plan.remaining[t],p.troops[t].count);
+ assert.ok(joining.plan.marches.every(m=>m.capacity===null&&m.available===null));assert.equal(joining.plan.needed,null);
+ for(const t of ['infantry','cavalry','archer'])assert.equal(joining.plan.remaining[t],p.troops[t].count);
 });
 test('saved joining names do not reserve or force heroes and explicit all-march exclusions win',()=>{
  const p=ready();p.joiners=[{name:'Chenko'},{name:'Chenko'},{name:'Unavailable legacy name'}];
@@ -79,7 +80,7 @@ test('equivalent fillers are swap ties; hosting stats and later skills do not af
  const after=assembleJoiningSquads(p,r.selected.host.team,r.selected.leaders).joins[0];
  assert.deepEqual(after.heroes.map(h=>h.id),before);
  const copy=joiningHeroCopy(filler,1,row.equivalent[1],false,null,false);
- assert.match(copy.summary,/Completes/);assert.match(copy.detail,/also add|also adds/);assert.match(copy.detail,/not added again/);
+ assert.match(copy.summary,/Completes/);assert.match(copy.detail,/level and deployment capacity do not enter team or upgrade rankings/);
 });
 test('migration archives automatic reservations without changing inputs, configuration or explicit exclusions',()=>{
  const p=ready();p.activeBearPlanVersion=1;p.actualMarchCapacities={host:120000,joins:[90000,80000,70000]};p.differentMarchCapacities=true;
@@ -87,7 +88,7 @@ test('migration archives automatic reservations without changing inputs, configu
  const h=hero(p,'Chenko');h.marchAvailable=false;h.provenance.marchAvailable='user-confirmed';
  const amane=hero(p,'Amane');amane.included=false;amane.provenance.included='automatic-reservation';amane.marchAvailable=true;
  const before=structuredClone(p),m=migrateProfile(p);
- assert.deepEqual(m.joiners,p.joiners);assert.deepEqual(m.legacyAutomaticReservations.joiners,p.joiners);assert.deepEqual(m.ratios,p.ratios);assert.deepEqual(m.actualMarchCapacities,p.actualMarchCapacities);
+ assert.deepEqual(m.joiners,p.joiners);assert.deepEqual(m.legacyAutomaticReservations.joiners,p.joiners);assert.deepEqual(m.ratios,{infantry:10,cavalry:10,archer:80});assert.deepEqual(m.legacyTroopPlanning.ratios,p.ratios);assert.deepEqual(m.actualMarchCapacities,p.actualMarchCapacities);
  assert.equal(hero(m,'Chenko').marchAvailable,false);assert.equal(hero(m,'Amane').included,true);
  for(const name of ['Chenko','Amane','Yeonwoo']){assert.deepEqual(hero(m,name).skillLevels,hero(p,name).skillLevels);assert.equal(hero(m,name).widget,hero(p,name).widget);}
  assert.deepEqual(m.gear,p.gear);assert.deepEqual(migrateProfile(m),m);assert.deepEqual(p,before);
@@ -113,10 +114,8 @@ test('different unresolved host effects remain explicit comparisons rather than 
  assert.ok(sameLeaders.every(o=>o.host.bear.effects.length>0));
  assert.ok(sameLeaders.every(o=>!o.coverageComplete));assert.equal(r.overallWinner,false);
 });
-test('changing available march slots invalidates the cached plan without changing saved heroes',()=>{
- const p=ready(),before=structuredClone(p.heroes);
- assert.ok(optimizeMarchPlan(p,accountEffects(p)).selected);
- p.marchSlots=3;const blocked=optimizeMarchPlan(p,accountEffects(p));
- assert.equal(blocked.selected,null);assert.match(blocked.blockingValidation.join(' '),/needs 4 march slots/);
- p.marchSlots=4;assert.ok(optimizeMarchPlan(p,accountEffects(p)).selected);assert.deepEqual(p.heroes,before);
+test('legacy march slots cannot block recommendations or alter saved heroes',()=>{
+ const p=ready(),before=structuredClone(p.heroes),initial=optimizeMarchPlan(p,accountEffects(p));assert.ok(initial.canRecommend);
+ p.marchSlots=3;const active=optimizeMarchPlan(p,accountEffects(p));assert.equal(active.selected.key,initial.selected.key);assert.deepEqual(active.blockingValidation,[]);assert.ok(active.canRecommend);
+ p.marchSlots=4;assert.equal(optimizeMarchPlan(p,accountEffects(p)).selected.key,initial.selected.key);assert.deepEqual(p.heroes,before);
 });

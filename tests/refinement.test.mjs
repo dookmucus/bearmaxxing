@@ -1,3 +1,4 @@
+import {troopPlan} from '../src/engine.mjs';
 import {demoProfile} from './helpers/primary-demo.mjs';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
@@ -47,6 +48,7 @@ test('personal points stay separate; active pets and masters change relevant out
   p.pets.find(x=>x.name==='Giant Rhino').active=true;
   p.pets.find(x=>x.name==='Giant Rhino').level=11;
   p.pets=p.pets.filter(pet=>pet.name==='Giant Rhino');
+  p.combinedPetRefinement.attack=3.02;
   const effects=accountEffects(p);
   assert.equal(effects.personalPoints,12);
   assert.equal(effects.attack,5.52);
@@ -55,21 +57,17 @@ test('personal points stay separate; active pets and masters change relevant out
   p.hostCapacity=100000;p.joinCapacity=100000;
   for(const t of ['infantry','cavalry','archer'])p.troops[t].count=500000;
   const plan=calculate(p,'joining').plan;
-  assert.equal(plan.marches[0].capacity,100000);
-  assert.equal(plan.marches[1].capacity,100000);
-  assert.equal(plan.marches[0].basis,'actual in-game fallback');
+  assert.ok(plan.marches.every(m=>m.capacity===null&&m.target===null));
+  assert.equal(plan.needed,null);
 });
-test('hero-free pusher uses a slot and actual troops',()=>{
-  const p=emptyProfile();p.hostCapacity=100000;p.joinCapacity=100000;p.pusherEnabled=true;p.pusherCapacity=50000;
-  for(const t of ['infantry','cavalry','archer'])p.troops[t].count=500000;
-  assert.ok(calculate(p,'joining').missing.some(x=>x.includes('5 march slots')));
-  p.marchSlots=5;
-  const plan=calculate(p,'joining').plan;
-  assert.equal(plan.marches.length,5);
-  assert.equal(plan.marches[4].name,'Hero-free pusher');
-  assert.equal(Object.values(plan.needed).reduce((a,b)=>a+b),450000);
-  for(const t of ['infantry','cavalry','archer'])assert.ok(plan.marches.reduce((s,m)=>s+m.available[t],0)<=p.troops[t].count);
+test('optional pusher belongs only to the fifth inventory group view',()=>{
+ const p=emptyProfile();Object.assign(p,{hostCapacity:100000,joinCapacity:100000,pusherEnabled:true,pusherCapacity:50000,marchSlots:5});
+ for(const t of ['infantry','cavalry','archer'])p.troops[t].count=500000;
+ assert.ok(!calculate(p,'joining').missing.some(x=>/capacity|slots/.test(x)));const plan=calculate(p,'joining').plan;
+ assert.equal(plan.marches.length,4);assert.ok(plan.marches.every(m=>m.name!=='Hero-free pusher'));assert.equal(plan.needed,null);
+ const fifth=troopPlan(p).optionalPusher;assert.equal(fifth.groups,5);assert.deepEqual(fifth.perGroup,{infantry:12500,cavalry:12500,archer:100000});assert.equal(fifth.totalPerGroup,125000);
 });
+
 test('effective report totals do not get added to host components twice',()=>{
   const p=demoProfile();
   const before=calculate(p,'hosting').team[2].factor;

@@ -1,0 +1,823 @@
+{
+  "date": "2026-10-07",
+  "scope": "Verification of approved Troops, Pets and hidden-hero simplifications only; no combat mechanics, layout, secrets or configuration changes.",
+  "baseline": {
+    "commit": "6c90672cb40cb5c7ec3d8dff45da66d43557b61d",
+    "testCount": 346,
+    "passed": 295,
+    "failed": 51,
+    "recordedLog": "/private/tmp/bearmaxxing-baseline-test.log",
+    "logSha256": "178f74b89196fbe432f9c8ac6a1359c1ef4438bf7aa4b86c550b4046d8f5a54f",
+    "sourceVerification": "Baseline profile, bear-comparison, joint-plan, calculator and pet-effects files were byte-equal to this commit.",
+    "overlapWithPrior64Failures": 40,
+    "note": "Shared failed names alone do not establish a calculation defect; individual errors and fixtures were reviewed.",
+    "selectedOriginalAssertionsWithRepairedFixture": {
+      "passed": 4,
+      "failed": 0,
+      "changes": "Only the emptyProfile import was replaced with the existing entered-roster helper, in a temporary baseline test directory. Original numeric gear assertions and baseline production source were unchanged."
+    }
+  },
+  "priorRun": {
+    "testCount": 330,
+    "passed": 266,
+    "failed": 64
+  },
+  "introducedRegressionsFixed": [
+    "Raw-profile normalization broke existing calculation reuse; stable wrapper and normalized reuse context restored.",
+    "Legacy relative-upgrade helper defaulted to missing deployed counts; normalized 10/10/80 default restored."
+  ],
+  "unrelatedCalculationDefectsDemonstrated": [],
+  "modelBoundaries": "Unknown progression, troop mechanics or bonus contributions remain unknown and can withhold the affected comparison. No formulas or expectations were weakened to value them at zero; absolute forecasts remain outside product scope.",
+  "requiredConfirmations": {
+    "recommendationsWithoutCapacity": "inventory-planning, calculator, bear-plan-defaults, dashboard-plan and joint-plan tests cover null/invalid legacy capacities, fixed 10/10/80, zero/unknown/surplus inventory and inactive march-slot gates.",
+    "petTotalsOnceAndActivesSeparate": "pet-combined-stats and pet-buff-assumption assert exact combined totals, separate scoped active abilities, documented upgrade deltas, level-zero and advancement behavior.",
+    "enteredHostsAndLeadersOnly": "fresh-roster covers all six hidden heroes even when saved as owned, empty/partial rosters, entered hosts and leaders, and no invented leaders.",
+    "optionalFillersAreSuggestions": "fresh-roster asserts owned:false, optional copy, no offense/capacity contribution and unique identities for suggested fillers.",
+    "reloadPreservation": "inventory-planning, pet-combined-stats, fresh-roster and legacy-capacity compatibility tests cover saved input/provenance retention and inactive legacy values after reload."
+  },
+  "rankingImpact": "For the preserved 10/10/80 snapshot, host Zoe/Petra/Yang and joining leaders Chenko/Amane/Vivian stayed unchanged when deployment size was removed. Exact fixed-formation count scaling cancels from relative comparisons. Old custom formations and capacity/level filler preferences can change outcomes by the approved simplification, not a combat-mechanics edit.",
+  "finalChecks": {
+    "suite": {
+      "command": "node --test --test-concurrency=1 tests/*.test.mjs",
+      "note": "The same test-file pattern as npm test, with the concurrency flag placed before files to enforce serial execution. Localhost access was permitted only for mocked HTTP tests.",
+      "passed": 340,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "logSha256": "176d3cb39f75d66f1c846cb3b845bdfe46653a7f12f15106bae18178f10686cb",
+      "testCountChange": "The eleven joint-plan cases now report individual results instead of a single whole-file failure: 340 cases rather than 330 in the previous failing run."
+    },
+    "build": {
+      "command": "npm run build",
+      "passed": true,
+      "note": "Existing Vite large-chunk advisory; no build error."
+    },
+    "whitespace": {
+      "command": "git diff --check",
+      "passed": true
+    }
+  },
+  "releaseBlockers": [],
+  "failureReview": [
+    {
+      "priorFailureNumber": 1,
+      "testFile": "tests/account-progressions.test.mjs",
+      "priorTest": "mixed-tier inventory conserves exact troops including pusher and shortages",
+      "currentTest": "mixed-tier inventory conserves whole blocks in three, four and optional five groups",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Assert exact whole-block inventory arithmetic for 3/4/optional 5 groups, limiting types and used+unused conservation; no assumed march target or shortage. Preserve mixed-tier malformed-input validation where applicable.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 2,
+      "testFile": "tests/active-gear.test.mjs",
+      "priorTest": "12 primary pieces are authoritative with 20 malformed imported reference pieces",
+      "currentTest": "12 primary pieces are authoritative with 20 malformed imported reference pieces",
+      "baselineEvidence": {
+        "location": "tests/active-gear.test.mjs:19:1",
+        "observedFailure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 3,
+      "testFile": "tests/active-gear.test.mjs",
+      "priorTest": "edited primary Type, Level and Mastery immediately reach assigned gear and factors",
+      "currentTest": "edited primary Type, Level and Mastery immediately reach assigned gear and factors",
+      "baselineEvidence": {
+        "location": "tests/active-gear.test.mjs:32:1",
+        "observedFailure": "TypeError [Error]: Cannot read properties of null (reading 'index')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 4,
+      "testFile": "tests/active-gear.test.mjs",
+      "priorTest": "only primary duplicates and class/slot conflicts block assignment without picking a winner",
+      "currentTest": "only primary duplicates and class/slot conflicts block assignment without picking a winner",
+      "baselineEvidence": {
+        "location": "tests/active-gear.test.mjs:52:1",
+        "observedFailure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 5,
+      "testFile": "tests/active-gear.test.mjs",
+      "priorTest": "malformed primary progression and missing imbuement references report distinct precise reasons",
+      "currentTest": "malformed primary progression and missing imbuement references report distinct precise reasons",
+      "baselineEvidence": {
+        "location": "tests/active-gear.test.mjs:60:1",
+        "observedFailure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 6,
+      "testFile": "tests/bear-comparison.test.mjs",
+      "priorTest": "all six host permutations produce identical per-class stats, effects, and comparison scores",
+      "currentTest": "all six host permutations produce identical per-class stats, effects, and comparison scores",
+      "baselineEvidence": {
+        "location": "tests/bear-comparison.test.mjs:13:1",
+        "observedFailure": "TypeError [Error]: Cannot read properties of undefined (reading 'starStep')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 7,
+      "testFile": "tests/bear-comparison.test.mjs",
+      "priorTest": "operation families add within a group, multiply across groups, and joining Attack has no lower fixed priority",
+      "currentTest": "operation families add within a group, multiply across groups, and joining Attack has no lower fixed priority",
+      "baselineEvidence": {
+        "location": "tests/bear-comparison.test.mjs:27:1",
+        "observedFailure": "TypeError [Error]: Cannot read properties of undefined (reading 'starStep')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 8,
+      "testFile": "tests/bear-comparison.test.mjs",
+      "priorTest": "scope and chance/timing semantics stay explicit for the six competing heroes",
+      "currentTest": "scope and chance/timing semantics stay explicit for the six competing heroes",
+      "baselineEvidence": {
+        "location": "tests/bear-comparison.test.mjs:37:1",
+        "observedFailure": "TypeError [Error]: Cannot read properties of undefined (reading 'starStep')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 9,
+      "testFile": "tests/bear-comparison.test.mjs",
+      "priorTest": "rally widget multipliers are separate from ordinary widget stats and hero portrait position",
+      "currentTest": "rally widget multipliers are separate from ordinary widget stats and hero portrait position",
+      "baselineEvidence": {
+        "location": "tests/bear-comparison.test.mjs:47:1",
+        "observedFailure": "TypeError [Error]: Cannot set properties of undefined (setting 'skillLevels')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 10,
+      "testFile": "tests/bear-comparison.test.mjs",
+      "priorTest": "joining squads enter separate contexts, do not combine skills, and remain legal without reservations",
+      "currentTest": "joining squads enter separate contexts, do not combine skills, and remain legal without reservations",
+      "baselineEvidence": {
+        "location": "tests/bear-comparison.test.mjs:56:1",
+        "observedFailure": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 11,
+      "testFile": "tests/bear-comparison.test.mjs",
+      "priorTest": "each upgrade re-optimizes a legal plan; unknown coefficients prevent damage forecasts and thresholds",
+      "currentTest": "each upgrade re-optimizes a legal plan; unknown coefficients prevent damage forecasts and thresholds",
+      "baselineEvidence": {
+        "location": "tests/bear-comparison.test.mjs:64:1",
+        "observedFailure": "TypeError [Error]: Cannot set properties of undefined (setting 'widget')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 12,
+      "testFile": "tests/bear-comparison.test.mjs",
+      "priorTest": "optimizer invalidates cached troop-count, tier and capacity-dependent scenarios",
+      "currentTest": "normalized comparisons ignore deployment size and inventory but still invalidate changed tier mechanics",
+      "baselineEvidence": {
+        "location": "tests/bear-comparison.test.mjs:77:1",
+        "observedFailure": "TypeError [Error]: Cannot read properties of null (reading 'host')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass. Replace the obsolete deployed-count scale assertion with fixed relative-offense invariance; changed TG8 still invalidates the result and remains explicitly unresolved.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 13,
+      "testFile": "tests/bear-damage-objective.test.mjs",
+      "priorTest": "entered tier/TG rows are exact published lookups, never T6 replacements or extrapolations",
+      "currentTest": "entered tier/TG rows are exact published lookups, never T6 replacements or extrapolations",
+      "baselineEvidence": {
+        "location": "tests/bear-damage-objective.test.mjs:19:1",
+        "observedFailure": "TypeError [Error]: Cannot set properties of undefined (setting 'widget')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 14,
+      "testFile": "tests/bear-damage-objective.test.mjs",
+      "priorTest": "Volley and Truegold procs have explicit scope, magnitudes, exclusions and unknown checkpoints",
+      "currentTest": "Volley and Truegold procs have explicit scope, magnitudes, exclusions and unknown checkpoints",
+      "baselineEvidence": {
+        "location": "tests/bear-damage-objective.test.mjs:26:1",
+        "observedFailure": "TypeError [Error]: Cannot set properties of undefined (setting 'widget')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 15,
+      "testFile": "tests/bear-damage-objective.test.mjs",
+      "priorTest": "host damage sums class/tier/count contributions and does not use class-relative regret",
+      "currentTest": "normalized relative offense uses sourced class/tier contributions and does not use class-relative regret",
+      "baselineEvidence": {
+        "location": "tests/bear-damage-objective.test.mjs:48:1",
+        "observedFailure": "TypeError [Error]: Cannot set properties of undefined (setting 'widget')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass. Update only the obsolete objective wording assertion to relative offense; central maximum, sourced coefficients and finite-case checks remain.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 16,
+      "testFile": "tests/bear-damage-objective.test.mjs",
+      "priorTest": "finite baseline variations preserve entered values and distinguish assumptions from player inputs",
+      "currentTest": "finite baseline variations preserve entered values and distinguish assumptions from player inputs",
+      "baselineEvidence": {
+        "location": "tests/bear-damage-objective.test.mjs:56:1",
+        "observedFailure": "TypeError [Error]: Cannot set properties of undefined (setting 'widget')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 17,
+      "testFile": "tests/bear-damage-objective.test.mjs",
+      "priorTest": "unmapped TG mechanics do not become zero procs or produce a damage winner",
+      "currentTest": "unmapped TG mechanics do not become zero procs or produce a damage winner",
+      "baselineEvidence": {
+        "location": "tests/bear-damage-objective.test.mjs:67:1",
+        "observedFailure": "TypeError [Error]: Cannot set properties of undefined (setting 'widget')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 18,
+      "testFile": "tests/bear-damage-objective.test.mjs",
+      "priorTest": "upgrades use re-optimized total host damage, separate joining paths and multiple resources without changing inputs",
+      "currentTest": "upgrades use re-optimized total host damage, separate joining paths and multiple resources without changing inputs",
+      "baselineEvidence": {
+        "location": "tests/bear-damage-objective.test.mjs:72:1",
+        "observedFailure": "TypeError [Error]: Cannot set properties of undefined (setting 'widget')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 19,
+      "testFile": "tests/bear-damage-objective.test.mjs",
+      "priorTest": "diagnostics retain total-damage objective, sourced troop rows and finite sensitivity checks",
+      "currentTest": "offline diagnostics retain relative-offense objective, sourced troop rows and finite sensitivity checks",
+      "baselineEvidence": {
+        "location": "tests/bear-damage-objective.test.mjs:82:1",
+        "observedFailure": "TypeError [Error]: Cannot set properties of undefined (setting 'widget')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass. Update only the obsolete objective wording assertion to relative offense; central maximum, sourced coefficients and finite-case checks remain.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 20,
+      "testFile": "tests/bear-damage-objective.test.mjs",
+      "priorTest": "finite baseline checks detect a real host crossover and do not replace the central damage objective",
+      "currentTest": "former Infantry-only crossover uses fixed 10/10/80 and does not replace the central relative objective",
+      "baselineEvidence": {
+        "location": "tests/bear-damage-objective.test.mjs:90:1",
+        "observedFailure": "TypeError [Error]: Cannot set properties of undefined (setting 'skillLevels')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass. The prior synthetic crossover required 100/0/0. At approved 10/10/80 the fixture selects Zoe and stays stable; verify the exact winner/stability and equivalence of old custom input to fixed formation.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 21,
+      "testFile": "tests/bear-plan-defaults.test.mjs",
+      "priorTest": "active migration archives old automatic leader names while preserving configuration and entered capacities",
+      "currentTest": "active migration archives old automatic leader names while preserving configuration and entered capacities",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Expect active 10/10/80, and assert the original custom formation/capacities remain in inactive legacy storage across migration/reload. Keep explicit progression and exclusion checks.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 22,
+      "testFile": "tests/bear-plan-defaults.test.mjs",
+      "priorTest": "four jointly selected complete squads conserve entered inventory and capacity",
+      "currentTest": "four jointly selected complete squads preserve heroes and inventory without deployment targets",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Expect automatic one-host/three-join assessment with null deployment targets; quantities affect only inventory group summaries. Preserve legal heroes, exact active effects and legacy values, and remove only old capacity/custom-formation gates.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 23,
+      "testFile": "tests/calculation-diagnostics.test.mjs",
+      "priorTest": "unsupported unused candidates do not prevent supported trios",
+      "currentTest": "unsupported unused candidates do not prevent supported trios",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Replace removed maximum-size/forecast wording expectations with fixed formation, null deployment count and inventory groups. Retain privacy, saved-input preservation and unused-candidate isolation assertions.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 24,
+      "testFile": "tests/calculation-review-integration.test.mjs",
+      "priorTest": "bench-stat rejection bound agrees with complete re-optimization",
+      "currentTest": "bench-stat rejection bound agrees with complete re-optimization",
+      "baselineEvidence": {
+        "location": "tests/calculation-review-integration.test.mjs:72:1",
+        "observedFailure": "TypeError [Error]: Cannot read properties of undefined (reading 'flatMap')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass. Preserve equality between shortcut and full re-optimization for the existing bench upgrade fixture.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 25,
+      "testFile": "tests/calculator.test.mjs",
+      "priorTest": "joining requirements do not ask for account inventory or combat stats",
+      "currentTest": "joining requirements do not ask for account inventory or combat stats",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Expect automatic one-host/three-join assessment with null deployment targets; quantities affect only inventory group summaries. Preserve legal heroes, exact active effects and legacy values, and remove only old capacity/custom-formation gates.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 26,
+      "testFile": "tests/calculator.test.mjs",
+      "priorTest": "unknown troop inventory and capacity block results, confirmed zero produces exact gaps",
+      "currentTest": "unknown or zero inventory affects only inventory planning and legacy capacities never block recommendations",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Expect automatic one-host/three-join assessment with null deployment targets; quantities affect only inventory group summaries. Preserve legal heroes, exact active effects and legacy values, and remove only old capacity/custom-formation gates.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 27,
+      "testFile": "tests/calculator.test.mjs",
+      "priorTest": "no inventory requested for a zero-ratio troop type, remaining count stays unknown",
+      "currentTest": "custom formation remains inactive and unknown inventory is preserved without deployment allocation",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Expect automatic one-host/three-join assessment with null deployment targets; quantities affect only inventory group summaries. Preserve legal heroes, exact active effects and legacy values, and remove only old capacity/custom-formation gates.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 28,
+      "testFile": "tests/calculator.test.mjs",
+      "priorTest": "unknown simultaneous hosting choice blocks allocation and enabling it requires capacity",
+      "currentTest": "legacy host participation cannot block automatic one-host plus three-join comparisons",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Assert exact whole-block inventory arithmetic for 3/4/optional 5 groups, limiting types and used+unused conservation; no assumed march target or shortage. Preserve mixed-tier malformed-input validation where applicable.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 29,
+      "testFile": "tests/calculator.test.mjs",
+      "priorTest": "capacity upgrades show exact targets and shortages without a fabricated damage factor",
+      "currentTest": "archived capacity upgrades generate neither validation gates nor training targets",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Archived capacity upgrades remain saved but create no validation gate, recommendation, training target or damage factor.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 30,
+      "testFile": "tests/dashboard-plan.test.mjs",
+      "priorTest": "incomplete joining squads retain only an explicitly shared planning assumption",
+      "currentTest": "incomplete joining squads never acquire an assumed deployment capacity",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Expect automatic one-host/three-join assessment with null deployment targets; quantities affect only inventory group summaries. Preserve legal heroes, exact active effects and legacy values, and remove only old capacity/custom-formation gates.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 31,
+      "testFile": "tests/gear-progression.test.mjs",
+      "priorTest": "host comparison uses the same derived imbuement Attack as gear assignment",
+      "currentTest": "host comparison uses the same derived imbuement Attack as gear assignment",
+      "baselineEvidence": {
+        "location": "tests/gear-progression.test.mjs:57:1",
+        "observedFailure": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 32,
+      "testFile": "tests/gear-progression.test.mjs",
+      "priorTest": "upgrade advice uses a sourced offensive milestone and its required materials",
+      "currentTest": "upgrade advice uses a sourced offensive milestone and its required materials",
+      "baselineEvidence": {
+        "location": "tests/gear-progression.test.mjs:67:1",
+        "observedFailure": "TypeError [Error]: Cannot read properties of undefined (reading 'benefit')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 33,
+      "testFile": "tests/gear-resource-efficiency.test.mjs",
+      "priorTest": "Results selects efficient boots before helmet Mastery and keeps Petra shared Attack and Yang conditional",
+      "currentTest": "Results selects efficient boots before helmet Mastery and keeps Petra shared Attack and Yang conditional",
+      "baselineEvidence": {
+        "location": "tests/gear-resource-efficiency.test.mjs:31:1",
+        "observedFailure": "TypeError [Error]: Cannot set properties of undefined (setting 'widget')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 34,
+      "testFile": "tests/handoff-event-model.test.mjs",
+      "priorTest": "all host permutations preserve event factors and total damage; uncertain Vivian and Alcar effects remain modeled and labeled",
+      "currentTest": "all host permutations preserve event factors and total damage; uncertain Vivian and Alcar effects remain modeled and labeled",
+      "baselineEvidence": {
+        "location": "tests/handoff-event-model.test.mjs:39:1",
+        "observedFailure": "TypeError [Error]: Cannot read properties of undefined (reading 'starStep')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 35,
+      "testFile": "tests/hosting-incoming.test.mjs",
+      "priorTest": "full hosting replay separates incoming contexts and ignores outgoing squads without mutating inputs",
+      "currentTest": "full hosting replay separates incoming contexts and ignores outgoing squads without mutating inputs",
+      "baselineEvidence": {
+        "location": "tests/hosting-incoming.test.mjs:30:1",
+        "observedFailure": "TypeError [Error]: Cannot read properties of undefined (reading 'starStep')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 36,
+      "testFile": "tests/hosting-reuse.test.mjs",
+      "priorTest": "identical snapshot hosting work is shared only during one recommendation call",
+      "currentTest": "identical snapshot hosting work is shared only during one recommendation call",
+      "baselineEvidence": null,
+      "classification": "introduced regression",
+      "resolution": "Normalize hosting-reuse context consistently and retain a stable comparison wrapper for unchanged raw inputs. Baseline logged this identity assertion as passing. Reuse identity and edit invalidation now pass; combat arithmetic was unchanged.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 37,
+      "testFile": "tests/joint-plan.test.mjs",
+      "priorTest": "tests/joint-plan.test.mjs",
+      "currentTest": "tests/joint-plan.test.mjs",
+      "baselineEvidence": null,
+      "classification": "new suite failure",
+      "resolution": "Prior log had no individual case results for this failed file. Update obsolete capacity allocation, custom formation, filler-capacity copy and slot-gate assertions; preserve legal-team optimization, hero/gear uniqueness, first-skill semantics and exclusions. All 11 cases passed the focused rerun. Do not attribute its old whole-file failure to a specific model defect or call it pre-existing.",
+      "finalStatus": "All 11 cases in this file passed."
+    },
+    {
+      "priorFailureNumber": 38,
+      "testFile": "tests/localization.test.mjs",
+      "priorTest": "training advice uses verified display metadata and correct plurals",
+      "currentTest": "inventory-supported copy translates equal-group counts and limiting types in all eight languages",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Remove assumed-capacity training expectations; assert no troop-shortage/training advice and unchanged saved inventory. Localization now checks equal-group inventory copy in all eight languages.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 39,
+      "testFile": "tests/master-affinity.test.mjs",
+      "priorTest": "recommendations use entered percentages and react to changes without adding affinity",
+      "currentTest": "recommendations use entered percentages and react to changes without adding affinity",
+      "baselineEvidence": {
+        "location": "tests/master-affinity.test.mjs:51:1",
+        "observedFailure": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass. Exclude Helga’s separate account talent in the isolated Master fixture so exact Master-only shared totals and factor deltas remain unchanged.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 40,
+      "testFile": "tests/master-stat-mapping.test.mjs",
+      "priorTest": "every master percentage flows once to the correct recommendation stat and offense factor",
+      "currentTest": "every master percentage flows once to the correct recommendation stat and offense factor",
+      "baselineEvidence": {
+        "location": "tests/master-stat-mapping.test.mjs:35:1",
+        "observedFailure": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass. Exclude Helga’s separate account talent in the isolated Master fixture so exact Master-only shared totals and factor deltas remain unchanged.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 41,
+      "testFile": "tests/offensive-coverage.test.mjs",
+      "priorTest": "joining permits hosting-only exclusions but respects all-march exclusion",
+      "currentTest": "joining permits hosting-only exclusions but respects all-march exclusion",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Hero level no longer ranks fillers. Make other Infantry explicitly unavailable to test the intended host-only versus all-march exclusion, retaining the selected/excluded hero assertions.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 42,
+      "testFile": "tests/pet-buff-assumption.test.mjs",
+      "priorTest": "hosting combat and rally buffs do not enter joining results; deployment and refinements remain separate",
+      "currentTest": "hosting combat and rally buffs do not enter joining results; deployment and refinements remain separate",
+      "baselineEvidence": {
+        "location": "tests/pet-buff-assumption.test.mjs:39:1",
+        "observedFailure": "TypeError [Error]: Cannot read properties of undefined (reading 'attack')"
+      },
+      "classification": "baseline fixture plus obsolete capacity assertion",
+      "resolution": "Baseline failed before assertions with an absent host/leader or null hero from the empty roster. Use the existing explicit pet/hero fixture. Preserve exact active buff and hosting/joining separation assertions; replace removed deployment targets with null capacity/target checks.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 43,
+      "testFile": "tests/pet-buff-assumption.test.mjs",
+      "priorTest": "deployment buffs add once to derived and legacy base capacities; rally buffs never inflate march capacity",
+      "currentTest": "active deployment and rally buffs remain separate effects and cannot invent troop targets",
+      "baselineEvidence": {
+        "location": "tests/pet-buff-assumption.test.mjs:55:1",
+        "observedFailure": "TypeError [Error]: Cannot read properties of null (reading 'level')"
+      },
+      "classification": "baseline fixture plus obsolete capacity assertion",
+      "resolution": "Baseline failed before assertions with an absent host/leader or null hero from the empty roster. Use the existing explicit pet/hero fixture. Preserve exact active buff and hosting/joining separation assertions; replace removed deployment targets with null capacity/target checks.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 44,
+      "testFile": "tests/pet-buff-assumption.test.mjs",
+      "priorTest": "entered actual capacities take precedence and never receive another pet or hero capacity bonus",
+      "currentTest": "saved actual capacities stay inactive despite active pet or hero deployment bonuses",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Expect automatic one-host/three-join assessment with null deployment targets; quantities affect only inventory group summaries. Preserve legal heroes, exact active effects and legacy values, and remove only old capacity/custom-formation gates.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 45,
+      "testFile": "tests/planner.test.mjs",
+      "priorTest": "one host and three joiners need 320k archers at 100k capacity",
+      "currentTest": "hosting plus joining inventory supports four equal 10/10/80 groups without an assumed capacity",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Assert exact whole-block inventory arithmetic for 3/4/optional 5 groups, limiting types and used+unused conservation; no assumed march target or shortage. Preserve mixed-tier malformed-input validation where applicable.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 46,
+      "testFile": "tests/planner.test.mjs",
+      "priorTest": "allocation never spends more than inventory",
+      "currentTest": "inventory-supported groups conserve every troop including surplus",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Assert exact whole-block inventory arithmetic for 3/4/optional 5 groups, limiting types and used+unused conservation; no assumed march target or shortage. Preserve mixed-tier malformed-input validation where applicable.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 47,
+      "testFile": "tests/planner.test.mjs",
+      "priorTest": "joining-only target excludes hosting capacity",
+      "currentTest": "three-group inventory view is independent of legacy host participation and capacity",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Assert exact whole-block inventory arithmetic for 3/4/optional 5 groups, limiting types and used+unused conservation; no assumed march target or shortage. Preserve mixed-tier malformed-input validation where applicable.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 48,
+      "testFile": "tests/planner.test.mjs",
+      "priorTest": "upgrade costs only affect resource efficiency, not predicted benefit",
+      "currentTest": "upgrade costs only affect resource efficiency, not predicted benefit",
+      "baselineEvidence": null,
+      "classification": "introduced regression",
+      "resolution": "Restore normalized 10/10/80 defaults in the legacy relativeIndex helper. Removing deployment counts had made its gains null. Baseline logged this gain/efficiency assertion as passing. Positive gain and exact 2:1 efficiency assertions are retained. The current Results upgrade path uses evaluateUpgrade, not this legacy helper.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 49,
+      "testFile": "tests/planner.test.mjs",
+      "priorTest": "profile validation rejects malformed inventories and missing schema",
+      "currentTest": "profile validation rejects malformed inventories and missing schema",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Keep missing schema, null hero and fractional troop rejection. Legacy joinCount Infinity is now preserved inactive rather than a required active field.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 50,
+      "testFile": "tests/player-import.test.mjs",
+      "priorTest": "local HTTP requests verify both routes and invalid-ID responses",
+      "currentTest": "local HTTP requests verify both routes and invalid-ID responses",
+      "baselineEvidence": {
+        "location": "tests/player-import.test.mjs:68:1",
+        "observedFailure": "Error: listen EPERM: operation not permitted 127.0.0.1"
+      },
+      "classification": "baseline environment restriction",
+      "resolution": "Baseline and prior runs failed with listen EPERM on 127.0.0.1. Run the unchanged local-HTTP test with loopback permission and mocked provider/test-only key. It passes without a real MightPulse request.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 51,
+      "testFile": "tests/refinement.test.mjs",
+      "priorTest": "personal points stay separate; active pets and masters change relevant outputs",
+      "currentTest": "personal points stay separate; active pets and masters change relevant outputs",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Expect automatic one-host/three-join assessment with null deployment targets; quantities affect only inventory group summaries. Preserve legal heroes, exact active effects and legacy values, and remove only old capacity/custom-formation gates.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 52,
+      "testFile": "tests/refinement.test.mjs",
+      "priorTest": "hero-free pusher uses a slot and actual troops",
+      "currentTest": "optional pusher belongs only to the fifth inventory group view",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Optional fifth-group inventory plan is outside assessment. Assert four hero squads, no pusher/slot gate and exact fifth-view amounts without deployment capacity.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 53,
+      "testFile": "tests/results-profile-defaults.test.mjs",
+      "priorTest": "diagnostics copy the full relevant current profile and derived skills without leaking unrelated fields",
+      "currentTest": "diagnostics copy the full relevant current profile and derived skills without leaking unrelated fields",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Replace removed maximum-size/forecast wording expectations with fixed formation, null deployment count and inventory groups. Retain privacy, saved-input preservation and unused-candidate isolation assertions.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 54,
+      "testFile": "tests/tabs-render.test.mjs",
+      "priorTest": "five-step setup ends on Results with normal editing navigation",
+      "currentTest": "five-step setup ends on Results with normal editing navigation",
+      "baselineEvidence": {
+        "location": "tests/tabs-render.test.mjs:17:1",
+        "observedFailure": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+      },
+      "classification": "baseline test setup plus obsolete Pet UI assertion",
+      "resolution": "Baseline failed populated.includes(name) because Results content was inspected on the default Heroes tab. Request Home explicitly for that assertion. Replace the removed Gray Wolf refinement label with the combined Squads’ Attack label. Keep navigation/layout checks.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 55,
+      "testFile": "tests/tg6-diagnostics.test.mjs",
+      "priorTest": "Alcar entered step 20 maps directly to the sourced inherent Attack row",
+      "currentTest": "Alcar entered step 20 maps directly to the sourced inherent Attack row",
+      "baselineEvidence": {
+        "location": "tests/tg6-diagnostics.test.mjs:29:1",
+        "observedFailure": "TypeError [Error]: Cannot set properties of undefined (setting 'starStep')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 56,
+      "testFile": "tests/tg6-diagnostics.test.mjs",
+      "priorTest": "TG6 magnitudes restore modeled totals, finite baseline checks and legal displayed recommendations",
+      "currentTest": "TG6 magnitudes restore modeled totals, finite baseline checks and legal displayed recommendations",
+      "baselineEvidence": {
+        "location": "tests/tg6-diagnostics.test.mjs:33:1",
+        "observedFailure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 57,
+      "testFile": "tests/tg6-diagnostics.test.mjs",
+      "priorTest": "unranked arrangements never export or label displayed host and joining recommendations",
+      "currentTest": "unranked arrangements never export or label displayed host and joining recommendations",
+      "baselineEvidence": {
+        "location": "tests/tg6-diagnostics.test.mjs:42:1",
+        "observedFailure": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /unranked/. Input:"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 58,
+      "testFile": "tests/tg6-diagnostics.test.mjs",
+      "priorTest": "unknown Archer magnitude cancels only for identical affected contribution and trigger logic",
+      "currentTest": "unknown Archer magnitude cancels only for identical affected contribution and trigger logic",
+      "baselineEvidence": {
+        "location": "tests/tg6-diagnostics.test.mjs:47:1",
+        "observedFailure": "TypeError [Error]: Cannot set properties of undefined (setting 'widget')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 59,
+      "testFile": "tests/troop-improvements.test.mjs",
+      "priorTest": "known troop shortages become one exact improvement using maximum planning without mutating inputs",
+      "currentTest": "limited inventory never creates assumed-capacity training advice and remains unmodified",
+      "baselineEvidence": null,
+      "classification": "obsolete approved-planning assertion",
+      "resolution": "Remove assumed-capacity training expectations; assert no troop-shortage/training advice and unchanged saved inventory. Localization now checks equal-group inventory copy in all eight languages.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 60,
+      "testFile": "tests/vivian-audit.test.mjs",
+      "priorTest": "explicit zero skills remain zero with an unknown unlock table; unknown nonzero skills stay unknown",
+      "currentTest": "explicit zero skills remain zero with an unknown unlock table; unknown nonzero skills stay unknown",
+      "baselineEvidence": {
+        "location": "tests/vivian-audit.test.mjs:13:1",
+        "observedFailure": "TypeError [Error]: Cannot set properties of undefined (setting 'starStep')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 61,
+      "testFile": "tests/vivian-audit.test.mjs",
+      "priorTest": "Focus Fire enters conditional event estimates; unresolved phase/stacking and known joining skill are retained",
+      "currentTest": "Focus Fire enters conditional event estimates; unresolved phase/stacking and known joining skill are retained",
+      "baselineEvidence": {
+        "location": "tests/vivian-audit.test.mjs:18:1",
+        "observedFailure": "TypeError [Error]: Cannot set properties of undefined (setting 'skillLevels')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 62,
+      "testFile": "tests/vivian-audit.test.mjs",
+      "priorTest": "old audit hypotheses remain explicit overrides and do not mutate the production event model",
+      "currentTest": "old audit hypotheses remain explicit overrides and do not mutate the production event model",
+      "baselineEvidence": {
+        "location": "tests/vivian-audit.test.mjs:34:1",
+        "observedFailure": "TypeError [Error]: Cannot read properties of undefined (reading 'starStep')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 63,
+      "testFile": "tests/vivian-audit.test.mjs",
+      "priorTest": "Alcar offensive magnitudes retain class scope and full-round target effect with explicit stacking cases",
+      "currentTest": "Alcar offensive magnitudes retain class scope and full-round target effect with explicit stacking cases",
+      "baselineEvidence": {
+        "location": "tests/vivian-audit.test.mjs:39:1",
+        "observedFailure": "TypeError [Error]: Cannot set properties of undefined (setting 'starStep')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    },
+    {
+      "priorFailureNumber": 64,
+      "testFile": "tests/vivian-audit.test.mjs",
+      "priorTest": "Yang joining contribution is separate from captain Avalanche and can lose to Yeonwoo",
+      "currentTest": "Yang joining contribution is separate from captain Avalanche and can lose to Yeonwoo",
+      "baselineEvidence": {
+        "location": "tests/vivian-audit.test.mjs:46:1",
+        "observedFailure": "TypeError [Error]: Cannot set properties of undefined (setting 'starStep')"
+      },
+      "classification": "baseline fixture failure",
+      "resolution": "The baseline used a fresh profile with no entered heroes, so the assertion failed before testing the intended populated-roster calculation. Reuse entered-roster.mjs. Retain the numeric/mechanics assertions; corrected tests pass.",
+      "finalStatus": "Passed in complete serial run."
+    }
+  ]
+}

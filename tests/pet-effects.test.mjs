@@ -45,12 +45,12 @@ test('verified level passives and active ranks follow advancement stage',()=>{
   assert.equal(petActiveEffect(rhino).rank,1);
 });
 
-test('passive Attack stacks once and unlocked buffs are assumed despite archived activation choices',()=>{
+test('combined Attack counts once and unlocked buffs are assumed despite archived activation choices',()=>{
   const p=emptyProfile(); // Isolate pet Attack.
   const wolf=p.pets.find(x=>x.name==='Gray Wolf');wolf.owned=true;wolf.level=11;
   const rhino=p.pets.find(x=>x.name==='Giant Rhino');rhino.owned=true;rhino.level=11;
   rhino.refinement={infantry:1,cavalry:2,archer:3};
-  p.pets=[wolf,rhino];
+  p.pets=[wolf,rhino];p.combinedPetRefinement={attack:3.99,infantry:1,cavalry:2,archer:3};
   wolf.owned=false;rhino.owned=false;
   const passive=accountEffects(p).attack;
   assert.equal(passive,0.97+3.02+2.5);
@@ -62,20 +62,20 @@ test('passive Attack stacks once and unlocked buffs are assumed despite archived
   assert.deepEqual(accountEffects(p).classLethality,{infantry:1,cavalry:2,archer:3});
 });
 
-test('refinement modes never sum each other and inactive values are preserved',()=>{
+test('combined refinements ignore archived modes and individual values are preserved',()=>{
   const p=emptyProfile();const pet=p.pets.find(x=>x.name==='Gray Wolf');
   pet.owned=true;pet.level=1;p.pets=[pet];pet.refinement={infantry:2,cavalry:3,archer:4};
   p.combinedPetRefinement={infantry:8,cavalry:9,archer:10};
-  assert.deepEqual(petRefinementEffect(p),{infantry:2,cavalry:3,archer:4});
+  assert.deepEqual(petRefinementEffect(p),{infantry:8,cavalry:9,archer:10});
   p.petRefinementMode='combined';
   assert.deepEqual(accountEffects(p).classLethality,{infantry:8,cavalry:9,archer:10});
   assert.equal(pet.refinement.infantry,2);
   p.petRefinementMode='per-pet';
-  assert.deepEqual(accountEffects(p).classLethality,{infantry:2,cavalry:3,archer:4});
+  assert.deepEqual(accountEffects(p).classLethality,{infantry:8,cavalry:9,archer:10});
 });
 
 test('migration keeps legacy values and ambiguous checkpoints explicit',()=>{
-  const old=emptyProfile();old.pets=[{id:'legacy-rhino',name:'Giant Rhino',owned:true,level:10,skillLevel:7,attack:5,refinement:{infantry:2}}];
+  const old=emptyProfile();delete old.petStatsVersion;delete old.combinedPetRefinement;delete old.combinedPetRefinementSources;old.pets=[{id:'legacy-rhino',name:'Giant Rhino',owned:true,level:10,skillLevel:7,attack:5,refinement:{infantry:2}}];
   old.otherPetRefinement={attack:9,lethality:6};
   const p=migrateProfile(old),rhino=p.pets.find(x=>x.name==='Giant Rhino');
   assert.equal(rhino.id,'legacy-rhino');
@@ -88,5 +88,5 @@ test('migration keeps legacy values and ambiguous checkpoints explicit',()=>{
   assert.equal(rhino.advancementConfirmed,false);
   assert.equal(rhino.advancementSource,'assumed');
   assert.match(accountEffects(p).unsupported.join(' '),/saved manual active-skill level/);
-  assert.match(accountEffects(p).unsupported.join(' '),/Legacy other-pet refinement/);
+  assert.deepEqual(p.otherPetRefinement,{attack:9,lethality:6});
 });

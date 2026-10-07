@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {gearUpgradeCost,gearCostEfficiency,nextGearOffensiveMilestone} from '../src/gear-upgrade-costs.mjs';
 import {compareUpgradeBenefits} from '../src/upgrade-model.mjs';
 import {gearProgression} from '../src/gear-progression.mjs';
-import {emptyProfile} from '../src/profile.mjs';
+import {enteredRosterProfile as emptyProfile} from './helpers/entered-roster.mjs';
 import {calculate,accountEffects} from '../src/calculator.mjs';
 import {actionableImprovements} from '../src/results-improvements.mjs';
 import {improvementCopy} from '../src/results-copy.mjs';

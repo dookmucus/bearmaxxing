@@ -7,15 +7,26 @@ import handler from '../netlify/functions/player.mjs';
 import {readPlayerResponse} from '../src/player-response.mjs';
 test('integer allocation preserves exact capacity including rounding',()=>{assert.deepEqual(split(100003,{infantry:10,cavalry:10,archer:80}),{infantry:10000,cavalry:10000,archer:80003});});
 test('ratio normalization and zero ratio do not create troops',()=>{assert.equal(Object.values(split(100,{infantry:1,cavalry:1,archer:8})).reduce((a,b)=>a+b),100);assert.deepEqual(split(100,{infantry:0,cavalry:0,archer:0}),{infantry:0,cavalry:0,archer:0});});
-test('one host and three joiners need 320k archers at 100k capacity',()=>{const p=demoProfile();const plan=troopPlan(p);assert.equal(plan.needed.archer,320000);assert.equal(plan.shortage.archer,75000);assert.equal(plan.marches[3].available.archer,5000);assert.equal(plan.fill,.8125);});
-test('allocation never spends more than inventory',()=>{const p=demoProfile();for(const t of ['infantry','cavalry','archer'])assert.ok(troopPlan(p).marches.reduce((s,m)=>s+m.available[t],0)<=p.troops[t].count);});
-test('joining-only target excludes hosting capacity',()=>{const p=demoProfile();p.hostEnabled=false;assert.equal(troopPlan(p).needed.archer,240000);assert.equal(troopPlan(p).shortage.archer,0);});
+test('hosting plus joining inventory supports four equal 10/10/80 groups without an assumed capacity',()=>{
+ const p=demoProfile(),plan=troopPlan(p).hostingAndJoining;
+ assert.equal(plan.blocks,7656);assert.deepEqual(plan.perGroup,{infantry:7656,cavalry:7656,archer:61248});assert.equal(plan.totalPerGroup,76560);assert.deepEqual(plan.limiting,['archer']);assert.equal(plan.unused.archer,8);
+});
+
+test('inventory-supported groups conserve every troop including surplus',()=>{
+ const p=demoProfile();for(const plan of Object.values(troopPlan(p)))for(const t of ['infantry','cavalry','archer']){assert.ok(plan.used[t]<=p.troops[t].count);assert.equal(plan.used[t]+plan.unused[t],p.troops[t].count);assert.ok(Number.isInteger(plan.perGroup[t]));}
+});
+
+test('three-group inventory view is independent of legacy host participation and capacity',()=>{
+ const p=demoProfile(),before=troopPlan(p);p.hostEnabled=false;p.hostCapacity=null;p.joinCapacity=999999;
+ assert.deepEqual(troopPlan(p),before);assert.equal(before.joining.blocks,10208);assert.equal(before.joining.totalPerGroup,102080);
+});
+
 test('legacy hosting helper does not reserve saved joining names',()=>{const p=demoProfile();p.heroes.push({id:'z',name:'Amane',troop:'archer',attack:9999,lethality:9999,multiplier:9,modeled:true});assert.equal(hostTeam(p).team[2].name,'Amane');});
 test('gear assignment uses derived progression instead of a saved manual percentage',()=>{const p=demoProfile();p.gear.push({id:'weak',troop:'archer',slot:'helmet',quality:'gold',enhancement:0,forge:0,lethality:999});assert.equal(bestGear(p,'archer').find(x=>x.slot==='helmet').id,'set-archer-helmet');});
 test('unmodeled imported heroes do not produce certainty',()=>{const p=emptyProfile();p.heroes=[{id:'x',name:'Yang',troop:'archer',modeled:false}];assert.equal(hostTeam(p).complete,false);assert.equal(relativeIndex(p),null);});
 test('upgrade costs only affect resource efficiency, not predicted benefit',()=>{const p=demoProfile();p.upgrades=[{id:'a',kind:'stat',troop:'archer',stat:'lethality',delta:10,cost:10},{id:'b',kind:'stat',troop:'archer',stat:'lethality',delta:10,cost:20}];const [a,b]=upgradeComparison(p);assert.equal(a.gain,b.gain);assert.equal(a.efficiency,2*b.efficiency);assert.ok(a.gain>0);});
 test('import is partial, repeat import does not duplicate gear, user stat edits survive',()=>{let p=emptyProfile();const payload={player:{nick_name:'Tester',town_center_level:30,heroes:[{id:1,name:'Yang',level:80,stars:4,gear:[{slot:'helmet',troop_label:'Archer',enhancement_level:70,refine_level:5,quality_label:'Mythic'}]}]}};p=mergeApi(p,payload);p.gear.find(g=>g.id==='api-gear-1-helmet-0').lethality=40;p=mergeApi(p,payload);assert.equal(p.heroes.length,1);assert.equal(p.gear.length,13);assert.equal(p.gear.find(g=>g.id==='api-gear-1-helmet-0').lethality,40);assert.equal(p.troops.archer.count,0);assert.equal(p.assumedInputs['troops.archer.count'],'assumed');assert.equal(p.heroes.find(h=>h.name==='Yang').modeled,false);});
-test('profile validation rejects malformed inventories and missing schema',()=>{assert.throws(()=>validateProfile({}));assert.throws(()=>validateProfile({...emptyProfile(),heroes:[null]}));assert.throws(()=>validateProfile({...emptyProfile(),joinCount:Infinity}));assert.equal(validateProfile(demoProfile()).schemaVersion,1);});
+test('profile validation rejects malformed inventories and missing schema',()=>{assert.throws(()=>validateProfile({}));assert.throws(()=>validateProfile({...emptyProfile(),heroes:[null]}));assert.throws(()=>validateProfile({...emptyProfile(),troops:{...emptyProfile().troops,archer:{count:1.5,tier:10,tg:0}}}),/invalid troop/);assert.equal(validateProfile({...emptyProfile(),joinCount:Infinity}).legacyTroopPlanning.joinCount,Infinity);assert.equal(validateProfile(demoProfile()).schemaVersion,1);});
 test('lookup rejects invalid input before provider access',async()=>{const r=await handler(new Request('https://test/api?id=invalid'));assert.equal(r.status,400);});
 test('lookup without secret returns actionable message',async()=>{const original=process.env.MIGHTPULSE_API_KEY;delete process.env.MIGHTPULSE_API_KEY;try{const r=await handler(new Request('https://test/api?id=100111478'));assert.equal(r.status,503);assert.match((await r.json()).error,/Manual entry/);}finally{if(original)process.env.MIGHTPULSE_API_KEY=original;}});
 test('player response reports HTML as a missing or misrouted function',async()=>{await assert.rejects(()=>readPlayerResponse(new Response('<!doctype html><html><body>app</body></html>',{status:200,headers:{'content-type':'text/html'}})),/returned the app page instead of a function response/);});

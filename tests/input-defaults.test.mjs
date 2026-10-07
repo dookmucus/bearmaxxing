@@ -4,7 +4,7 @@ import {emptyProfile,mergeApi} from '../src/profile.mjs';
 import {migrateProfile} from '../src/data/roster.mjs';
 import {hasAccountBaseCapacity} from '../src/input-defaults.mjs';
 import {accountEffects,calculate} from '../src/calculator.mjs';
-import {petLevelEffect,petRefinementEffect,replaceCombinedRefinement} from '../src/pet-effects.mjs';
+import {petLevelEffect,petRefinementEffect} from '../src/pet-effects.mjs';
 import {essentialSetupError} from '../src/setup-state.mjs';
 
 test('new numeric inputs default without inventing unknown reference effects or enabling buffs',()=>{
@@ -20,7 +20,7 @@ test('new numeric inputs default without inventing unknown reference effects or 
   assert.ok(p.masters.every(m=>m.affinityLevel===1&&m.squadBonus===0));
   assert.equal(p.assumedInputs['troops.infantry.count'],'assumed');
   assert.equal(hasAccountBaseCapacity(p),false);
-  assert.equal(essentialSetupError(p,4),'Enter Maximum march size to estimate full-capacity requirements.');
+  assert.equal(essentialSetupError(p,4),null);
   assert.equal(petLevelEffect({name:'Unmapped pet',level:1}).attack,null);
 });
 
@@ -53,19 +53,18 @@ test('legacy combined totals remain exclusive through edits, replacement, and sa
   p.pets[0].refinement={infantry:2,cavalry:3,archer:4};
   p.pets[1].refinement={infantry:1,cavalry:2,archer:3};
   assert.deepEqual(accountEffects(p).classLethality,{infantry:14.4,cavalry:7.5,archer:11});
-  const next=replaceCombinedRefinement(p);
-  assert.deepEqual(petRefinementEffect(next),{infantry:3,cavalry:5,archer:7});
+  const next={...p,petRefinementMode:'per-pet'};
+  assert.deepEqual(petRefinementEffect(next),{infantry:14.4,cavalry:7.5,archer:11});
   assert.equal(next.combinedPetRefinement.infantry,'14.40');
-  assert.deepEqual(accountEffects(migrateProfile(next)).classLethality,{infantry:3,cavalry:5,archer:7});
+  assert.deepEqual(accountEffects(migrateProfile(next)).classLethality,{infantry:14.4,cavalry:7.5,archer:11});
   assert.equal(next.pets[0].level,1);assert.equal(next.pets[0].active,false);
 });
 
-test('default zero capacities do not suppress shared fallback or fabricate a derived capacity',()=>{
+test('legacy capacities remain saved but cannot fabricate deployment targets',()=>{
   const p=emptyProfile();p.hostCapacity=100000;p.joinCapacity=90000;
   for(const t of ['infantry','cavalry','archer'])p.troops[t].count=500000;
   const plan=calculate(p,'joining').plan;
   assert.ok(plan);
-  assert.equal(plan.marches[0].capacity,100000);
-  assert.ok(plan.marches.filter(m=>m.joinIndex!=null).every(m=>m.capacity===90000));
-  assert.ok(plan.marches.every(m=>m.basis==='actual in-game fallback'));
+  assert.ok(plan.marches.every(m=>m.capacity===null&&m.target===null));
+  assert.equal(plan.needed,null);assert.equal(p.hostCapacity,100000);assert.equal(p.joinCapacity,90000);
 });

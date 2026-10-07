@@ -1,5 +1,4 @@
 import {englishMessage} from './english-messages.mjs';
-import {plannedCapacityMissing,CAPACITY_PROMPT,usesSharedMaximum,marchSizeInputError} from './march-capacity-inputs.mjs';
 import {emptyProfile} from './profile.mjs';
 import {migrateProfile} from './data/roster.mjs';
 
@@ -54,9 +53,5 @@ export function essentialSetupError(profile,step) {
   if(SETUP_STEPS[step]!=='Troops')return null;
   const whole=(value,positive=false)=>value==null||value===''||(Number.isInteger(Number(value))&&Number(value)>=(positive?1:0));
   for(const troop of ['infantry','cavalry','archer'])if(!whole(profile.troops?.[troop]?.count))return englishMessage("messages.setup.state.essentialSetupError.enter.a.whole.nonnegative.total.for.or.enter.0",{troop:troop});
-  if(usesSharedMaximum(profile)&&marchSizeInputError(profile))return marchSizeInputError(profile);
-  if(plannedCapacityMissing(profile))return CAPACITY_PROMPT;
-  if(!whole(profile.joinCount,true)||!whole(profile.marchSlots,true))return englishMessage("messages.setup.state.essentialSetupError.choose.positive.whole.numbers.for.joining.marches.and.march.slots");
-  if(['infantry','cavalry','archer'].some(t=>!whole(profile.ratios?.[t]))||['infantry','cavalry','archer'].reduce((sum,t)=>sum+Number(profile.ratios[t]),0)!==100)return englishMessage("messages.setup.state.essentialSetupError.choose.a.troop.ratio.totaling.100");
   return null;
 }

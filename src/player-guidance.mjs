@@ -19,7 +19,7 @@ export function heroPlanGuidance(hero,results){
  const c=heroContributions(hero),entry=results.hosting.team?.find(e=>e.hero.id===hero.id);
  const march=results.hosting.joint?.canRecommend===false?null:results.joining.plan?.marches.find(m=>m.heroes?.some(h=>h?.id===hero.id));
  if(entry)return tr("player.guidance.heroPlanGuidance.recommended.for.hosting", {bonus: c.offenseCoverageComplete?'':tr("player.guidance.heroPlanGuidance.provisional")});
- if(march?.joinIndex!=null)return march.heroes[0]?.id===hero.id?tr("player.guidance.heroPlanGuidance.recommended.as.a.joining.leader"):tr("player.guidance.heroPlanGuidance.capacity.only.in.this.joining.role.completes.the.troop");
+ if(march?.joinIndex!=null)return march.heroes[0]?.id===hero.id?tr("player.guidance.heroPlanGuidance.recommended.as.a.joining.leader"):tr("results.join.classCompletionDetails");
  const rival=results.hosting.team?.find(e=>e.hero.troop===hero.troop);
  const option=results.hosting.joint?.comparison?.options?.find(o=>o.team.some(e=>e.hero.id===hero.id)&&o.team.every(e=>e.hero.troop===hero.troop||results.hosting.team?.some(h=>h.hero.id===e.hero.id)));
  if(rival&&option?.bear?.modeledDamage!=null&&results.hosting.joint?.selected?.host?.bear.modeledDamage>option.bear.modeledDamage&&c.offenseCoverageComplete&&rival.contribution.offenseCoverageComplete&&results.hosting.coverageComplete&&option.coverageComplete)return tr("player.guidance.heroPlanGuidance.lower.priority.for.hosting.than.at.your.entered.levels", {hero: rival.hero.name});
@@ -105,7 +105,7 @@ export function masterResearchGuidance(m){
 export function petGuidance(pet,improvements=[]){
  if(!petOwned(pet))return tr("player.guidance.petGuidance.not.owned", {pet: pet.name});
  const effect=petLevelEffect(pet),active=petActiveEffect(pet),recommended=improvements.some(i=>i.id===`${pet.id}-passive`);
- const statements=[effect.attack>0?tr("player.guidance.petGuidance.shared.passive.attack", {percentage: fmt(effect.attack)}):null,active?.value>0?tr("player.guidance.petGuidance.message", {hero: active.name, bonus: fmt(active.value), capacity: ['capacity','rallyCapacity'].includes(active.kind)?' troops '+(active.kind==='capacity'?tr("player.guidance.petGuidance.personal.march.capacity"):tr("player.guidance.petGuidance.total.rally.capacity")):'% '+(active.kind==='attack'?tr("player.guidance.petGuidance.hosting.attack"):tr("player.guidance.petGuidance.hosting.lethality"))}):null].filter(Boolean);
+ const statements=[active?.value>0?tr("player.guidance.petGuidance.message", {hero: active.name, bonus: fmt(active.value), capacity: ['capacity','rallyCapacity'].includes(active.kind)?' troops '+(active.kind==='capacity'?tr("player.guidance.petGuidance.personal.march.capacity"):tr("player.guidance.petGuidance.total.rally.capacity")):'% '+(active.kind==='attack'?tr("player.guidance.petGuidance.hosting.attack"):tr("player.guidance.petGuidance.hosting.lethality"))}):null].filter(Boolean);
  const next=petMilestones(pet.name).find(level=>level>Number(pet.level)||level===Number(pet.level)&&pet.advancementConfirmed!==true);
  return [`${pet.name}. ${effect.attack===null&&!statements.length?tr("player.guidance.petGuidance.provisional.upgrade.priority.is.not.established"):recommended?tr("player.guidance.petGuidance.recommended"):tr("player.guidance.petGuidance.bear.offense")}.`,statements.length?`${statements.join('; ')}.`:'',next?tr("player.guidance.petGuidance.next.advancement.level", {next: next}):''].filter(Boolean).join(' ');
 }

@@ -11,16 +11,16 @@ test('identical snapshot hosting work is shared only during one recommendation c
   assert.equal(evaluateHostTrio(profile,heroes,account),model);
   const benchEdit={...profile,heroes:[...profile.heroes,{id:'bench-extra',name:'Unmapped',troop:'archer'}]};
   assert.equal(evaluateHostTrio(benchEdit,heroes,account),model);
+  assert.equal(evaluateHostTrio({...profile,ratios:{infantry:20,cavalry:10,archer:70}},heroes,account),model);
  });
  assert.equal(hostingReuseContext(profile,account),null);
  assert.notEqual(evaluateHostTrio(profile,heroes,account),model);
 });
-test('hero, gear, account, formation and baseline changes bypass cached hosting models',()=>{
+test('hero, gear, account and baseline changes bypass cached hosting models',()=>{
  const {profile,heroes,account}=setup(),model=evaluateHostTrio(profile,heroes,account);
  const cases=[{profile,heroes:[heroes[0],heroes[1],{...heroes[2],widget:Number(heroes[2].widget)+1}],account},
  {profile:{...profile,gear:profile.gear.map(g=>({...g,forge:Number(g.forge)+1}))},heroes,account},
  {profile,heroes,account:{...account,attack:account.attack+1}},
- {profile:{...profile,ratios:{infantry:20,cavalry:10,archer:70}},heroes,account},
  {profile:{...profile,stats:{...profile.stats,archer:{...profile.stats.archer,attack:123}}},heroes,account}];
  for(const c of cases){const fresh=evaluateHostTrio(c.profile,c.heroes,c.account);
   withHostingReuse(profile,account,[model],()=>{const cached=evaluateHostTrio(c.profile,c.heroes,c.account);assert.notEqual(cached,model);assert.equal(cached?.bear.modeledDamage,fresh?.bear.modeledDamage);assert.deepEqual(cached?.bear.objectiveMissing,fresh?.bear.objectiveMissing);});

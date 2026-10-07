@@ -26,7 +26,7 @@ test('five-step setup ends on Results with normal editing navigation', async t =
   assert.ok(setup.includes('Continue'));
   assert.ok(!setup.includes('Load profile'));
   assert.ok(!setup.includes('Download profile'));
-  const panels={Home:'Hosting march',Heroes:'Heros',Gear:'Infantry helmet Type',Masters:'Valora talent',Pets:'Gray Wolf Infantry Lethality (%)',Troops:'Maximum march size'};
+  const panels={Home:'Hosting march',Heroes:'Heros',Gear:'Infantry helmet Type',Masters:'Valora talent',Pets:'Squads’ Attack (%)',Troops:'Infantry Quantity'};
   for(const [name,content] of Object.entries(panels)){
     const html=renderToStaticMarkup(React.createElement(App,{initialProfile:emptyProfile(),initialTab:name}));
     assert.match(html,new RegExp(`aria-selected="true"[^>]*>${name==='Home'?'Results':name}<`));
@@ -46,7 +46,7 @@ test('five-step setup ends on Results with normal editing navigation', async t =
     assert.ok(!html.includes('>Stats</button>'));
   }
   const snapshot=JSON.parse(await readFile(new URL('../audits/incoming-hosting-2026-10-06/replay.json',import.meta.url),'utf8')).profileSnapshot;
-  const populated=renderToStaticMarkup(React.createElement(App,{initialProfile:snapshot}));
+  const populated=renderToStaticMarkup(React.createElement(App,{initialProfile:snapshot,initialTab:'Home'}));
   for(const name of ['Join 1','Join 2','Join 3','Chenko','Amane','Vivian'])assert.ok(populated.includes(name));
   assert.ok(!populated.includes('Troop readiness'));
 });

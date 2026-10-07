@@ -21,7 +21,7 @@ test('duplicate gear validation remains separate from an unused candidate widget
 test('unsupported unused candidates do not prevent supported trios',()=>{
  const p=ready();p.heroes.find(h=>h.name==='Rosa').widget=null;
  const result=calculate(p,'hosting');assert.equal(result.team.length,3);assert.deepEqual(result.blockingValidation,[]);
- assert.ok(result.team.every(e=>e.hero.name!=='Rosa'));assert.match(result.scope,/Estimated total hosting Bear damage/);
+ assert.ok(result.team.every(e=>e.hero.name!=='Rosa'));assert.match(result.scope,/Formation-relative hosting comparison at 10\/10\/80/);
 });
 test('numeric string progression requires range and explicit encoding or corroboration',()=>{
  const input={name:'Helga',stars:'5',starStep:'31',level:'80',widget:'4',skillLevels:{1:'5'},provenance:{stars:'user-confirmed',widget:'imported'}};

@@ -10,6 +10,8 @@ import {roleCapacity,joiningRole} from '../src/hero-roles.mjs';
 import {joiningHeroCopy} from '../src/results-copy.mjs';
 import {essentialSetupError,restoreAppState,persistAppState} from '../src/setup-state.mjs';
 import {setSharedMarchCapacity} from '../src/march-capacity-inputs.mjs';
+import {includedHostCandidates} from '../src/host-comparison.mjs';
+import {roleEligible} from '../src/hero-roles.mjs';
 
 const snapshot=JSON.parse(fs.readFileSync(new URL('../audits/incoming-hosting-2026-10-06/replay.json',import.meta.url))).profileSnapshot;
 const entered=name=>structuredClone(snapshot.heroes.find(h=>h.name===name));
@@ -36,6 +38,24 @@ test('partial imports activate imported heroes only and do not add unreleased ca
  const p=mergeApi(emptyProfile(),{player:{heroes:[{id:1,name:'Yang',level:70,stars:3,gear:[]}]}});
  assert.deepEqual(p.heroes.map(h=>h.name),['Yang']);assert.equal(p.heroes[0].owned,true);
  assert.equal(mergeApi(p,{player:{heroes:[]}}).heroes.length,1);
+});
+
+test('hidden unreleased heroes stay saved but never appear in selectors or simultaneous teams',()=>{
+ const hidden=new Set(['Charles','Ava','Diego','Wee & Woo','Liz','Luna']);
+ const p=roster(['Zoe','Petra','Yang','Chenko','Amane','Vivian']);
+ const saved=defaultHeroes().filter(h=>hidden.has(h.name)).map(h=>({...h,owned:true,included:true,marchAvailable:true}));
+ p.heroes.push(...saved);
+ assert.equal(saved.length,6);
+ assert.ok(heroCatalogueOptions(emptyProfile()).every(h=>!hidden.has(h.name)));
+ assert.ok(heroCatalogueOptions(p).every(h=>!hidden.has(h.name)));
+ assert.ok(saved.every(h=>!roleEligible(h)));
+ assert.ok(includedHostCandidates(p).flat().every(h=>!hidden.has(h.name)));
+ for(const h of saved)assert.equal(setProfileHeroPresence(p,h.id,true),p);
+ const migrated=migrateProfile(p);
+ assert.equal(migrated.heroes.filter(h=>hidden.has(h.name)).length,6);
+ const result=optimizeMarchPlan(migrated,accountEffects(migrated));assert.ok(result.canRecommend);
+ const assignment=result.selected.assignment;
+ assert.ok([...assignment.host,...assignment.joins.flatMap(r=>r.heroes)].filter(Boolean).every(h=>!hidden.has(h.name)));
 });
 
 test('saved roster ownership, exclusions, entered progression and explicit skills survive migration and reload',()=>{

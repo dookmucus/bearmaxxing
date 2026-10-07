@@ -4,17 +4,16 @@ import {optimizeMarchPlan} from './joint-plan.mjs';
 import {activeGearInventory,activeGearInventoryIssues,activeGearLabel} from './active-gear.mjs';
 import {gearIssues} from './gear-progression.mjs';
 import {heroIdentity} from './host-comparison.mjs';
-import {pusherParticipates,usesSharedMaximum,usesActualMarchInputs,plannedCapacityMissing,actualMarchCapacity,CAPACITY_PROMPT} from './march-capacity-inputs.mjs';
-import {hasAccountBaseCapacity} from './input-defaults.mjs';
-import {TYPES, split, troopPlan, bestGear, gearOffense} from './engine.mjs';
+import {comparisonProfile} from './inventory-planning.mjs';
+import {TYPES, bestGear, gearOffense} from './engine.mjs';
 import {GEAR_QUALITY,IMBUEMENT_GATES,gearEnhancementXp,gearLevelLabel,normalizeGearQuality} from './gear-progression.mjs';
 import {masterEffects} from './master-effects.mjs';
-import {inventoryCount,aggregateTroops} from './troop-inventory.mjs';
+import {aggregateTroops} from './troop-inventory.mjs';
 import {compareHosts,includedHostCandidates} from './host-comparison.mjs';
 import {heroContributions} from './hero-effects.mjs';
 import {gearUpgradeCost} from './gear-upgrade-costs.mjs';
-import {completeMarchPlan,heroCapacity} from './march-plan.mjs';
-import {petLevelEffect,petRefinementEffect,petBuffEffects} from './pet-effects.mjs';
+import {completeMarchPlan} from './march-plan.mjs';
+import {combinedPetStats,petBuffEffects,petCollectsProgression} from './pet-effects.mjs';
 import {accountHeroTalents} from './account-hero-talents.mjs';
 
 export const LABELS = {infantry: 'Infantry', cavalry: 'Cavalry', archer: 'Archers'};
@@ -36,39 +35,20 @@ export function accountEffects(p,scope='hosting') {
     out.unsupported.push(...effect.unsupported);
     if(['attack','lethality','deploy','rally'].some(key=>known(m[key])))out.unsupported.push(`${m.name} legacy manual bonuses retained in profile but excluded to prevent double counting; confirm levels`);
   }
-  out.classLethality=petRefinementEffect(p);
-  for(const pet of p.pets??[]){
-    {
-      const passive=petLevelEffect(pet);
-      if(passive.attack!==null)out.attack+=passive.attack;
-      if(passive.issue)out.unsupported.push(passive.issue);
-      if(known(pet.attack)||known(pet.lethality))out.unsupported.push(`${pet.name} legacy refinement entry retained but unmapped; enter class Lethality rolls`);
-      if(known(pet.skillLevel))out.unsupported.push(`${pet.name} saved manual active-skill level is retained for review; active rank now follows confirmed pet level`);
-    }
-  }
+  const petStats=combinedPetStats(p);
+  out.classLethality=Object.fromEntries(TYPES.map(t=>[t,petStats[t]]));
+  if(petStats.attack!==null)out.attack+=petStats.attack;
+  if(Object.values(petStats).some(value=>value===null))out.unsupported.push(englishMessage('pets.statsUnknown'));
+  for(const pet of p.pets??[])if(known(pet.skillLevel)&&petCollectsProgression(pet))out.unsupported.push(`${pet.name} saved manual active-skill level is retained for review; active rank now follows confirmed pet level`);
   const buffs=petBuffEffects(p,scope);
   for(const key of ['attack','lethality','deploy','rally'])out[key]+=buffs[key];
   out.unsupported.push(...buffs.unsupported);
 
-  if(known(p.otherPetRefinement?.attack)||known(p.otherPetRefinement?.lethality))out.unsupported.push('Legacy other-pet refinement retained but unmapped; enter actual class Lethality in each pet row');
+  if(petStats.attack===null)out.attack=null;
   return out;
 }
 export function comparableHostTeam(p) {
   return optimizeMarchPlan(p,accountEffects(p)).selected?.host?.team??TYPES.map(()=>null);
-}
-export function capacityHostDraft(p) {
-  const groups=includedHostCandidates(p);
-  if(groups.some(group=>!group.length))return null;
-  return groups.map(group=>{
-    const hero=[...group].sort((a,b)=>(heroCapacity(b.level)??-1)-(heroCapacity(a.level)??-1)||a.name.localeCompare(b.name))[0];
-    return {hero,gear:bestGear(p,hero.troop)};
-  });
-}
-
-function ratioRequirements(p, errors) {
-  if (TYPES.some(t => !known(p.ratios[t]) || Number(p.ratios[t]) > 100) || TYPES.reduce((s, t) => s + Number(p.ratios[t]), 0) !== 100) {
-    errors.push('Enter a ratio totaling 100%. It determines the target troop count of each type.');
-  }
 }
 function joinerRequirements(p,errors){errors.push(...roleInventoryIssues(p));}
 function hostingRequirements(p, errors) {
@@ -82,54 +62,26 @@ function hostingRequirements(p, errors) {
     if (!candidates.length) errors.push(`Include an owned ${LABELS[t].toLowerCase()} host candidate.`);
   }
 }
-const positiveHostCapacity=p=>integer(usesActualMarchInputs(p)?actualMarchCapacity(p,'host'):p.hostCapacity)&&Number(usesActualMarchInputs(p)?actualMarchCapacity(p,'host'):p.hostCapacity)>0;
-function capacityRequirements(p, errors) {
-  if (!positiveHostCapacity(p)) errors.push(CAPACITY_PROMPT);
-}
-function inventoryRequirements(p, errors) {
-  for (const t of usedTypes(p)) {
-    if (!integer(inventoryCount(p,t))) errors.push(`Enter available ${LABELS[t].toLowerCase()} as a whole number, including 0 if none. Allocation cannot assume an unknown inventory is empty.`);
-  }
-}
-
 export function requirements(p, calculation) {
+  p=comparisonProfile(p);
   const errors = [];
   if (calculation === 'hosting') {
-    if (p.hostEnabled !== true) errors.push('Include a hosting march in Troops to compare host candidates.');
-    ratioRequirements(p,errors);
     hostingRequirements(p, errors);
     errors.push(...activeGearInventoryIssues(p));
     for(const g of activeGearInventory(p))for(const issue of gearIssues(g))errors.push(`${activeGearLabel(g)}: ${issue}`);
   } else if (calculation === 'joining') {
-    ratioRequirements(p, errors);
     joinerRequirements(p, errors);
-    if (typeof p.hostEnabled !== 'boolean') errors.push('Choose whether a hosting march is simultaneous with your joins. It uses troops from the same inventory.');
-    if(usesActualMarchInputs(p)){
-      if(plannedCapacityMissing(p))errors.push(CAPACITY_PROMPT);
-    }else{
-      if(!hasAccountBaseCapacity(p))for(const [i,j] of activeJoiners(p).entries())if(!integer((Number(j.capacity)>0?j.capacity:p.joinCapacity))||Number((Number(j.capacity)>0?j.capacity:p.joinCapacity))<1)errors.push(CAPACITY_PROMPT);
-      if(p.hostEnabled&&!hasAccountBaseCapacity(p)&&(!integer(p.hostCapacity)||p.hostCapacity<1))errors.push(CAPACITY_PROMPT);
-      if(pusherParticipates(p)&&!hasAccountBaseCapacity(p)&&(!integer(p.pusherCapacity)||p.pusherCapacity<1))errors.push('Enter the pusher capacity.');
-    }
-    inventoryRequirements(p, errors);
-    const slots=(p.hostEnabled?1:0)+Number(p.joinCount)+(pusherParticipates(p)?1:0);
-    if(!integer(p.marchSlots??4)||slots>Number(p.marchSlots??4))errors.push(`This setup needs ${slots} march slots; enter available slots or reduce joins.`);
   } else if (calculation === 'upgrades') {
-    for (const u of p.upgrades) {
+    for (const u of p.upgrades.filter(u=>u.kind!=='capacity')) {
       const name = u.name || 'Upgrade';
-      if (!['stat', 'capacity'].includes(u.kind)) errors.push(`Choose the effect of ${name}.`);
-      if (!known(u.delta) || Number(u.delta) <= 0 || (u.kind === 'capacity' && !integer(u.delta))) errors.push(`Enter a positive ${u.kind === 'capacity' ? 'whole troop' : 'percentage point'} increase for ${name}.`);
+      if (u.kind!=='stat') errors.push(`Choose the effect of ${name}.`);
+      if (!known(u.delta) || Number(u.delta) <= 0) errors.push(`Enter a positive percentage point increase for ${name}.`);
       if (u.kind === 'stat') {
         if (!TYPES.includes(u.troop) || !['attack', 'lethality'].includes(u.stat)) errors.push(`Choose the troop type and stat affected by ${name}.`);
         else if (!known(p.effectiveStats?.[u.troop]?.[u.stat])) errors.push(`Enter current effective ${LABELS[u.troop].toLowerCase()} ${u.stat}. It is the baseline for ${name}; include existing hero and gear bonuses once.`);
       }
       if (u.cost !== null && u.cost !== undefined && u.cost !== '' && !known(u.cost)) errors.push(`Enter a nonnegative cost for ${name}, or leave it blank.`);
       if (known(u.cost) && Number(u.cost) > 0 && !u.resource?.trim()) errors.push(`Name the resource used by ${name} so unlike costs are not compared.`);
-    }
-    if (p.upgrades.some(u => u.kind === 'capacity')) {
-      if(!usesSharedMaximum(p))capacityRequirements(p, errors);
-      ratioRequirements(p, errors);
-      inventoryRequirements(p, errors);
     }
   } else errors.push('Choose a calculation.');
   return [...new Set(errors)];
@@ -142,9 +94,10 @@ export function upgradeBaselines(p) {
 }
 
 export function calculate(p, calculation) {
+  p=comparisonProfile(p);
   const missing = requirements(p, calculation);
   if (calculation === 'upgrades') {
-    const comparable = p.upgrades.filter(u => requirements({...p, upgrades: [u]}, 'upgrades').length === 0);
+    const comparable = p.upgrades.filter(u => u.kind!=='capacity'&&requirements({...p, upgrades: [u]}, 'upgrades').length === 0);
     const host=p.hostEnabled?comparableHostTeam(p):[];
     const shared=accountEffects(p);
     const gearSteps=host.filter(Boolean).flatMap(({hero,gear,attack,lethality})=>gear.flatMap(g=>{
@@ -173,25 +126,9 @@ export function calculate(p, calculation) {
     }));
     const valora=(p.masters??[]).find(m=>m.name==='Valora');
     const personalStep=valora&&integer(valora.talentLevel)&&Number(valora.talentLevel)<11?{title:englishMessage("messages.calculator.calculate.valora.bear.point.talent",{talentLevel:valora.talentLevel,detail:Number(valora.talentLevel)+1}),benefit:englishMessage("messages.calculator.calculate.percentage.points.of.personal.bear.points",{detail:[0,2,4,6,9,12,15,18,21,24,27,30][Number(valora.talentLevel)+1]-[0,2,4,6,9,12,15,18,21,24,27,30][Number(valora.talentLevel)]}),cost:englishMessage("messages.calculator.calculate.cost.unknown"),prerequisite:englishMessage("messages.calculator.calculate.talent.unlock.and.materials.need.in.game.confirmation"),uncertainty:englishMessage("messages.calculator.calculate.personal.score.only.shared.damage.unchanged")}:null;
-    const joint=optimizeMarchPlan(p,shared);
-    const marchPlan=completeMarchPlan(p,host,shared,joint.selected?.assignment);
-    const fillerSteps=marchPlan.totalsKnown?marchPlan.marches.filter(row=>row.joinIndex!=null&&row.basis==='derived').flatMap(row=>row.heroes.slice(1).flatMap(hero=>{
-      if(!hero||!integer(hero.level)||Number(hero.level)>=80)return [];
-      const current=heroCapacity(hero.level),next=heroCapacity(Number(hero.level)+1);
-      if(!integer(current)||!integer(next)||next<=current)return [];
-      const extra=Object.fromEntries(TYPES.map(t=>[t,split(row.capacity+next-current,p.ratios)[t]-row.target[t]]));
-      if(TYPES.some(t=>extra[t]>marchPlan.remaining[t]))return [];
-      return [{title:englishMessage("messages.calculator.calculate.level",{name:hero.name,level:hero.level,detail:Number(hero.level)+1}),benefit:englishMessage("messages.calculator.calculate.sourced.troop.places.in.available.troops.can.fill",{detail:next-current,name:row.name,detail2:TYPES.map(t=>`${extra[t]} ${LABELS[t].toLowerCase()}`).join(', ')}),cost:englishMessage("messages.calculator.calculate.hero.xp.cost.not.mapped.in.this.calculator"),prerequisite:englishMessage("messages.calculator.calculate.confirm.the.hero.can.be.leveled.and.the.account.base"),uncertainty:englishMessage("messages.calculator.calculate.community.capacity.table.no.direct.bear.damage.gain.is.inferred")}];
-    })):[];
+    const fillerSteps=[];
     if(!gearSteps.length&&!personalStep&&!fillerSteps.length&&!comparable.length)missing.push(englishMessage("messages.calculator.calculate.enter.confirmed.host.offensive.stats.to.compare.gear.steps.or"));
     return {calculation, missing, gearSteps, personalStep, fillerSteps, upgrades: comparable.map(u => {
-      if (u.kind === 'capacity') {
-        if(usesSharedMaximum(p)&&!positiveHostCapacity(p))return {...u,additional:null,shortage:null};
-        const hostCapacity=usesActualMarchInputs(p)?actualMarchCapacity(p,'host'):p.hostCapacity;
-        const before = split(hostCapacity, p.ratios);
-        const after = split(Number(hostCapacity) + Number(u.delta), p.ratios);
-        return {...u, additional: Object.fromEntries(TYPES.map(t => [t, after[t] - before[t]])), shortage: Object.fromEntries(TYPES.map(t => [t, Math.max(0, after[t] - (Number(p.ratios[t]) === 0 ? 0 : Number(inventoryCount(p,t))))]))};
-      }
       const baseline = Number(p.effectiveStats[u.troop][u.stat]);
       const factorGain = Number(u.delta) / (100 + baseline) * 100;
       return {...u, factorGain, efficiency: known(u.cost) && Number(u.cost) > 0 ? factorGain / Number(u.cost) * 100 : null};
@@ -205,7 +142,6 @@ export function calculate(p, calculation) {
     const modeledHost=joint.selected?.host?.team??null;
     const host=modeledHost??[];
     const plan=completeMarchPlan(p,host,effects,joint.selected?.assignment);
-    if(!usesSharedMaximum(p)&&plan.marches.some(row=>!known(row.capacity)))missing.push(CAPACITY_PROMPT);
     const leaderGaps=plan.issues.filter(item=>item.includes('leader')||item.includes('not owned')||item.startsWith('Include '));
     return {calculation,missing:[...new Set(missing)],plan,hostDraft:modeledHost?null:host.length===3?host:null,hostEnabled:p.hostEnabled,joiners:plan.assignment.joins.map(r=>r.joiner),leaderGaps,shared:effects,joint};
   }

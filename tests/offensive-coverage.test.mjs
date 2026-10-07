@@ -52,17 +52,19 @@ test('partial comparisons preserve profile, expose unresolved offense and sort a
 test('resource suggestions use entered next progression, preserve input and avoid unsupported TG or defensive advice',()=>{
  const p=ready();p.heroes.find(h=>h.name==='Helga').widget=3;
  const wolf=p.pets.find(p=>p.name==='Gray Wolf');wolf.level=5;
+ const rhino=p.pets.find(p=>p.name==='Giant Rhino');rhino.level=5;
  const before=structuredClone(p),results={hosting:calculate(p,'hosting'),upgrades:calculate(p,'upgrades')};
  const suggestions=actionableImprovements(p,results,accountEffects);
  assert.ok(suggestions.length>=3&&suggestions.length<=5);
  assert.equal(new Set(suggestions.map(s=>s.id)).size,suggestions.length);
  for(const s of suggestions){assert.ok(s.resource);assert.ok(s.target);assert.ok(s.reason);assert.ok(!/health|defense|power|Truegold/i.test(s.reason));}
  assert.deepEqual(p,before);
- assert.ok(suggestions.some(s=>s.resource==='Pet food'));
+ assert.ok(suggestions.some(s=>s.resource==='Pet food'&&s.id===`${rhino.id}-passive`));
+ assert.ok(!suggestions.some(s=>s.id===`${wolf.id}-passive`));
 });
 test('joining permits hosting-only exclusions but respects all-march exclusion',()=>{
  const p=ready(),h=p.heroes.find(h=>h.name==='Long Fei');h.included=false;h.marchAvailable=true;h.owned=true;h.level=80;
- for(const other of p.heroes)if(other.id!==h.id&&other.troop==='infantry')other.level=1;
+ for(const other of p.heroes)if(other.id!==h.id&&other.troop==='infantry')other.marchAvailable=false;
  const host=calculate(p,'hosting').team;
  const joined=assignMarchHeroes(p,host);assert.ok(joined.joins.some(row=>row.heroes.some(x=>x?.id===h.id)));
  h.marchAvailable=false;assert.ok(assignMarchHeroes(p,host).joins.every(row=>row.heroes.every(x=>x?.id!==h.id)));

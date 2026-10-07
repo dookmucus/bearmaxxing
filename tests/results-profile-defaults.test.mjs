@@ -35,7 +35,7 @@ test('diagnostics copy the full relevant current profile and derived skills with
  const before=structuredClone(p),d=calculationDiagnostics(p);
  assert.equal(d.version,4);assert.equal(d.masters.find(m=>m.name==='Roman').squadBonus,12.34);
  assert.equal(d.pets.find(p=>p.name==='Gray Wolf').refinement.archer,3);
- assert.deepEqual(d.troops.archer,{count:654321,tier:11,tg:5});assert.equal(d.marchPlanning.maximumMarchSize,120000);
+ assert.deepEqual(d.troops.archer,{count:654321,tier:11,tg:5});assert.equal(d.marchPlanning.deploymentCount,null);assert.deepEqual(d.marchPlanning.formation,{infantry:10,cavalry:10,archer:80});assert.equal(d.marchPlanning.hostingAndJoining.groups,4);
  assert.equal(d.combatBaselines.archer.attack,345);
  const skill=d.heroes.find(h=>h.referenceName==='Zoe').effectiveSkills.find(s=>s.slot===2);
  assert.equal(skill.entered,null);assert.equal(skill.level,5);assert.equal(skill.source,'assumed');
@@ -63,9 +63,11 @@ test('Results uses Masters and Pets inputs and explains Zoe shared Attack versus
  const why=hostingChoiceExplanation(entry,host);assert.match(why.summary,/shared Attack/);assert.match(why.detail,/inherent Infantry Attack/);assert.match(why.detail,/could change/);
  const valora=p.masters.find(m=>m.name==='Valora');valora.talentLevel=2;
  const wolf=p.pets.find(p=>p.name==='Gray Wolf');wolf.level=5;
+ const rhino=p.pets.find(p=>p.name==='Giant Rhino');rhino.level=5;
  const roman=p.masters.find(m=>m.name==='Roman');roman.squadBonus=12;
  const changed=calculate(p,'hosting');assert.ok(changed.index>host.index);
  const suggestions=actionableImprovements(p,{hosting:changed,upgrades:calculate(p,'upgrades')},accountEffects);
- assert.ok(suggestions.some(s=>s.resource==='Pet food'));
+ assert.ok(suggestions.some(s=>s.resource==='Pet food'&&s.id===`${rhino.id}-passive`));
+ assert.ok(!suggestions.some(s=>s.id===`${wolf.id}-passive`));
  assert.ok(suggestions.every(s=>s.target&&s.reason&&s.resource));
 });

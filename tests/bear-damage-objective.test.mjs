@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {emptyProfile} from '../src/profile.mjs';
+import {enteredRosterProfile as emptyProfile} from './helpers/entered-roster.mjs';
 import {accountEffects,calculate} from '../src/calculator.mjs';
 import {evaluateHostTrio} from '../src/host-comparison.mjs';
 import {selectCurrentPlan,optimizeMarchPlan} from '../src/joint-plan.mjs';
@@ -45,13 +45,13 @@ test('joining context dominance decides equal-host offers without trading away h
  const a=option('a-tradeoff',1.2),b=option('b-tradeoff',1.2);a.metrics.dimensions['separate-join:crowded:0']=1.1;b.metrics.dimensions['separate-join:neutral:0']=1.1;
  assert.equal(selectCurrentPlan([b,a]).key,'a-tradeoff'); // Display representative, not an invented combined ranking.
 });
-test('host damage sums class/tier/count contributions and does not use class-relative regret',()=>{
+test('normalized relative offense uses sourced class/tier contributions and does not use class-relative regret',()=>{
  const p=entered(),before=structuredClone(p),plan=optimizeMarchPlan(p,accountEffects(p));assert.ok(plan.selected.host.bear.modeledDamage>0);
  const eligible=plan.comparisons.filter(o=>!o.metrics.unknownSignature&&o.host.bear.modeledDamage!=null);
  assert.equal(plan.selected.host.bear.modeledDamage,Math.max(...eligible.map(o=>o.host.bear.modeledDamage)));
  assert.ok(Object.keys(plan.selected.metrics.dimensions).every(k=>!k.startsWith('host:')));
  assert.ok(plan.selected.sensitivity.evaluated);assert.equal(plan.selected.sensitivity.cases.length,Object.keys(plan.selected.host.bear.damageDimensions).length);
- assert.match(plan.objective,/Maximize central total/);assert.deepEqual(p,before);
+ assert.match(plan.objective,/Compare central formation-relative hosting/);assert.deepEqual(p,before);
 });
 test('finite baseline variations preserve entered values and distinguish assumptions from player inputs',()=>{
  const p=entered(),before=structuredClone(p),cases=finiteBaselineCases(p);
@@ -79,25 +79,26 @@ test('upgrades use re-optimized total host damage, separate joining paths and mu
  const small={id:'a',modelComparison:{damageGain:.01}},large={id:'z',modelComparison:{damageGain:.02}};
  assert.ok(compareUpgradeBenefits(small,large)>0);assert.deepEqual(p,before);
 });
-test('diagnostics retain total-damage objective, sourced troop rows and finite sensitivity checks',()=>{
+test('offline diagnostics retain relative-offense objective, sourced troop rows and finite sensitivity checks',()=>{
  const p=entered(),before=structuredClone(p),data=calculationDiagnostics(p);
- assert.equal(data.version,4);assert.match(data.bearModel.objective,/total modeled hosting/);
+ assert.equal(data.version,4);assert.match(data.bearModel.objective,/central formation-relative hosting/);
  assert.equal(data.bearModel.troopReference.rows['10:3'].archer.attack,2165);
  assert.ok(data.bearModel.sensitivity.cases.length>=29);
  assert.ok(data.jointPlan.comparisons.some(o=>o.hostingDamage>0));assert.deepEqual(p,before);
 });
 
-test('finite baseline checks detect a real host crossover and do not replace the central damage objective',()=>{
+test('former Infantry-only crossover uses fixed 10/10/80 and does not replace the central relative objective',()=>{
  const p=emptyProfile();p.ratios={infantry:100,cavalry:0,archer:0};
  for(const t of ['infantry','cavalry','archer']){p.troops[t]={tier:10,tg:3,count:1000000};p.stats[t]={attack:null,lethality:null};}
  for(const h of p.heroes){h.included=['Long Fei','Zoe','Chenko','Rosa'].includes(h.name);h.widget=0;}
  for(const name of ['Long Fei','Zoe','Chenko','Rosa']){hero(p,name).skillLevels={1:0,2:0,3:0};hero(p,name).skillLevelSource={1:'user-confirmed',2:'user-confirmed',3:'user-confirmed'};}
- // Synthetic 370% lies below the central crossover with incoming Attack,
- // but above the low-baseline crossover. It is never a player-value default.
+ // Preserve the existing synthetic 370% fixture. Its old Infantry-only
+ // crossover no longer applies at normalized 10/10/80.
  hero(p,'Long Fei').advancedAttack=370;hero(p,'Zoe').skillLevels[2]=5;
  const before=structuredClone(p),result=optimizeMarchPlan(p,accountEffects(p));
  assert.equal(result.selected.host.team[0].hero.name,'Zoe');
- assert.equal(result.selected.sensitivity.stableAcrossTestedCases,false);
- assert.ok(result.selected.sensitivity.cases.some(c=>c.winningHosts.some(h=>h.includes(hero(p,'Long Fei').canonicalHeroId??hero(p,'Long Fei').id))));
- assert.match(result.recommendationUncertainty,/different hosting trio wins|best host changes with incoming joining bonuses/);assert.deepEqual(p,before);
+ assert.equal(result.selected.sensitivity.stableAcrossTestedCases,true);
+ assert.ok(result.selected.sensitivity.cases.every(c=>c.selectedIsBest));
+ assert.deepEqual(p,before);
+ const normalized={...p,ratios:{infantry:10,cavalry:10,archer:80}};assert.equal(optimizeMarchPlan(normalized,accountEffects(normalized)).selected.key,result.selected.key);
 });

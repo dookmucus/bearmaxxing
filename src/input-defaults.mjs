@@ -1,5 +1,6 @@
 import {activeGearInventory} from './active-gear.mjs';
 import {normalizePetInput} from './pet-inputs.mjs';
+import {normalizeCombinedPetStats} from './pet-effects.mjs';
 import {applySkillDefaults} from './hero-skill-unlocks.mjs';
 // Defaults describe editable inputs only. Unverified reference effects stay null.
 const missing=value=>value==null||value==='';
@@ -13,6 +14,7 @@ export function combatBaselineInput(profile,troop,stat){
   return {entered:value??null,value:unset?null:Number(value),source:!valid?'unset':Number(value)===0&&!confirmed?(source==='assumed'?'legacy-default':'unclassified-zero'):source??'saved-value',assumed:unset};
 }
 export function applyInputDefaults(profile) {
+  Object.assign(profile,normalizeCombinedPetStats(profile));
   const assumed={...profile.assumedInputs};
   function fill(object,key,value,path=key){
     if(missing(object[key])){object[key]=value;assumed[path]='assumed';}

@@ -5,7 +5,7 @@ import {emptyProfile} from '../src/profile.mjs';
 import {migrateProfile} from '../src/data/roster.mjs';
 import {normalizePetInput,setPetLevel,setPetAdvancement,petMilestones} from '../src/pet-inputs.mjs';
 import {accountEffects} from '../src/calculator.mjs';
-import {petLevelEffect,petActiveEffect,petBuffEffects,petRefinementEffect,replaceCombinedRefinement} from '../src/pet-effects.mjs';
+import {petLevelEffect,petActiveEffect,petBuffEffects,petRefinementEffect} from '../src/pet-effects.mjs';
 
 test('all fourteen pets default to not owned and contribute no effects',()=>{
  const p=emptyProfile(); // Isolate unowned-pet totals.
@@ -72,11 +72,9 @@ test('migration changes only established default level-one ownership and preserv
  const changed=setPetLevel(setPetLevel(get('advanced'),61),60);
  assert.equal(changed.advancementConfirmed,true);assert.equal(changed.advancementSources[60],'saved');
 });
-test('unattributed combined totals are held rather than assigned to unowned pets, and never double-counted',()=>{
+test('combined totals remain authoritative regardless of individual ownership and archived mode',()=>{
  const p={pets:[{name:'Gray Wolf',level:0,refinement:{infantry:2}},{name:'Lion',level:60,refinement:{infantry:3}}],petRefinementMode:'combined',combinedPetRefinement:{infantry:'14.40',cavalry:0,archer:0}};
- assert.equal(petRefinementEffect(p).infantry,0);
- p.pets[0]=setPetLevel(p.pets[0],1);
  assert.equal(petRefinementEffect(p).infantry,14.4);
- const next=replaceCombinedRefinement(p);
- assert.equal(petRefinementEffect(next).infantry,5);assert.equal(next.combinedPetRefinement.infantry,'14.40');
+ p.pets[0]=setPetLevel(p.pets[0],1);p.petRefinementMode='per-pet';
+ assert.equal(petRefinementEffect(p).infantry,14.4);assert.equal(p.combinedPetRefinement.infantry,'14.40');
 });
