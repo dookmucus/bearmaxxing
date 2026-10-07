@@ -10,7 +10,7 @@ export default async function handler(req){
    const upstream=await fetch(`https://api.mightpulse.com/v1/players/${id}?include=base,heroes,gov_gear`,{headers:{Authorization:`Bearer ${key}`},signal:AbortSignal.timeout(20000)});
    if(!upstream.ok){const messages={401:'The provider API key is invalid.',404:'No player was found for that ID.',429:'The player lookup limit was reached. Try again later.'};return reply(upstream.status===404?404:upstream.status===429?429:502,{error:messages[upstream.status]||'The player provider is temporarily unavailable.'});}
    const data=await upstream.json();if(!data.player)return reply(502,{error:'The provider returned an unexpected response.'});
-   return reply(200,{player:data.player,heroes:data.heroes,cached_at:data.cached_at,age_seconds:data.age_seconds,fresh:data.fresh});
+   return reply(200,{player:data.player,heroes:data.heroes,gov_gear:data.gov_gear,cached_at:data.cached_at,age_seconds:data.age_seconds,fresh:data.fresh});
  }catch{return reply(502,{error:'The player provider did not respond in time. Try again later or enter your details manually.'});}
 }
 

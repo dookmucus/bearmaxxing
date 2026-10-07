@@ -1,15 +1,137 @@
 {
   "version": "2026-10-03",
   "joiners": [
-    {"name":"Amane","troop":"archer","effect":"attack","values":[0,5,10,15,20,25]},
-    {"name":"Yeonwoo","troop":"archer","effect":"lethality","values":[0,5,10,15,20,25]},
-    {"name":"Chenko","troop":"cavalry","effect":"lethality","values":[0,5,10,15,20,25]},
-    {"name":"Amadeus","troop":"infantry","effect":"lethality","values":[0,5,10,15,20,25]}
+    {
+      "name": "Amane",
+      "troop": "archer",
+      "effect": "attack",
+      "values": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        25
+      ]
+    },
+    {
+      "name": "Yeonwoo",
+      "troop": "archer",
+      "effect": "lethality",
+      "values": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        25
+      ]
+    },
+    {
+      "name": "Chenko",
+      "troop": "cavalry",
+      "effect": "lethality",
+      "values": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        25
+      ]
+    },
+    {
+      "name": "Amadeus",
+      "troop": "infantry",
+      "effect": "lethality",
+      "values": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        25
+      ]
+    }
   ],
   "sources": [
-    {"title":"Player lookup API","url":"https://api.mightpulse.com/","status":"Provider documentation","note":"Arena defense heroes, equipped gear, forging, widgets, and public governor gear. Full inventory and research are not documented."},
-    {"title":"Bear Hunt joiner mechanics","url":"https://kingshotguides.com/guide/how-your-bear-damage-is-calculated-as-a-joiner/","status":"Community model","note":"Host stats and selected joiner skills apply to each participant. Troop inventory stays participant-specific."},
-    {"title":"Bear damage simulation","url":"https://kingshotguides.com/guide/bear-trap-damage-mechanics-and-example-simulation/","status":"Community model","note":"Square-root troop scaling, ten turns, and offensive stat factors. Our relative index is not a reproduction of the full simulator."},
-    {"title":"Joiner bonus reference","url":"https://kingshotguide.org/calculator/bear-trap-calculator","status":"Community reference","note":"Amane attack and Chenko/Yeonwoo lethality bonuses; intermediate skill values must be confirmed in game."}
+    {
+      "title": "Player lookup API",
+      "url": "https://api.mightpulse.com/",
+      "status": "Provider documentation",
+      "note": "Arena defense heroes, equipped gear, forging, widgets, and public governor gear. Full inventory and research are not documented."
+    },
+    {
+      "title": "Bear Hunt joiner mechanics",
+      "url": "https://kingshotguides.com/guide/how-your-bear-damage-is-calculated-as-a-joiner/",
+      "status": "Community model",
+      "note": "Host stats and selected joiner skills apply to each participant. Troop inventory stays participant-specific."
+    },
+    {
+      "title": "Bear damage simulation",
+      "url": "https://kingshotguides.com/guide/bear-trap-damage-mechanics-and-example-simulation/",
+      "status": "Community model",
+      "note": "Square-root troop scaling, ten turns, and offensive stat factors. Our relative index is not a reproduction of the full simulator."
+    },
+    {
+      "title": "Joiner bonus reference",
+      "url": "https://kingshotguide.org/calculator/bear-trap-calculator",
+      "status": "Community reference",
+      "note": "Amane attack and Chenko/Yeonwoo lethality bonuses; intermediate skill values must be confirmed in game."
+    },
+    {
+      "title": "Hero roster",
+      "url": "https://kingshotdata.com/category/heroes/",
+      "status": "Community catalog",
+      "note": "37 listed heroes across eight generations. Presence and class are reference data, not ownership or damage proof."
+    },
+    {
+      "title": "Hero gear progression",
+      "url": "https://kingshotguides.com/guide/in-depth-hero-gear-guide-by-gdkp/",
+      "status": "Community guide",
+      "note": "Provisional regular offensive curves for helmet and boots; verify displayed stats in game."
+    },
+    {
+      "title": "Valora Bear effects",
+      "url": "https://kingshotdata.com/masters/valora/",
+      "status": "Community catalog",
+      "note": "Personal point talent is separate from Bear damage. Deployment and rally capacities are separate effects."
+    },
+    {
+      "title": "Official imbuement FAQ",
+      "url": "https://centurygames.helpshift.com/hc/en/140-kingshot/faq/9132-what-is-gear-imbuement-1783436327/",
+      "status": "Publisher FAQ",
+      "note": "Imbuement unlock and ascension gates; entered imbuement Attack is never inferred."
+    },
+    {
+      "title": "Gordon Expedition skills",
+      "url": "https://kingshotdata.com/heroes/gordon/",
+      "status": "Community catalog",
+      "note": "Trash Talk raises Squad Attack; health skill omitted from Bear damage inputs. Host stacking not verified."
+    },
+    {
+      "title": "Cassia master effects",
+      "url": "https://kingshotdata.com/masters/cassia/",
+      "status": "Community catalog",
+      "note": "Only squad-wide offensive bonuses are entered on Masters; class-specific research belongs in Stats baselines."
+    },
+    {
+      "title": "Pan master effects",
+      "url": "https://kingshotdata.com/masters/pan/",
+      "status": "Community catalog",
+      "note": "Only squad-wide offensive bonuses are entered on Masters; class-specific research belongs in Stats baselines."
+    },
+    {
+      "title": "Roman master effects",
+      "url": "https://kingshotdata.com/masters/roman/",
+      "status": "Community catalog",
+      "note": "Only squad-wide offensive bonuses are entered on Masters; class-specific research belongs in Stats baselines."
+    },
+    {
+      "title": "Hero gear progression and costs",
+      "url": "https://kingshotveterans.com/database/hero-gear",
+      "status": "Community table",
+      "note": "Purple, gold, and red regular stat curves; first 20 enhancement XP costs; mastery materials and ascension gates."
+    }
   ]
 }

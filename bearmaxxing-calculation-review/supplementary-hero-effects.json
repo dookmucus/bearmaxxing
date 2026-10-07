@@ -1,0 +1,808 @@
+{
+  "reviewedOn": "2026-10-06",
+  "schema": "research-handoff-v1",
+  "skillArrayEncoding": "Position 0 corresponds to skill level 1; explicit skill level 0 contributes zero.",
+  "scope": "Documented magnitudes and activation wording, not validated full Bear timing or stacking.",
+  "heroes": [
+    {
+      "slug": "jabel",
+      "primarySource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50012_kingshot_end/",
+      "expeditionSkills": [
+        {
+          "slot": 1,
+          "name": "Rally Flag",
+          "kind": "defense-only",
+          "bearOffense": false
+        },
+        {
+          "slot": 2,
+          "name": "Hero's Domain",
+          "kind": "extra-damage-proc",
+          "bearOffense": true,
+          "valuesBySkillLevel": [
+            10,
+            20,
+            30,
+            40,
+            50
+          ],
+          "chance": 0.5,
+          "scope": "all-squads",
+          "interactionStatus": "Magnitude documented; integrate only with compatible event and stacking rules."
+        },
+        {
+          "slot": 3,
+          "name": "Youthful Rage",
+          "kind": "shared-lethality",
+          "bearOffense": true,
+          "valuesBySkillLevel": [
+            5,
+            10,
+            15,
+            20,
+            25
+          ],
+          "interactionStatus": "Magnitude documented; integrate only with compatible event and stacking rules."
+        }
+      ],
+      "joinerRule": "Only Expedition slot 1 may supply a selected joining skill. Do not transfer slots 2/3 or widget effects from this catalogue to a joiner.",
+      "widgetScope": "Ordinary widget stats stay with the captain hero class; separately assess hosting-only skill.",
+      "hostingWidget": {
+        "bearOffense": false,
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      }
+    },
+    {
+      "slug": "saul",
+      "primarySource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50017_kingshot_end/",
+      "expeditionSkills": [
+        {
+          "slot": 1,
+          "name": "Taskforce Training",
+          "kind": "defense-only",
+          "bearOffense": false
+        },
+        {
+          "slot": 2,
+          "name": "Resourceful",
+          "kind": "economy-only",
+          "bearOffense": false
+        },
+        {
+          "slot": 3,
+          "name": "Positional Batter",
+          "kind": "shared-lethality",
+          "bearOffense": true,
+          "valuesBySkillLevel": [
+            5,
+            10,
+            15,
+            20,
+            25
+          ],
+          "interactionStatus": "Magnitude documented; integrate only with compatible event and stacking rules."
+        }
+      ],
+      "joinerRule": "Only Expedition slot 1 may supply a selected joining skill. Do not transfer slots 2/3 or widget effects from this catalogue to a joiner.",
+      "widgetScope": "Ordinary widget stats stay with the captain hero class; separately assess hosting-only skill.",
+      "hostingWidget": {
+        "bearOffense": false,
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      }
+    },
+    {
+      "slug": "howard",
+      "primarySource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50004_kingshot_end/",
+      "expeditionSkills": [
+        {
+          "slot": 1,
+          "name": "Defenders\u2019 Edge",
+          "kind": "defense-only",
+          "bearOffense": false
+        },
+        {
+          "slot": 2,
+          "name": "Weaken",
+          "kind": "defense-only",
+          "bearOffense": false
+        }
+      ],
+      "joinerRule": "Only Expedition slot 1 may supply a selected joining skill. Do not transfer slots 2/3 or widget effects from this catalogue to a joiner.",
+      "widgetScope": "Ordinary widget stats stay with the captain hero class; separately assess hosting-only skill.",
+      "hostingWidget": {
+        "bearOffense": false,
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      }
+    },
+    {
+      "slug": "gordon",
+      "primarySource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50005_kingshot_end/",
+      "expeditionSkills": [
+        {
+          "slot": 1,
+          "name": "Super Nutrients",
+          "kind": "defense-only",
+          "bearOffense": false
+        },
+        {
+          "slot": 2,
+          "name": "Trash Talk",
+          "kind": "shared-attack",
+          "bearOffense": true,
+          "valuesBySkillLevel": [
+            5,
+            10,
+            15,
+            20,
+            25
+          ],
+          "activation": "static",
+          "joinerEligible": false,
+          "interactionStatus": "Magnitude documented; integrate only with compatible event and stacking rules."
+        }
+      ],
+      "joinerRule": "Only Expedition slot 1 may supply a selected joining skill. Do not transfer slots 2/3 or widget effects from this catalogue to a joiner.",
+      "widgetScope": "Ordinary widget stats stay with the captain hero class; separately assess hosting-only skill.",
+      "hostingWidget": {
+        "bearOffense": false,
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      }
+    },
+    {
+      "slug": "quinn",
+      "primarySource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50006_kingshot_end/",
+      "expeditionSkills": [
+        {
+          "slot": 1,
+          "name": "Precision Shot",
+          "kind": "defense-only",
+          "bearOffense": false,
+          "aliases": [
+            "Sixth Sense"
+          ]
+        },
+        {
+          "slot": 2,
+          "name": "Burst Fire",
+          "kind": "extra-damage-proc",
+          "bearOffense": true,
+          "valuesBySkillLevel": [
+            10,
+            20,
+            30,
+            40,
+            50
+          ],
+          "chance": 0.5,
+          "scope": "all-squads",
+          "aliases": [
+            "Precision Shot (fan slot 2)"
+          ],
+          "interactionStatus": "Magnitude documented; integrate only with compatible event and stacking rules."
+        }
+      ],
+      "joinerRule": "Only Expedition slot 1 may supply a selected joining skill. Do not transfer slots 2/3 or widget effects from this catalogue to a joiner.",
+      "widgetScope": "Ordinary widget stats stay with the captain hero class; separately assess hosting-only skill.",
+      "hostingWidget": {
+        "bearOffense": false,
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      }
+    },
+    {
+      "slug": "diana",
+      "primarySource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50008_kingshot_end/",
+      "expeditionSkills": [
+        {
+          "slot": 1,
+          "name": "Iron Constitution",
+          "kind": "stamina-only",
+          "bearOffense": false
+        },
+        {
+          "slot": 2,
+          "name": "Quick Paced",
+          "kind": "hunting-speed",
+          "bearOffense": false,
+          "valuesBySkillLevel": [
+            20,
+            40,
+            60,
+            80,
+            100
+          ],
+          "bearApplication": "Not established; exclude direct damage."
+        }
+      ],
+      "joinerRule": "Only Expedition slot 1 may supply a selected joining skill. Do not transfer slots 2/3 or widget effects from this catalogue to a joiner.",
+      "widgetScope": "Ordinary widget stats stay with the captain hero class; separately assess hosting-only skill.",
+      "hostingWidget": {
+        "bearOffense": false,
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      }
+    },
+    {
+      "slug": "fahd",
+      "primarySource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50029_kingshot_end/",
+      "expeditionSkills": [
+        {
+          "slot": 1,
+          "name": "Desert Eclipse",
+          "kind": "defense-only",
+          "bearOffense": false
+        },
+        {
+          "slot": 2,
+          "name": "Pathfinder",
+          "kind": "solo-hunt-speed",
+          "bearOffense": false
+        }
+      ],
+      "joinerRule": "Only Expedition slot 1 may supply a selected joining skill. Do not transfer slots 2/3 or widget effects from this catalogue to a joiner.",
+      "widgetScope": "Ordinary widget stats stay with the captain hero class; separately assess hosting-only skill.",
+      "hostingWidget": {
+        "bearOffense": false,
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      }
+    },
+    {
+      "slug": "forrest",
+      "primarySource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50000_kingshot_end/",
+      "expeditionSkills": [
+        {
+          "slot": 1,
+          "name": "Woodland Inheritor",
+          "kind": "resource-only",
+          "bearOffense": false
+        },
+        {
+          "slot": 2,
+          "name": "Master Woodcutter",
+          "kind": "resource-only",
+          "bearOffense": false
+        }
+      ],
+      "joinerRule": "Only Expedition slot 1 may supply a selected joining skill. Do not transfer slots 2/3 or widget effects from this catalogue to a joiner.",
+      "widgetScope": "Ordinary widget stats stay with the captain hero class; separately assess hosting-only skill.",
+      "hostingWidget": {
+        "bearOffense": false,
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      }
+    },
+    {
+      "slug": "seth",
+      "primarySource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50001_kingshot_end/",
+      "expeditionSkills": [
+        {
+          "slot": 1,
+          "name": "Burnished Iron",
+          "kind": "resource-only",
+          "bearOffense": false
+        },
+        {
+          "slot": 2,
+          "name": "Craftsmanship",
+          "kind": "resource-only",
+          "bearOffense": false
+        }
+      ],
+      "joinerRule": "Only Expedition slot 1 may supply a selected joining skill. Do not transfer slots 2/3 or widget effects from this catalogue to a joiner.",
+      "widgetScope": "Ordinary widget stats stay with the captain hero class; separately assess hosting-only skill.",
+      "hostingWidget": {
+        "bearOffense": false,
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      }
+    },
+    {
+      "slug": "edwin",
+      "primarySource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50002_kingshot_end/",
+      "expeditionSkills": [
+        {
+          "slot": 1,
+          "name": "Demolitions Expert",
+          "kind": "resource-only",
+          "bearOffense": false
+        },
+        {
+          "slot": 2,
+          "name": "Stone Mining",
+          "kind": "resource-only",
+          "bearOffense": false
+        }
+      ],
+      "joinerRule": "Only Expedition slot 1 may supply a selected joining skill. Do not transfer slots 2/3 or widget effects from this catalogue to a joiner.",
+      "widgetScope": "Ordinary widget stats stay with the captain hero class; separately assess hosting-only skill.",
+      "hostingWidget": {
+        "bearOffense": false,
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      }
+    },
+    {
+      "slug": "olive",
+      "primarySource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50003_kingshot_end/",
+      "expeditionSkills": [
+        {
+          "slot": 1,
+          "name": "Green Thumb",
+          "kind": "resource-only",
+          "bearOffense": false
+        },
+        {
+          "slot": 2,
+          "name": "Forager\u2019s Luck",
+          "kind": "resource-only",
+          "bearOffense": false
+        }
+      ],
+      "joinerRule": "Only Expedition slot 1 may supply a selected joining skill. Do not transfer slots 2/3 or widget effects from this catalogue to a joiner.",
+      "widgetScope": "Ordinary widget stats stay with the captain hero class; separately assess hosting-only skill.",
+      "hostingWidget": {
+        "bearOffense": false,
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      }
+    },
+    {
+      "slug": "hilde",
+      "primarySource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50013_kingshot_end/",
+      "expeditionSkills": [
+        {
+          "slot": 1,
+          "name": "Noble Path",
+          "kind": "shared-attack",
+          "bearOffense": true,
+          "valuesBySkillLevel": [
+            3,
+            6,
+            9,
+            12,
+            15
+          ],
+          "joinerEligible": true,
+          "excludeDefensePart": true,
+          "interactionStatus": "Magnitude documented; integrate only with compatible event and stacking rules."
+        },
+        {
+          "slot": 2,
+          "name": "Elixir of Strength",
+          "kind": "replace-hit-with-total-damage",
+          "bearOffense": true,
+          "valuesBySkillLevel": [
+            120,
+            140,
+            160,
+            180,
+            200
+          ],
+          "chance": 0.25,
+          "scope": "all-squads",
+          "interactionStatus": "Magnitude documented; integrate only with compatible event and stacking rules."
+        },
+        {
+          "slot": 3,
+          "name": "Trial by Fire",
+          "kind": "defense-only",
+          "bearOffense": false
+        }
+      ],
+      "joinerRule": "Only Expedition slot 1 may supply a selected joining skill. Do not transfer slots 2/3 or widget effects from this catalogue to a joiner.",
+      "widgetScope": "Ordinary widget stats stay with the captain hero class; separately assess hosting-only skill.",
+      "hostingWidget": {
+        "bearOffense": false,
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      }
+    },
+    {
+      "slug": "marlin",
+      "primarySource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50018_kingshot_end/",
+      "expeditionSkills": [
+        {
+          "slot": 1,
+          "name": "Wild Card",
+          "kind": "extra-damage-proc",
+          "bearOffense": true,
+          "valuesBySkillLevel": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "chanceBySkillLevel": [
+            0.08,
+            0.16,
+            0.24,
+            0.32,
+            0.4
+          ],
+          "scope": "all-squads",
+          "joinerEligible": true,
+          "interactionStatus": "Magnitude documented; integrate only with compatible event and stacking rules."
+        },
+        {
+          "slot": 2,
+          "name": "Rumhead",
+          "kind": "defense-only",
+          "bearOffense": false
+        },
+        {
+          "slot": 3,
+          "name": "Dynamo",
+          "kind": "extra-damage-proc",
+          "bearOffense": true,
+          "valuesBySkillLevel": [
+            10,
+            20,
+            30,
+            40,
+            50
+          ],
+          "chance": 0.5,
+          "scope": "all-squads",
+          "interactionStatus": "Magnitude documented; integrate only with compatible event and stacking rules."
+        }
+      ],
+      "joinerRule": "Only Expedition slot 1 may supply a selected joining skill. Do not transfer slots 2/3 or widget effects from this catalogue to a joiner.",
+      "widgetScope": "Ordinary widget stats stay with the captain hero class; separately assess hosting-only skill.",
+      "hostingWidget": {
+        "name": "Admiral of the Line",
+        "kind": "shared-lethality",
+        "valuesByWidgetSkillLevel": [
+          5,
+          7.5,
+          10,
+          12.5,
+          15
+        ],
+        "widgetLevelToSkillLevel": null,
+        "note": "Primary page documents five magnitudes, not unlock levels. Reuse separately sourced stage mapping; do not invent levels from this array."
+      }
+    },
+    {
+      "slug": "eric",
+      "primarySource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50010_kingshot_end/",
+      "expeditionSkills": [
+        {
+          "slot": 1,
+          "name": "Holy Warrior",
+          "kind": "defense-only",
+          "bearOffense": false
+        },
+        {
+          "slot": 2,
+          "name": "Conviction",
+          "kind": "defense-only",
+          "bearOffense": false
+        },
+        {
+          "slot": 3,
+          "name": "Exhortation",
+          "kind": "defense-only",
+          "bearOffense": false
+        }
+      ],
+      "joinerRule": "Only Expedition slot 1 may supply a selected joining skill. Do not transfer slots 2/3 or widget effects from this catalogue to a joiner.",
+      "widgetScope": "Ordinary widget stats stay with the captain hero class; separately assess hosting-only skill.",
+      "hostingWidget": {
+        "bearOffense": false,
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      }
+    },
+    {
+      "slug": "jaeger",
+      "primarySource": "https://kingshotwiki.com/heroes/jaegar/",
+      "expeditionSkills": [
+        {
+          "slot": 1,
+          "name": "The Tempest",
+          "kind": "timed-damage-proc",
+          "bearOffense": true,
+          "valuesBySkillLevel": [
+            8,
+            16,
+            24,
+            32,
+            40
+          ],
+          "chance": 0.2,
+          "durationTurns": 3,
+          "scope": "all-squads",
+          "interactionStatus": "Proc onset, refresh and overlap unresolved; do not multiply probability by duration."
+        },
+        {
+          "slot": 2,
+          "name": "The Resistance",
+          "kind": "defense-only",
+          "bearOffense": false
+        },
+        {
+          "slot": 3,
+          "name": "The Celebration",
+          "kind": "defense-only",
+          "bearOffense": false
+        }
+      ],
+      "joinerRule": "Only Expedition slot 1 may supply a selected joining skill. Do not transfer slots 2/3 or widget effects from this catalogue to a joiner.",
+      "widgetScope": "Ordinary widget stats stay with the captain hero class; separately assess hosting-only skill.",
+      "hostingWidget": {
+        "bearOffense": false,
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      }
+    },
+    {
+      "slug": "margot",
+      "primarySource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50014_kingshot_end/",
+      "expeditionSkills": [
+        {
+          "slot": 1,
+          "name": "Warbringer",
+          "kind": "shared-attack",
+          "bearOffense": true,
+          "valuesBySkillLevel": [
+            5,
+            10,
+            15,
+            20,
+            25
+          ],
+          "joinerEligible": true,
+          "interactionStatus": "Magnitude documented; integrate only with compatible event and stacking rules."
+        },
+        {
+          "slot": 2,
+          "name": "Subterfuge",
+          "kind": "defense-only",
+          "bearOffense": false
+        },
+        {
+          "slot": 3,
+          "name": "Sleight Hand",
+          "kind": "extra-attack-total-damage",
+          "bearOffense": true,
+          "valuesBySkillLevel": [
+            120,
+            140,
+            160,
+            180,
+            200
+          ],
+          "chance": 0.25,
+          "scope": "cavalry",
+          "counterParticipation": "unresolved",
+          "interactionStatus": "Magnitude documented; integrate only with compatible event and stacking rules."
+        }
+      ],
+      "joinerRule": "Only Expedition slot 1 may supply a selected joining skill. Do not transfer slots 2/3 or widget effects from this catalogue to a joiner.",
+      "widgetScope": "Ordinary widget stats stay with the captain hero class; separately assess hosting-only skill.",
+      "hostingWidget": {
+        "bearOffense": false,
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      }
+    },
+    {
+      "slug": "thrud",
+      "primarySource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50025_kingshot_end/",
+      "expeditionSkills": [
+        {
+          "slot": 1,
+          "name": "Battle Hunger",
+          "kind": "class-damage-bonus",
+          "bearOffense": true,
+          "valuesBySkillLevel": [
+            3,
+            6,
+            9,
+            12,
+            15
+          ],
+          "scope": [
+            "infantry",
+            "archers"
+          ],
+          "excludeDefensePart": true,
+          "joinerEligible": true,
+          "interactionStatus": "Magnitude documented; integrate only with compatible event and stacking rules."
+        },
+        {
+          "slot": 2,
+          "name": "Reckless Charge",
+          "kind": "extra-damage-proc",
+          "bearOffense": true,
+          "valuesBySkillLevel": [
+            20,
+            40,
+            60,
+            80,
+            100
+          ],
+          "chance": 0.2,
+          "scope": "cavalry",
+          "interactionStatus": "Magnitude documented; integrate only with compatible event and stacking rules."
+        },
+        {
+          "slot": 3,
+          "name": "Ancestral Guidance",
+          "kind": "counter-triggered-damage",
+          "bearOffense": true,
+          "valuesBySkillLevel": [
+            5,
+            10,
+            15,
+            20,
+            25
+          ],
+          "counterClass": "cavalry",
+          "attacksRequired": 4,
+          "durationTurns": 2,
+          "scope": "all-squads",
+          "excludeDefensePart": true,
+          "interactionStatus": "Magnitude documented; integrate only with compatible event and stacking rules."
+        }
+      ],
+      "joinerRule": "Only Expedition slot 1 may supply a selected joining skill. Do not transfer slots 2/3 or widget effects from this catalogue to a joiner.",
+      "widgetScope": "Ordinary widget stats stay with the captain hero class; separately assess hosting-only skill.",
+      "hostingWidget": {
+        "name": "Wolf-Kissed",
+        "kind": "shared-lethality",
+        "valuesByWidgetSkillLevel": [
+          5,
+          7.5,
+          10,
+          12.5,
+          15
+        ],
+        "widgetLevelToSkillLevel": null,
+        "note": "Primary page documents five magnitudes, not unlock levels. Reuse separately sourced stage mapping; do not invent levels from this array."
+      }
+    },
+    {
+      "slug": "triton",
+      "primarySource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50019_kingshot_end/",
+      "expeditionSkills": [
+        {
+          "slot": 1,
+          "name": "Command of Power",
+          "kind": "defense-only",
+          "bearOffense": false
+        },
+        {
+          "slot": 2,
+          "name": "Warfare of Power",
+          "kind": "skill-damage-only",
+          "bearOffense": true,
+          "valuesBySkillLevel": [
+            6,
+            12,
+            18,
+            24,
+            30
+          ],
+          "scope": "all-squads",
+          "eligiblePackets": "unresolved",
+          "interactionStatus": "Magnitude documented; integrate only with compatible event and stacking rules."
+        },
+        {
+          "slot": 3,
+          "name": "Oath of Power",
+          "kind": "defense-only",
+          "bearOffense": false
+        }
+      ],
+      "joinerRule": "Only Expedition slot 1 may supply a selected joining skill. Do not transfer slots 2/3 or widget effects from this catalogue to a joiner.",
+      "widgetScope": "Ordinary widget stats stay with the captain hero class; separately assess hosting-only skill.",
+      "hostingWidget": {
+        "bearOffense": false,
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      }
+    },
+    {
+      "slug": "sophia",
+      "primarySource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50030_kingshot_end/",
+      "expeditionSkills": [
+        {
+          "slot": 1,
+          "name": "Arcane Pact",
+          "kind": "defense-only",
+          "bearOffense": false
+        },
+        {
+          "slot": 2,
+          "name": "Terror - Deathblow",
+          "kind": "terror-following-turn-cavalry-damage",
+          "bearOffense": true,
+          "valuesBySkillLevel": [
+            40,
+            80,
+            120,
+            160,
+            200
+          ],
+          "periodTurns": 2,
+          "bearActivation": "unresolved",
+          "interactionStatus": "Magnitude documented; integrate only with compatible event and stacking rules."
+        },
+        {
+          "slot": 3,
+          "name": "Terror - Annihilation",
+          "kind": "terror-conditioned-shared-damage",
+          "bearOffense": true,
+          "valuesBySkillLevel": [
+            15,
+            30,
+            45,
+            60,
+            75
+          ],
+          "bearActivation": "unresolved",
+          "interactionStatus": "Magnitude documented; integrate only with compatible event and stacking rules."
+        }
+      ],
+      "joinerRule": "Only Expedition slot 1 may supply a selected joining skill. Do not transfer slots 2/3 or widget effects from this catalogue to a joiner.",
+      "widgetScope": "Ordinary widget stats stay with the captain hero class; separately assess hosting-only skill.",
+      "hostingWidget": {
+        "bearOffense": false,
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      }
+    },
+    {
+      "slug": "chenko",
+      "primarySource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50007_kingshot_end/",
+      "expeditionSkills": [
+        {
+          "slot": 1,
+          "name": "Stand of Arms",
+          "kind": "shared-lethality",
+          "bearOffense": true,
+          "valuesBySkillLevel": [
+            5,
+            10,
+            15,
+            20,
+            25
+          ],
+          "joinerEligible": true,
+          "interactionStatus": "Magnitude documented; integrate only with compatible event and stacking rules."
+        },
+        {
+          "slot": 2,
+          "name": "Shield Wall",
+          "kind": "defense-only",
+          "bearOffense": false
+        }
+      ],
+      "joinerRule": "Only Expedition slot 1 may supply a selected joining skill. Do not transfer slots 2/3 or widget effects from this catalogue to a joiner.",
+      "widgetScope": "Ordinary widget stats stay with the captain hero class; separately assess hosting-only skill.",
+      "hostingWidget": {
+        "bearOffense": false,
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      }
+    }
+  ],
+  "accountPassives": [
+    {
+      "hero": "helga",
+      "name": "Power of the Deer",
+      "attackPpByFullStar": [
+        2,
+        4,
+        6,
+        8,
+        10
+      ],
+      "activeWhenHeroAbsent": true,
+      "ownershipRequired": true,
+      "primarySource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50009_kingshot_end/",
+      "starUnlockSource": "https://kingshotoptimizer.com/heroes/helga/",
+      "note": "Not one of the three Expedition skills. Snapshot explicitly sets those skills to zero; preserve them. Do not double count this passive if already in captured ordinary stats."
+    }
+  ],
+  "sourceConflicts": [
+    {
+      "slug": "quinn",
+      "conflict": "Fan and primary pages name the same slots differently. Use canonical slot and effect identity; retain aliases."
+    },
+    {
+      "slug": "marlin",
+      "conflict": "Fan page omits Dynamo. Primary page lists all three Expedition skills."
+    }
+  ],
+  "notCovered": "Existing six competing hero formulae, Alcar and newer unowned heroes are outside this supplementary catalogue."
+}

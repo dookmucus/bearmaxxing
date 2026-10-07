@@ -1,0 +1,3047 @@
+{
+  "reviewedOn": "2026-10-06",
+  "schema": "research-handoff-v1",
+  "scope": "Reference data for integration; not a replacement profile or production calculator.",
+  "starStepEncoding": "sixth-step-index-v1",
+  "starStepAnchors": {
+    "1.0": 7,
+    "2.0": 13,
+    "3.0": 19,
+    "4.0": 25,
+    "5.0": 31
+  },
+  "units": "percentage points; retain precision; divide by 100 only at factor construction",
+  "sourcePolicy": "Official endpoint wins conflicts. Community partial tables remain labeled community data; endpoint agreement does not validate every partial step.",
+  "heroes": [
+    {
+      "heroId": "roster-jabel",
+      "slug": "jabel",
+      "name": "Jabel",
+      "troopClass": "cavalry",
+      "sources": {
+        "primary": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50012_kingshot_end/",
+        "progression": "https://kingshotdata.com/heroes/jabel/"
+      },
+      "officialMaxAttackPp": 200.16,
+      "communityMaxAttackPp": 200.16,
+      "progressionStatus": "community-table-endpoint-crosschecked",
+      "attackByStarStep": [
+        {
+          "starStep": 1,
+          "attackPp": 25.25
+        },
+        {
+          "starStep": 2,
+          "attackPp": 27.6
+        },
+        {
+          "starStep": 3,
+          "attackPp": 29.95
+        },
+        {
+          "starStep": 4,
+          "attackPp": 32.3
+        },
+        {
+          "starStep": 5,
+          "attackPp": 34.65
+        },
+        {
+          "starStep": 6,
+          "attackPp": 37.0
+        },
+        {
+          "starStep": 7,
+          "attackPp": 41.23
+        },
+        {
+          "starStep": 8,
+          "attackPp": 44.52
+        },
+        {
+          "starStep": 9,
+          "attackPp": 47.81
+        },
+        {
+          "starStep": 10,
+          "attackPp": 51.1
+        },
+        {
+          "starStep": 11,
+          "attackPp": 54.39
+        },
+        {
+          "starStep": 12,
+          "attackPp": 57.68
+        },
+        {
+          "starStep": 13,
+          "attackPp": 63.6
+        },
+        {
+          "starStep": 14,
+          "attackPp": 68.2
+        },
+        {
+          "starStep": 15,
+          "attackPp": 72.81
+        },
+        {
+          "starStep": 16,
+          "attackPp": 77.42
+        },
+        {
+          "starStep": 17,
+          "attackPp": 82.02
+        },
+        {
+          "starStep": 18,
+          "attackPp": 86.63
+        },
+        {
+          "starStep": 19,
+          "attackPp": 94.92
+        },
+        {
+          "starStep": 20,
+          "attackPp": 101.37
+        },
+        {
+          "starStep": 21,
+          "attackPp": 107.81
+        },
+        {
+          "starStep": 22,
+          "attackPp": 114.26
+        },
+        {
+          "starStep": 23,
+          "attackPp": 120.71
+        },
+        {
+          "starStep": 24,
+          "attackPp": 127.16
+        },
+        {
+          "starStep": 25,
+          "attackPp": 138.77
+        },
+        {
+          "starStep": 26,
+          "attackPp": 147.79
+        },
+        {
+          "starStep": 27,
+          "attackPp": 156.82
+        },
+        {
+          "starStep": 28,
+          "attackPp": 165.85
+        },
+        {
+          "starStep": 29,
+          "attackPp": 174.88
+        },
+        {
+          "starStep": 30,
+          "attackPp": 183.91
+        },
+        {
+          "starStep": 31,
+          "attackPp": 200.16
+        }
+      ],
+      "ordinaryWidgetLethalityByLevel": [
+        {
+          "level": 1,
+          "lethalityPp": 5.0
+        },
+        {
+          "level": 2,
+          "lethalityPp": 10.0
+        },
+        {
+          "level": 3,
+          "lethalityPp": 15.0
+        },
+        {
+          "level": 4,
+          "lethalityPp": 20.0
+        },
+        {
+          "level": 5,
+          "lethalityPp": 25.0
+        },
+        {
+          "level": 6,
+          "lethalityPp": 30.0
+        },
+        {
+          "level": 7,
+          "lethalityPp": 35.0
+        },
+        {
+          "level": 8,
+          "lethalityPp": 40.0
+        },
+        {
+          "level": 9,
+          "lethalityPp": 45.0
+        },
+        {
+          "level": 10,
+          "lethalityPp": 50.0
+        }
+      ],
+      "snapshot": {
+        "starStep": 31,
+        "level": 80,
+        "widget": 2,
+        "skillLevels": {},
+        "referenceAttackPp": 200.16,
+        "referenceAttackStatus": "primary-max"
+      },
+      "notes": []
+    },
+    {
+      "heroId": "roster-saul",
+      "slug": "saul",
+      "name": "Saul",
+      "troopClass": "archer",
+      "sources": {
+        "primary": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50017_kingshot_end/",
+        "progression": "https://kingshotdata.com/heroes/saul/"
+      },
+      "officialMaxAttackPp": 200.16,
+      "communityMaxAttackPp": 200.16,
+      "progressionStatus": "community-table-endpoint-crosschecked",
+      "attackByStarStep": [
+        {
+          "starStep": 1,
+          "attackPp": 25.25
+        },
+        {
+          "starStep": 2,
+          "attackPp": 27.6
+        },
+        {
+          "starStep": 3,
+          "attackPp": 29.95
+        },
+        {
+          "starStep": 4,
+          "attackPp": 32.3
+        },
+        {
+          "starStep": 5,
+          "attackPp": 34.65
+        },
+        {
+          "starStep": 6,
+          "attackPp": 37.0
+        },
+        {
+          "starStep": 7,
+          "attackPp": 41.23
+        },
+        {
+          "starStep": 8,
+          "attackPp": 44.52
+        },
+        {
+          "starStep": 9,
+          "attackPp": 47.81
+        },
+        {
+          "starStep": 10,
+          "attackPp": 51.1
+        },
+        {
+          "starStep": 11,
+          "attackPp": 54.39
+        },
+        {
+          "starStep": 12,
+          "attackPp": 57.68
+        },
+        {
+          "starStep": 13,
+          "attackPp": 63.6
+        },
+        {
+          "starStep": 14,
+          "attackPp": 68.2
+        },
+        {
+          "starStep": 15,
+          "attackPp": 72.81
+        },
+        {
+          "starStep": 16,
+          "attackPp": 77.42
+        },
+        {
+          "starStep": 17,
+          "attackPp": 82.02
+        },
+        {
+          "starStep": 18,
+          "attackPp": 86.63
+        },
+        {
+          "starStep": 19,
+          "attackPp": 94.92
+        },
+        {
+          "starStep": 20,
+          "attackPp": 101.37
+        },
+        {
+          "starStep": 21,
+          "attackPp": 107.81
+        },
+        {
+          "starStep": 22,
+          "attackPp": 114.26
+        },
+        {
+          "starStep": 23,
+          "attackPp": 120.71
+        },
+        {
+          "starStep": 24,
+          "attackPp": 127.16
+        },
+        {
+          "starStep": 25,
+          "attackPp": 138.77
+        },
+        {
+          "starStep": 26,
+          "attackPp": 147.79
+        },
+        {
+          "starStep": 27,
+          "attackPp": 156.82
+        },
+        {
+          "starStep": 28,
+          "attackPp": 165.85
+        },
+        {
+          "starStep": 29,
+          "attackPp": 174.88
+        },
+        {
+          "starStep": 30,
+          "attackPp": 183.91
+        },
+        {
+          "starStep": 31,
+          "attackPp": 200.16
+        }
+      ],
+      "ordinaryWidgetLethalityByLevel": [
+        {
+          "level": 1,
+          "lethalityPp": 5.0
+        },
+        {
+          "level": 2,
+          "lethalityPp": 10.0
+        },
+        {
+          "level": 3,
+          "lethalityPp": 15.0
+        },
+        {
+          "level": 4,
+          "lethalityPp": 20.0
+        },
+        {
+          "level": 5,
+          "lethalityPp": 25.0
+        },
+        {
+          "level": 6,
+          "lethalityPp": 30.0
+        },
+        {
+          "level": 7,
+          "lethalityPp": 35.0
+        },
+        {
+          "level": 8,
+          "lethalityPp": 40.0
+        },
+        {
+          "level": 9,
+          "lethalityPp": 45.0
+        },
+        {
+          "level": 10,
+          "lethalityPp": 50.0
+        }
+      ],
+      "snapshot": {
+        "starStep": 19,
+        "level": 80,
+        "widget": 0,
+        "skillLevels": {},
+        "referenceAttackPp": 94.92,
+        "referenceAttackStatus": "community-star-table"
+      },
+      "notes": []
+    },
+    {
+      "heroId": "roster-howard",
+      "slug": "howard",
+      "name": "Howard",
+      "troopClass": "infantry",
+      "sources": {
+        "primary": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50004_kingshot_end/",
+        "progression": "https://kingshotdata.com/heroes/howard/"
+      },
+      "officialMaxAttackPp": 140.11,
+      "communityMaxAttackPp": 140.11,
+      "progressionStatus": "community-table-endpoint-crosschecked",
+      "attackByStarStep": [
+        {
+          "starStep": 1,
+          "attackPp": 17.68
+        },
+        {
+          "starStep": 2,
+          "attackPp": 19.32
+        },
+        {
+          "starStep": 3,
+          "attackPp": 20.96
+        },
+        {
+          "starStep": 4,
+          "attackPp": 22.61
+        },
+        {
+          "starStep": 5,
+          "attackPp": 24.25
+        },
+        {
+          "starStep": 6,
+          "attackPp": 25.9
+        },
+        {
+          "starStep": 7,
+          "attackPp": 28.86
+        },
+        {
+          "starStep": 8,
+          "attackPp": 31.16
+        },
+        {
+          "starStep": 9,
+          "attackPp": 33.47
+        },
+        {
+          "starStep": 10,
+          "attackPp": 35.77
+        },
+        {
+          "starStep": 11,
+          "attackPp": 38.07
+        },
+        {
+          "starStep": 12,
+          "attackPp": 40.38
+        },
+        {
+          "starStep": 13,
+          "attackPp": 44.52
+        },
+        {
+          "starStep": 14,
+          "attackPp": 47.74
+        },
+        {
+          "starStep": 15,
+          "attackPp": 50.97
+        },
+        {
+          "starStep": 16,
+          "attackPp": 54.19
+        },
+        {
+          "starStep": 17,
+          "attackPp": 57.41
+        },
+        {
+          "starStep": 18,
+          "attackPp": 60.64
+        },
+        {
+          "starStep": 19,
+          "attackPp": 66.44
+        },
+        {
+          "starStep": 20,
+          "attackPp": 70.96
+        },
+        {
+          "starStep": 21,
+          "attackPp": 75.47
+        },
+        {
+          "starStep": 22,
+          "attackPp": 79.98
+        },
+        {
+          "starStep": 23,
+          "attackPp": 84.5
+        },
+        {
+          "starStep": 24,
+          "attackPp": 89.01
+        },
+        {
+          "starStep": 25,
+          "attackPp": 97.14
+        },
+        {
+          "starStep": 26,
+          "attackPp": 103.45
+        },
+        {
+          "starStep": 27,
+          "attackPp": 109.77
+        },
+        {
+          "starStep": 28,
+          "attackPp": 116.09
+        },
+        {
+          "starStep": 29,
+          "attackPp": 122.42
+        },
+        {
+          "starStep": 30,
+          "attackPp": 128.74
+        },
+        {
+          "starStep": 31,
+          "attackPp": 140.11
+        }
+      ],
+      "ordinaryWidgetLethalityByLevel": [],
+      "snapshot": {
+        "starStep": 31,
+        "level": 80,
+        "widget": 0,
+        "skillLevels": {},
+        "referenceAttackPp": 140.11,
+        "referenceAttackStatus": "primary-max"
+      },
+      "notes": []
+    },
+    {
+      "heroId": "roster-gordon",
+      "slug": "gordon",
+      "name": "Gordon",
+      "troopClass": "cavalry",
+      "sources": {
+        "primary": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50005_kingshot_end/",
+        "progression": "https://kingshotdata.com/heroes/gordon/"
+      },
+      "officialMaxAttackPp": 140.11,
+      "communityMaxAttackPp": 200.16,
+      "progressionStatus": "conflicting-do-not-promote",
+      "attackByStarStep": [],
+      "ordinaryWidgetLethalityByLevel": [],
+      "snapshot": {
+        "starStep": 31,
+        "level": 80,
+        "widget": 0,
+        "skillLevels": {
+          "2": 5
+        },
+        "referenceAttackPp": 140.11,
+        "referenceAttackStatus": "primary-max"
+      },
+      "notes": [
+        "Primary maximum differs by 60.05pp; retain official maximum and withhold partial curve."
+      ]
+    },
+    {
+      "heroId": "roster-quinn",
+      "slug": "quinn",
+      "name": "Quinn",
+      "troopClass": "archer",
+      "sources": {
+        "primary": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50006_kingshot_end/",
+        "progression": "https://kingshotdata.com/heroes/quinn/"
+      },
+      "officialMaxAttackPp": 140.11,
+      "communityMaxAttackPp": 140.11,
+      "progressionStatus": "community-table-endpoint-crosschecked",
+      "attackByStarStep": [
+        {
+          "starStep": 1,
+          "attackPp": 17.68
+        },
+        {
+          "starStep": 2,
+          "attackPp": 19.32
+        },
+        {
+          "starStep": 3,
+          "attackPp": 20.96
+        },
+        {
+          "starStep": 4,
+          "attackPp": 22.61
+        },
+        {
+          "starStep": 5,
+          "attackPp": 24.25
+        },
+        {
+          "starStep": 6,
+          "attackPp": 25.9
+        },
+        {
+          "starStep": 7,
+          "attackPp": 28.86
+        },
+        {
+          "starStep": 8,
+          "attackPp": 31.16
+        },
+        {
+          "starStep": 9,
+          "attackPp": 33.47
+        },
+        {
+          "starStep": 10,
+          "attackPp": 35.77
+        },
+        {
+          "starStep": 11,
+          "attackPp": 38.07
+        },
+        {
+          "starStep": 12,
+          "attackPp": 40.38
+        },
+        {
+          "starStep": 13,
+          "attackPp": 44.52
+        },
+        {
+          "starStep": 14,
+          "attackPp": 47.74
+        },
+        {
+          "starStep": 15,
+          "attackPp": 50.97
+        },
+        {
+          "starStep": 16,
+          "attackPp": 54.19
+        },
+        {
+          "starStep": 17,
+          "attackPp": 57.41
+        },
+        {
+          "starStep": 18,
+          "attackPp": 60.64
+        },
+        {
+          "starStep": 19,
+          "attackPp": 66.44
+        },
+        {
+          "starStep": 20,
+          "attackPp": 70.96
+        },
+        {
+          "starStep": 21,
+          "attackPp": 75.47
+        },
+        {
+          "starStep": 22,
+          "attackPp": 79.98
+        },
+        {
+          "starStep": 23,
+          "attackPp": 84.5
+        },
+        {
+          "starStep": 24,
+          "attackPp": 89.01
+        },
+        {
+          "starStep": 25,
+          "attackPp": 97.14
+        },
+        {
+          "starStep": 26,
+          "attackPp": 103.45
+        },
+        {
+          "starStep": 27,
+          "attackPp": 109.77
+        },
+        {
+          "starStep": 28,
+          "attackPp": 116.09
+        },
+        {
+          "starStep": 29,
+          "attackPp": 122.42
+        },
+        {
+          "starStep": 30,
+          "attackPp": 128.74
+        },
+        {
+          "starStep": 31,
+          "attackPp": 140.11
+        }
+      ],
+      "ordinaryWidgetLethalityByLevel": [],
+      "snapshot": {
+        "starStep": 31,
+        "level": 80,
+        "widget": 0,
+        "skillLevels": {},
+        "referenceAttackPp": 140.11,
+        "referenceAttackStatus": "primary-max"
+      },
+      "notes": []
+    },
+    {
+      "heroId": "roster-diana",
+      "slug": "diana",
+      "name": "Diana",
+      "troopClass": "archer",
+      "sources": {
+        "primary": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50008_kingshot_end/",
+        "progression": "https://kingshotdata.com/heroes/diana/"
+      },
+      "officialMaxAttackPp": 110.08,
+      "communityMaxAttackPp": 110.09,
+      "progressionStatus": "community-table-endpoint-crosschecked",
+      "attackByStarStep": [
+        {
+          "starStep": 1,
+          "attackPp": 13.89
+        },
+        {
+          "starStep": 2,
+          "attackPp": 15.18
+        },
+        {
+          "starStep": 3,
+          "attackPp": 16.47
+        },
+        {
+          "starStep": 4,
+          "attackPp": 17.77
+        },
+        {
+          "starStep": 5,
+          "attackPp": 19.06
+        },
+        {
+          "starStep": 6,
+          "attackPp": 20.35
+        },
+        {
+          "starStep": 7,
+          "attackPp": 22.68
+        },
+        {
+          "starStep": 8,
+          "attackPp": 24.49
+        },
+        {
+          "starStep": 9,
+          "attackPp": 26.3
+        },
+        {
+          "starStep": 10,
+          "attackPp": 28.11
+        },
+        {
+          "starStep": 11,
+          "attackPp": 29.91
+        },
+        {
+          "starStep": 12,
+          "attackPp": 31.72
+        },
+        {
+          "starStep": 13,
+          "attackPp": 34.98
+        },
+        {
+          "starStep": 14,
+          "attackPp": 37.51
+        },
+        {
+          "starStep": 15,
+          "attackPp": 40.05
+        },
+        {
+          "starStep": 16,
+          "attackPp": 42.58
+        },
+        {
+          "starStep": 17,
+          "attackPp": 45.11
+        },
+        {
+          "starStep": 18,
+          "attackPp": 47.65
+        },
+        {
+          "starStep": 19,
+          "attackPp": 52.21
+        },
+        {
+          "starStep": 20,
+          "attackPp": 55.75
+        },
+        {
+          "starStep": 21,
+          "attackPp": 59.3
+        },
+        {
+          "starStep": 22,
+          "attackPp": 62.84
+        },
+        {
+          "starStep": 23,
+          "attackPp": 66.39
+        },
+        {
+          "starStep": 24,
+          "attackPp": 69.94
+        },
+        {
+          "starStep": 25,
+          "attackPp": 76.32
+        },
+        {
+          "starStep": 26,
+          "attackPp": 81.28
+        },
+        {
+          "starStep": 27,
+          "attackPp": 86.25
+        },
+        {
+          "starStep": 28,
+          "attackPp": 91.22
+        },
+        {
+          "starStep": 29,
+          "attackPp": 96.18
+        },
+        {
+          "starStep": 30,
+          "attackPp": 101.15
+        },
+        {
+          "starStep": 31,
+          "attackPp": 110.08
+        }
+      ],
+      "ordinaryWidgetLethalityByLevel": [],
+      "snapshot": {
+        "starStep": 31,
+        "level": 80,
+        "widget": 0,
+        "skillLevels": {},
+        "referenceAttackPp": 110.08,
+        "referenceAttackStatus": "primary-max"
+      },
+      "notes": [
+        "Minor endpoint rounding discrepancy; step 31 uses primary value. Partial steps are not rescaled."
+      ]
+    },
+    {
+      "heroId": "roster-fahd",
+      "slug": "fahd",
+      "name": "Fahd",
+      "troopClass": "cavalry",
+      "sources": {
+        "primary": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50029_kingshot_end/",
+        "progression": "https://kingshotdata.com/heroes/fahd/"
+      },
+      "officialMaxAttackPp": 140.11,
+      "communityMaxAttackPp": 200.16,
+      "progressionStatus": "conflicting-do-not-promote",
+      "attackByStarStep": [],
+      "ordinaryWidgetLethalityByLevel": [],
+      "snapshot": {
+        "starStep": 30,
+        "level": 1,
+        "widget": 0,
+        "skillLevels": {},
+        "referenceAttackPp": null,
+        "referenceAttackStatus": "conflicting-unresolved"
+      },
+      "notes": [
+        "Primary maximum differs by 60.05pp; retain official maximum and withhold partial curve."
+      ]
+    },
+    {
+      "heroId": "roster-forrest",
+      "slug": "forrest",
+      "name": "Forrest",
+      "troopClass": "infantry",
+      "sources": {
+        "primary": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50000_kingshot_end/",
+        "progression": "https://kingshotdata.com/heroes/forrest/"
+      },
+      "officialMaxAttackPp": 90.07,
+      "communityMaxAttackPp": 90.07,
+      "progressionStatus": "community-table-endpoint-crosschecked",
+      "attackByStarStep": [
+        {
+          "starStep": 1,
+          "attackPp": 11.36
+        },
+        {
+          "starStep": 2,
+          "attackPp": 12.42
+        },
+        {
+          "starStep": 3,
+          "attackPp": 13.48
+        },
+        {
+          "starStep": 4,
+          "attackPp": 14.54
+        },
+        {
+          "starStep": 5,
+          "attackPp": 15.59
+        },
+        {
+          "starStep": 6,
+          "attackPp": 16.65
+        },
+        {
+          "starStep": 7,
+          "attackPp": 18.55
+        },
+        {
+          "starStep": 8,
+          "attackPp": 20.03
+        },
+        {
+          "starStep": 9,
+          "attackPp": 21.51
+        },
+        {
+          "starStep": 10,
+          "attackPp": 23.0
+        },
+        {
+          "starStep": 11,
+          "attackPp": 24.48
+        },
+        {
+          "starStep": 12,
+          "attackPp": 25.96
+        },
+        {
+          "starStep": 13,
+          "attackPp": 28.62
+        },
+        {
+          "starStep": 14,
+          "attackPp": 30.69
+        },
+        {
+          "starStep": 15,
+          "attackPp": 32.76
+        },
+        {
+          "starStep": 16,
+          "attackPp": 34.84
+        },
+        {
+          "starStep": 17,
+          "attackPp": 36.91
+        },
+        {
+          "starStep": 18,
+          "attackPp": 38.98
+        },
+        {
+          "starStep": 19,
+          "attackPp": 42.71
+        },
+        {
+          "starStep": 20,
+          "attackPp": 45.62
+        },
+        {
+          "starStep": 21,
+          "attackPp": 48.51
+        },
+        {
+          "starStep": 22,
+          "attackPp": 51.42
+        },
+        {
+          "starStep": 23,
+          "attackPp": 54.32
+        },
+        {
+          "starStep": 24,
+          "attackPp": 57.22
+        },
+        {
+          "starStep": 25,
+          "attackPp": 62.45
+        },
+        {
+          "starStep": 26,
+          "attackPp": 66.51
+        },
+        {
+          "starStep": 27,
+          "attackPp": 70.57
+        },
+        {
+          "starStep": 28,
+          "attackPp": 74.63
+        },
+        {
+          "starStep": 29,
+          "attackPp": 78.7
+        },
+        {
+          "starStep": 30,
+          "attackPp": 82.76
+        },
+        {
+          "starStep": 31,
+          "attackPp": 90.07
+        }
+      ],
+      "ordinaryWidgetLethalityByLevel": [],
+      "snapshot": {
+        "starStep": 31,
+        "level": 80,
+        "widget": 0,
+        "skillLevels": {},
+        "referenceAttackPp": 90.07,
+        "referenceAttackStatus": "primary-max"
+      },
+      "notes": []
+    },
+    {
+      "heroId": "roster-seth",
+      "slug": "seth",
+      "name": "Seth",
+      "troopClass": "infantry",
+      "sources": {
+        "primary": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50001_kingshot_end/",
+        "progression": "https://kingshotdata.com/heroes/seth/"
+      },
+      "officialMaxAttackPp": 90.07,
+      "communityMaxAttackPp": 90.07,
+      "progressionStatus": "community-table-endpoint-crosschecked",
+      "attackByStarStep": [
+        {
+          "starStep": 1,
+          "attackPp": 11.36
+        },
+        {
+          "starStep": 2,
+          "attackPp": 12.42
+        },
+        {
+          "starStep": 3,
+          "attackPp": 13.48
+        },
+        {
+          "starStep": 4,
+          "attackPp": 14.54
+        },
+        {
+          "starStep": 5,
+          "attackPp": 15.59
+        },
+        {
+          "starStep": 6,
+          "attackPp": 16.65
+        },
+        {
+          "starStep": 7,
+          "attackPp": 18.55
+        },
+        {
+          "starStep": 8,
+          "attackPp": 20.03
+        },
+        {
+          "starStep": 9,
+          "attackPp": 21.51
+        },
+        {
+          "starStep": 10,
+          "attackPp": 23.0
+        },
+        {
+          "starStep": 11,
+          "attackPp": 24.48
+        },
+        {
+          "starStep": 12,
+          "attackPp": 25.96
+        },
+        {
+          "starStep": 13,
+          "attackPp": 28.62
+        },
+        {
+          "starStep": 14,
+          "attackPp": 30.69
+        },
+        {
+          "starStep": 15,
+          "attackPp": 32.76
+        },
+        {
+          "starStep": 16,
+          "attackPp": 34.84
+        },
+        {
+          "starStep": 17,
+          "attackPp": 36.91
+        },
+        {
+          "starStep": 18,
+          "attackPp": 38.98
+        },
+        {
+          "starStep": 19,
+          "attackPp": 42.71
+        },
+        {
+          "starStep": 20,
+          "attackPp": 45.62
+        },
+        {
+          "starStep": 21,
+          "attackPp": 48.51
+        },
+        {
+          "starStep": 22,
+          "attackPp": 51.42
+        },
+        {
+          "starStep": 23,
+          "attackPp": 54.32
+        },
+        {
+          "starStep": 24,
+          "attackPp": 57.22
+        },
+        {
+          "starStep": 25,
+          "attackPp": 62.45
+        },
+        {
+          "starStep": 26,
+          "attackPp": 66.51
+        },
+        {
+          "starStep": 27,
+          "attackPp": 70.57
+        },
+        {
+          "starStep": 28,
+          "attackPp": 74.63
+        },
+        {
+          "starStep": 29,
+          "attackPp": 78.7
+        },
+        {
+          "starStep": 30,
+          "attackPp": 82.76
+        },
+        {
+          "starStep": 31,
+          "attackPp": 90.07
+        }
+      ],
+      "ordinaryWidgetLethalityByLevel": [],
+      "snapshot": {
+        "starStep": 31,
+        "level": 80,
+        "widget": 0,
+        "skillLevels": {},
+        "referenceAttackPp": 90.07,
+        "referenceAttackStatus": "primary-max"
+      },
+      "notes": []
+    },
+    {
+      "heroId": "roster-edwin",
+      "slug": "edwin",
+      "name": "Edwin",
+      "troopClass": "cavalry",
+      "sources": {
+        "primary": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50002_kingshot_end/",
+        "progression": "https://kingshotdata.com/heroes/edwin/"
+      },
+      "officialMaxAttackPp": 90.07,
+      "communityMaxAttackPp": 90.07,
+      "progressionStatus": "community-table-endpoint-crosschecked",
+      "attackByStarStep": [
+        {
+          "starStep": 1,
+          "attackPp": 11.36
+        },
+        {
+          "starStep": 2,
+          "attackPp": 12.42
+        },
+        {
+          "starStep": 3,
+          "attackPp": 13.48
+        },
+        {
+          "starStep": 4,
+          "attackPp": 14.54
+        },
+        {
+          "starStep": 5,
+          "attackPp": 15.59
+        },
+        {
+          "starStep": 6,
+          "attackPp": 16.65
+        },
+        {
+          "starStep": 7,
+          "attackPp": 18.55
+        },
+        {
+          "starStep": 8,
+          "attackPp": 20.03
+        },
+        {
+          "starStep": 9,
+          "attackPp": 21.51
+        },
+        {
+          "starStep": 10,
+          "attackPp": 23.0
+        },
+        {
+          "starStep": 11,
+          "attackPp": 24.48
+        },
+        {
+          "starStep": 12,
+          "attackPp": 25.96
+        },
+        {
+          "starStep": 13,
+          "attackPp": 28.62
+        },
+        {
+          "starStep": 14,
+          "attackPp": 30.69
+        },
+        {
+          "starStep": 15,
+          "attackPp": 32.76
+        },
+        {
+          "starStep": 16,
+          "attackPp": 34.84
+        },
+        {
+          "starStep": 17,
+          "attackPp": 36.91
+        },
+        {
+          "starStep": 18,
+          "attackPp": 38.98
+        },
+        {
+          "starStep": 19,
+          "attackPp": 42.71
+        },
+        {
+          "starStep": 20,
+          "attackPp": 45.62
+        },
+        {
+          "starStep": 21,
+          "attackPp": 48.51
+        },
+        {
+          "starStep": 22,
+          "attackPp": 51.42
+        },
+        {
+          "starStep": 23,
+          "attackPp": 54.32
+        },
+        {
+          "starStep": 24,
+          "attackPp": 57.22
+        },
+        {
+          "starStep": 25,
+          "attackPp": 62.45
+        },
+        {
+          "starStep": 26,
+          "attackPp": 66.51
+        },
+        {
+          "starStep": 27,
+          "attackPp": 70.57
+        },
+        {
+          "starStep": 28,
+          "attackPp": 74.63
+        },
+        {
+          "starStep": 29,
+          "attackPp": 78.7
+        },
+        {
+          "starStep": 30,
+          "attackPp": 82.76
+        },
+        {
+          "starStep": 31,
+          "attackPp": 90.07
+        }
+      ],
+      "ordinaryWidgetLethalityByLevel": [],
+      "snapshot": {
+        "starStep": 31,
+        "level": 80,
+        "widget": 0,
+        "skillLevels": {},
+        "referenceAttackPp": 90.07,
+        "referenceAttackStatus": "primary-max"
+      },
+      "notes": []
+    },
+    {
+      "heroId": "roster-olive",
+      "slug": "olive",
+      "name": "Olive",
+      "troopClass": "archer",
+      "sources": {
+        "primary": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50003_kingshot_end/",
+        "progression": "https://kingshotdata.com/heroes/olive/"
+      },
+      "officialMaxAttackPp": 90.07,
+      "communityMaxAttackPp": 90.07,
+      "progressionStatus": "community-table-endpoint-crosschecked",
+      "attackByStarStep": [
+        {
+          "starStep": 1,
+          "attackPp": 11.36
+        },
+        {
+          "starStep": 2,
+          "attackPp": 12.42
+        },
+        {
+          "starStep": 3,
+          "attackPp": 13.48
+        },
+        {
+          "starStep": 4,
+          "attackPp": 14.54
+        },
+        {
+          "starStep": 5,
+          "attackPp": 15.59
+        },
+        {
+          "starStep": 6,
+          "attackPp": 16.65
+        },
+        {
+          "starStep": 7,
+          "attackPp": 18.55
+        },
+        {
+          "starStep": 8,
+          "attackPp": 20.03
+        },
+        {
+          "starStep": 9,
+          "attackPp": 21.51
+        },
+        {
+          "starStep": 10,
+          "attackPp": 23.0
+        },
+        {
+          "starStep": 11,
+          "attackPp": 24.48
+        },
+        {
+          "starStep": 12,
+          "attackPp": 25.96
+        },
+        {
+          "starStep": 13,
+          "attackPp": 28.62
+        },
+        {
+          "starStep": 14,
+          "attackPp": 30.69
+        },
+        {
+          "starStep": 15,
+          "attackPp": 32.76
+        },
+        {
+          "starStep": 16,
+          "attackPp": 34.84
+        },
+        {
+          "starStep": 17,
+          "attackPp": 36.91
+        },
+        {
+          "starStep": 18,
+          "attackPp": 38.98
+        },
+        {
+          "starStep": 19,
+          "attackPp": 42.71
+        },
+        {
+          "starStep": 20,
+          "attackPp": 45.62
+        },
+        {
+          "starStep": 21,
+          "attackPp": 48.51
+        },
+        {
+          "starStep": 22,
+          "attackPp": 51.42
+        },
+        {
+          "starStep": 23,
+          "attackPp": 54.32
+        },
+        {
+          "starStep": 24,
+          "attackPp": 57.22
+        },
+        {
+          "starStep": 25,
+          "attackPp": 62.45
+        },
+        {
+          "starStep": 26,
+          "attackPp": 66.51
+        },
+        {
+          "starStep": 27,
+          "attackPp": 70.57
+        },
+        {
+          "starStep": 28,
+          "attackPp": 74.63
+        },
+        {
+          "starStep": 29,
+          "attackPp": 78.7
+        },
+        {
+          "starStep": 30,
+          "attackPp": 82.76
+        },
+        {
+          "starStep": 31,
+          "attackPp": 90.07
+        }
+      ],
+      "ordinaryWidgetLethalityByLevel": [],
+      "snapshot": {
+        "starStep": 31,
+        "level": 80,
+        "widget": 0,
+        "skillLevels": {},
+        "referenceAttackPp": 90.07,
+        "referenceAttackStatus": "primary-max"
+      },
+      "notes": []
+    },
+    {
+      "heroId": "roster-hilde",
+      "slug": "hilde",
+      "name": "Hilde",
+      "troopClass": "cavalry",
+      "sources": {
+        "primary": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50013_kingshot_end/",
+        "progression": "https://kingshotdata.com/heroes/hilde/"
+      },
+      "officialMaxAttackPp": 240.19,
+      "communityMaxAttackPp": 240.19,
+      "progressionStatus": "community-table-endpoint-crosschecked",
+      "attackByStarStep": [
+        {
+          "starStep": 1,
+          "attackPp": 30.3
+        },
+        {
+          "starStep": 2,
+          "attackPp": 33.12
+        },
+        {
+          "starStep": 3,
+          "attackPp": 35.94
+        },
+        {
+          "starStep": 4,
+          "attackPp": 38.76
+        },
+        {
+          "starStep": 5,
+          "attackPp": 41.58
+        },
+        {
+          "starStep": 6,
+          "attackPp": 44.4
+        },
+        {
+          "starStep": 7,
+          "attackPp": 49.48
+        },
+        {
+          "starStep": 8,
+          "attackPp": 53.42
+        },
+        {
+          "starStep": 9,
+          "attackPp": 57.37
+        },
+        {
+          "starStep": 10,
+          "attackPp": 61.32
+        },
+        {
+          "starStep": 11,
+          "attackPp": 65.27
+        },
+        {
+          "starStep": 12,
+          "attackPp": 69.22
+        },
+        {
+          "starStep": 13,
+          "attackPp": 76.32
+        },
+        {
+          "starStep": 14,
+          "attackPp": 81.84
+        },
+        {
+          "starStep": 15,
+          "attackPp": 87.37
+        },
+        {
+          "starStep": 16,
+          "attackPp": 92.9
+        },
+        {
+          "starStep": 17,
+          "attackPp": 98.42
+        },
+        {
+          "starStep": 18,
+          "attackPp": 103.96
+        },
+        {
+          "starStep": 19,
+          "attackPp": 113.9
+        },
+        {
+          "starStep": 20,
+          "attackPp": 121.64
+        },
+        {
+          "starStep": 21,
+          "attackPp": 129.37
+        },
+        {
+          "starStep": 22,
+          "attackPp": 137.11
+        },
+        {
+          "starStep": 23,
+          "attackPp": 144.85
+        },
+        {
+          "starStep": 24,
+          "attackPp": 152.59
+        },
+        {
+          "starStep": 25,
+          "attackPp": 166.52
+        },
+        {
+          "starStep": 26,
+          "attackPp": 177.35
+        },
+        {
+          "starStep": 27,
+          "attackPp": 188.18
+        },
+        {
+          "starStep": 28,
+          "attackPp": 199.02
+        },
+        {
+          "starStep": 29,
+          "attackPp": 209.86
+        },
+        {
+          "starStep": 30,
+          "attackPp": 220.69
+        },
+        {
+          "starStep": 31,
+          "attackPp": 240.19
+        }
+      ],
+      "ordinaryWidgetLethalityByLevel": [
+        {
+          "level": 1,
+          "lethalityPp": 6.0
+        },
+        {
+          "level": 2,
+          "lethalityPp": 12.0
+        },
+        {
+          "level": 3,
+          "lethalityPp": 18.0
+        },
+        {
+          "level": 4,
+          "lethalityPp": 24.0
+        },
+        {
+          "level": 5,
+          "lethalityPp": 30.0
+        },
+        {
+          "level": 6,
+          "lethalityPp": 36.0
+        },
+        {
+          "level": 7,
+          "lethalityPp": 42.0
+        },
+        {
+          "level": 8,
+          "lethalityPp": 48.0
+        },
+        {
+          "level": 9,
+          "lethalityPp": 54.0
+        },
+        {
+          "level": 10,
+          "lethalityPp": 60.0
+        }
+      ],
+      "snapshot": {
+        "starStep": 24,
+        "level": 80,
+        "widget": 1,
+        "skillLevels": {},
+        "referenceAttackPp": 152.59,
+        "referenceAttackStatus": "community-star-table"
+      },
+      "notes": []
+    },
+    {
+      "heroId": "roster-marlin",
+      "slug": "marlin",
+      "name": "Marlin",
+      "troopClass": "archer",
+      "sources": {
+        "primary": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50018_kingshot_end/",
+        "progression": "https://kingshotdata.com/heroes/marlin/"
+      },
+      "officialMaxAttackPp": 240.19,
+      "communityMaxAttackPp": 240.19,
+      "progressionStatus": "community-table-endpoint-crosschecked",
+      "attackByStarStep": [
+        {
+          "starStep": 1,
+          "attackPp": 30.3
+        },
+        {
+          "starStep": 2,
+          "attackPp": 33.12
+        },
+        {
+          "starStep": 3,
+          "attackPp": 35.94
+        },
+        {
+          "starStep": 4,
+          "attackPp": 38.76
+        },
+        {
+          "starStep": 5,
+          "attackPp": 41.58
+        },
+        {
+          "starStep": 6,
+          "attackPp": 44.4
+        },
+        {
+          "starStep": 7,
+          "attackPp": 49.48
+        },
+        {
+          "starStep": 8,
+          "attackPp": 53.42
+        },
+        {
+          "starStep": 9,
+          "attackPp": 57.37
+        },
+        {
+          "starStep": 10,
+          "attackPp": 61.32
+        },
+        {
+          "starStep": 11,
+          "attackPp": 65.27
+        },
+        {
+          "starStep": 12,
+          "attackPp": 69.22
+        },
+        {
+          "starStep": 13,
+          "attackPp": 76.32
+        },
+        {
+          "starStep": 14,
+          "attackPp": 81.84
+        },
+        {
+          "starStep": 15,
+          "attackPp": 87.37
+        },
+        {
+          "starStep": 16,
+          "attackPp": 92.9
+        },
+        {
+          "starStep": 17,
+          "attackPp": 98.42
+        },
+        {
+          "starStep": 18,
+          "attackPp": 103.96
+        },
+        {
+          "starStep": 19,
+          "attackPp": 113.9
+        },
+        {
+          "starStep": 20,
+          "attackPp": 121.64
+        },
+        {
+          "starStep": 21,
+          "attackPp": 129.37
+        },
+        {
+          "starStep": 22,
+          "attackPp": 137.11
+        },
+        {
+          "starStep": 23,
+          "attackPp": 144.85
+        },
+        {
+          "starStep": 24,
+          "attackPp": 152.59
+        },
+        {
+          "starStep": 25,
+          "attackPp": 166.52
+        },
+        {
+          "starStep": 26,
+          "attackPp": 177.35
+        },
+        {
+          "starStep": 27,
+          "attackPp": 188.18
+        },
+        {
+          "starStep": 28,
+          "attackPp": 199.02
+        },
+        {
+          "starStep": 29,
+          "attackPp": 209.86
+        },
+        {
+          "starStep": 30,
+          "attackPp": 220.69
+        },
+        {
+          "starStep": 31,
+          "attackPp": 240.19
+        }
+      ],
+      "ordinaryWidgetLethalityByLevel": [
+        {
+          "level": 1,
+          "lethalityPp": 6.0
+        },
+        {
+          "level": 2,
+          "lethalityPp": 12.0
+        },
+        {
+          "level": 3,
+          "lethalityPp": 18.0
+        },
+        {
+          "level": 4,
+          "lethalityPp": 24.0
+        },
+        {
+          "level": 5,
+          "lethalityPp": 30.0
+        },
+        {
+          "level": 6,
+          "lethalityPp": 36.0
+        },
+        {
+          "level": 7,
+          "lethalityPp": 42.0
+        },
+        {
+          "level": 8,
+          "lethalityPp": 48.0
+        },
+        {
+          "level": 9,
+          "lethalityPp": 54.0
+        },
+        {
+          "level": 10,
+          "lethalityPp": 60.0
+        }
+      ],
+      "snapshot": {
+        "starStep": 24,
+        "level": 80,
+        "widget": 0,
+        "skillLevels": {},
+        "referenceAttackPp": 152.59,
+        "referenceAttackStatus": "community-star-table"
+      },
+      "notes": []
+    },
+    {
+      "heroId": "roster-eric",
+      "slug": "eric",
+      "name": "Eric",
+      "troopClass": "infantry",
+      "sources": {
+        "primary": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50010_kingshot_end/",
+        "progression": "https://kingshotdata.com/heroes/eric/"
+      },
+      "officialMaxAttackPp": 290.23,
+      "communityMaxAttackPp": 290.23,
+      "progressionStatus": "community-table-endpoint-crosschecked",
+      "attackByStarStep": [
+        {
+          "starStep": 1,
+          "attackPp": 36.61
+        },
+        {
+          "starStep": 2,
+          "attackPp": 40.02
+        },
+        {
+          "starStep": 3,
+          "attackPp": 43.43
+        },
+        {
+          "starStep": 4,
+          "attackPp": 46.84
+        },
+        {
+          "starStep": 5,
+          "attackPp": 50.24
+        },
+        {
+          "starStep": 6,
+          "attackPp": 53.65
+        },
+        {
+          "starStep": 7,
+          "attackPp": 59.78
+        },
+        {
+          "starStep": 8,
+          "attackPp": 64.55
+        },
+        {
+          "starStep": 9,
+          "attackPp": 69.32
+        },
+        {
+          "starStep": 10,
+          "attackPp": 74.09
+        },
+        {
+          "starStep": 11,
+          "attackPp": 78.87
+        },
+        {
+          "starStep": 12,
+          "attackPp": 83.64
+        },
+        {
+          "starStep": 13,
+          "attackPp": 92.22
+        },
+        {
+          "starStep": 14,
+          "attackPp": 98.89
+        },
+        {
+          "starStep": 15,
+          "attackPp": 105.57
+        },
+        {
+          "starStep": 16,
+          "attackPp": 112.26
+        },
+        {
+          "starStep": 17,
+          "attackPp": 118.93
+        },
+        {
+          "starStep": 18,
+          "attackPp": 125.61
+        },
+        {
+          "starStep": 19,
+          "attackPp": 137.63
+        },
+        {
+          "starStep": 20,
+          "attackPp": 146.99
+        },
+        {
+          "starStep": 21,
+          "attackPp": 156.32
+        },
+        {
+          "starStep": 22,
+          "attackPp": 165.68
+        },
+        {
+          "starStep": 23,
+          "attackPp": 175.03
+        },
+        {
+          "starStep": 24,
+          "attackPp": 184.38
+        },
+        {
+          "starStep": 25,
+          "attackPp": 201.22
+        },
+        {
+          "starStep": 26,
+          "attackPp": 214.3
+        },
+        {
+          "starStep": 27,
+          "attackPp": 227.39
+        },
+        {
+          "starStep": 28,
+          "attackPp": 240.48
+        },
+        {
+          "starStep": 29,
+          "attackPp": 253.58
+        },
+        {
+          "starStep": 30,
+          "attackPp": 266.67
+        },
+        {
+          "starStep": 31,
+          "attackPp": 290.23
+        }
+      ],
+      "ordinaryWidgetLethalityByLevel": [
+        {
+          "level": 1,
+          "lethalityPp": 7.0
+        },
+        {
+          "level": 2,
+          "lethalityPp": 14.0
+        },
+        {
+          "level": 3,
+          "lethalityPp": 21.0
+        },
+        {
+          "level": 4,
+          "lethalityPp": 28.0
+        },
+        {
+          "level": 5,
+          "lethalityPp": 35.0
+        },
+        {
+          "level": 6,
+          "lethalityPp": 42.0
+        },
+        {
+          "level": 7,
+          "lethalityPp": 49.0
+        },
+        {
+          "level": 8,
+          "lethalityPp": 56.0
+        },
+        {
+          "level": 9,
+          "lethalityPp": 63.0
+        },
+        {
+          "level": 10,
+          "lethalityPp": 70.0
+        }
+      ],
+      "snapshot": {
+        "starStep": 21,
+        "level": 80,
+        "widget": 0,
+        "skillLevels": {},
+        "referenceAttackPp": 156.32,
+        "referenceAttackStatus": "community-star-table"
+      },
+      "notes": []
+    },
+    {
+      "heroId": "roster-jaeger",
+      "slug": "jaeger",
+      "name": "Jaeger",
+      "troopClass": "archer",
+      "sources": {
+        "primary": "https://kingshotwiki.com/heroes/jaegar/",
+        "progression": "https://kingshotdata.com/heroes/jaeger/"
+      },
+      "officialMaxAttackPp": 290.23,
+      "communityMaxAttackPp": 290.23,
+      "progressionStatus": "community-table-endpoint-crosschecked",
+      "attackByStarStep": [
+        {
+          "starStep": 1,
+          "attackPp": 36.61
+        },
+        {
+          "starStep": 2,
+          "attackPp": 40.02
+        },
+        {
+          "starStep": 3,
+          "attackPp": 43.43
+        },
+        {
+          "starStep": 4,
+          "attackPp": 46.84
+        },
+        {
+          "starStep": 5,
+          "attackPp": 50.24
+        },
+        {
+          "starStep": 6,
+          "attackPp": 53.65
+        },
+        {
+          "starStep": 7,
+          "attackPp": 59.78
+        },
+        {
+          "starStep": 8,
+          "attackPp": 64.55
+        },
+        {
+          "starStep": 9,
+          "attackPp": 69.32
+        },
+        {
+          "starStep": 10,
+          "attackPp": 74.09
+        },
+        {
+          "starStep": 11,
+          "attackPp": 78.87
+        },
+        {
+          "starStep": 12,
+          "attackPp": 83.64
+        },
+        {
+          "starStep": 13,
+          "attackPp": 92.22
+        },
+        {
+          "starStep": 14,
+          "attackPp": 98.89
+        },
+        {
+          "starStep": 15,
+          "attackPp": 105.57
+        },
+        {
+          "starStep": 16,
+          "attackPp": 112.26
+        },
+        {
+          "starStep": 17,
+          "attackPp": 118.93
+        },
+        {
+          "starStep": 18,
+          "attackPp": 125.61
+        },
+        {
+          "starStep": 19,
+          "attackPp": 137.63
+        },
+        {
+          "starStep": 20,
+          "attackPp": 146.99
+        },
+        {
+          "starStep": 21,
+          "attackPp": 156.32
+        },
+        {
+          "starStep": 22,
+          "attackPp": 165.68
+        },
+        {
+          "starStep": 23,
+          "attackPp": 175.03
+        },
+        {
+          "starStep": 24,
+          "attackPp": 184.38
+        },
+        {
+          "starStep": 25,
+          "attackPp": 201.22
+        },
+        {
+          "starStep": 26,
+          "attackPp": 214.3
+        },
+        {
+          "starStep": 27,
+          "attackPp": 227.39
+        },
+        {
+          "starStep": 28,
+          "attackPp": 240.48
+        },
+        {
+          "starStep": 29,
+          "attackPp": 253.58
+        },
+        {
+          "starStep": 30,
+          "attackPp": 266.67
+        },
+        {
+          "starStep": 31,
+          "attackPp": 290.23
+        }
+      ],
+      "ordinaryWidgetLethalityByLevel": [
+        {
+          "level": 1,
+          "lethalityPp": 7.0
+        },
+        {
+          "level": 2,
+          "lethalityPp": 14.0
+        },
+        {
+          "level": 3,
+          "lethalityPp": 21.0
+        },
+        {
+          "level": 4,
+          "lethalityPp": 28.0
+        },
+        {
+          "level": 5,
+          "lethalityPp": 35.0
+        },
+        {
+          "level": 6,
+          "lethalityPp": 42.0
+        },
+        {
+          "level": 7,
+          "lethalityPp": 49.0
+        },
+        {
+          "level": 8,
+          "lethalityPp": 56.0
+        },
+        {
+          "level": 9,
+          "lethalityPp": 63.0
+        },
+        {
+          "level": 10,
+          "lethalityPp": 70.0
+        }
+      ],
+      "snapshot": {
+        "starStep": 23,
+        "level": 80,
+        "widget": 0,
+        "skillLevels": {},
+        "referenceAttackPp": 175.03,
+        "referenceAttackStatus": "community-star-table"
+      },
+      "notes": []
+    },
+    {
+      "heroId": "roster-margot",
+      "slug": "margot",
+      "name": "Margot",
+      "troopClass": "cavalry",
+      "sources": {
+        "primary": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50014_kingshot_end/",
+        "progression": "https://kingshotdata.com/heroes/margot/"
+      },
+      "officialMaxAttackPp": 370.29,
+      "communityMaxAttackPp": 370.3,
+      "progressionStatus": "community-table-endpoint-crosschecked",
+      "attackByStarStep": [
+        {
+          "starStep": 1,
+          "attackPp": 46.71
+        },
+        {
+          "starStep": 2,
+          "attackPp": 51.06
+        },
+        {
+          "starStep": 3,
+          "attackPp": 55.41
+        },
+        {
+          "starStep": 4,
+          "attackPp": 59.76
+        },
+        {
+          "starStep": 5,
+          "attackPp": 64.1
+        },
+        {
+          "starStep": 6,
+          "attackPp": 68.45
+        },
+        {
+          "starStep": 7,
+          "attackPp": 76.28
+        },
+        {
+          "starStep": 8,
+          "attackPp": 82.36
+        },
+        {
+          "starStep": 9,
+          "attackPp": 88.45
+        },
+        {
+          "starStep": 10,
+          "attackPp": 94.53
+        },
+        {
+          "starStep": 11,
+          "attackPp": 100.62
+        },
+        {
+          "starStep": 12,
+          "attackPp": 106.71
+        },
+        {
+          "starStep": 13,
+          "attackPp": 117.66
+        },
+        {
+          "starStep": 14,
+          "attackPp": 126.17
+        },
+        {
+          "starStep": 15,
+          "attackPp": 134.7
+        },
+        {
+          "starStep": 16,
+          "attackPp": 143.23
+        },
+        {
+          "starStep": 17,
+          "attackPp": 151.74
+        },
+        {
+          "starStep": 18,
+          "attackPp": 160.27
+        },
+        {
+          "starStep": 19,
+          "attackPp": 175.6
+        },
+        {
+          "starStep": 20,
+          "attackPp": 187.53
+        },
+        {
+          "starStep": 21,
+          "attackPp": 199.45
+        },
+        {
+          "starStep": 22,
+          "attackPp": 211.38
+        },
+        {
+          "starStep": 23,
+          "attackPp": 223.31
+        },
+        {
+          "starStep": 24,
+          "attackPp": 235.25
+        },
+        {
+          "starStep": 25,
+          "attackPp": 256.72
+        },
+        {
+          "starStep": 26,
+          "attackPp": 273.41
+        },
+        {
+          "starStep": 27,
+          "attackPp": 290.12
+        },
+        {
+          "starStep": 28,
+          "attackPp": 306.82
+        },
+        {
+          "starStep": 29,
+          "attackPp": 323.53
+        },
+        {
+          "starStep": 30,
+          "attackPp": 340.23
+        },
+        {
+          "starStep": 31,
+          "attackPp": 370.29
+        }
+      ],
+      "ordinaryWidgetLethalityByLevel": [
+        {
+          "level": 1,
+          "lethalityPp": 9.25
+        },
+        {
+          "level": 2,
+          "lethalityPp": 18.5
+        },
+        {
+          "level": 3,
+          "lethalityPp": 27.75
+        },
+        {
+          "level": 4,
+          "lethalityPp": 37.0
+        },
+        {
+          "level": 5,
+          "lethalityPp": 46.25
+        },
+        {
+          "level": 6,
+          "lethalityPp": 55.5
+        },
+        {
+          "level": 7,
+          "lethalityPp": 64.75
+        },
+        {
+          "level": 8,
+          "lethalityPp": 74.0
+        },
+        {
+          "level": 9,
+          "lethalityPp": 83.25
+        },
+        {
+          "level": 10,
+          "lethalityPp": 92.5
+        }
+      ],
+      "snapshot": {
+        "starStep": 18,
+        "level": 65,
+        "widget": 0,
+        "skillLevels": {},
+        "referenceAttackPp": 160.27,
+        "referenceAttackStatus": "community-star-table"
+      },
+      "notes": [
+        "Minor endpoint rounding discrepancy; step 31 uses primary value. Partial steps are not rescaled."
+      ]
+    },
+    {
+      "heroId": "roster-thrud",
+      "slug": "thrud",
+      "name": "Thrud",
+      "troopClass": "cavalry",
+      "sources": {
+        "primary": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50025_kingshot_end/",
+        "progression": "https://kingshotdata.com/heroes/thrud/"
+      },
+      "officialMaxAttackPp": 444.35,
+      "communityMaxAttackPp": 444.36,
+      "progressionStatus": "community-table-endpoint-crosschecked",
+      "attackByStarStep": [
+        {
+          "starStep": 1,
+          "attackPp": 56.05
+        },
+        {
+          "starStep": 2,
+          "attackPp": 61.27
+        },
+        {
+          "starStep": 3,
+          "attackPp": 66.49
+        },
+        {
+          "starStep": 4,
+          "attackPp": 71.71
+        },
+        {
+          "starStep": 5,
+          "attackPp": 76.92
+        },
+        {
+          "starStep": 6,
+          "attackPp": 82.14
+        },
+        {
+          "starStep": 7,
+          "attackPp": 91.53
+        },
+        {
+          "starStep": 8,
+          "attackPp": 98.83
+        },
+        {
+          "starStep": 9,
+          "attackPp": 106.14
+        },
+        {
+          "starStep": 10,
+          "attackPp": 113.44
+        },
+        {
+          "starStep": 11,
+          "attackPp": 120.75
+        },
+        {
+          "starStep": 12,
+          "attackPp": 128.05
+        },
+        {
+          "starStep": 13,
+          "attackPp": 141.19
+        },
+        {
+          "starStep": 14,
+          "attackPp": 151.4
+        },
+        {
+          "starStep": 15,
+          "attackPp": 161.64
+        },
+        {
+          "starStep": 16,
+          "attackPp": 171.87
+        },
+        {
+          "starStep": 17,
+          "attackPp": 182.08
+        },
+        {
+          "starStep": 18,
+          "attackPp": 192.32
+        },
+        {
+          "starStep": 19,
+          "attackPp": 210.72
+        },
+        {
+          "starStep": 20,
+          "attackPp": 225.04
+        },
+        {
+          "starStep": 21,
+          "attackPp": 239.34
+        },
+        {
+          "starStep": 22,
+          "attackPp": 253.66
+        },
+        {
+          "starStep": 23,
+          "attackPp": 267.98
+        },
+        {
+          "starStep": 24,
+          "attackPp": 282.3
+        },
+        {
+          "starStep": 25,
+          "attackPp": 308.07
+        },
+        {
+          "starStep": 26,
+          "attackPp": 328.09
+        },
+        {
+          "starStep": 27,
+          "attackPp": 348.14
+        },
+        {
+          "starStep": 28,
+          "attackPp": 368.19
+        },
+        {
+          "starStep": 29,
+          "attackPp": 388.23
+        },
+        {
+          "starStep": 30,
+          "attackPp": 408.28
+        },
+        {
+          "starStep": 31,
+          "attackPp": 444.35
+        }
+      ],
+      "ordinaryWidgetLethalityByLevel": [
+        {
+          "level": 1,
+          "lethalityPp": 11.1
+        },
+        {
+          "level": 2,
+          "lethalityPp": 22.2
+        },
+        {
+          "level": 3,
+          "lethalityPp": 33.3
+        },
+        {
+          "level": 4,
+          "lethalityPp": 44.4
+        },
+        {
+          "level": 5,
+          "lethalityPp": 55.5
+        },
+        {
+          "level": 6,
+          "lethalityPp": 66.6
+        },
+        {
+          "level": 7,
+          "lethalityPp": 77.7
+        },
+        {
+          "level": 8,
+          "lethalityPp": 88.8
+        },
+        {
+          "level": 9,
+          "lethalityPp": 99.9
+        },
+        {
+          "level": 10,
+          "lethalityPp": 111.0
+        }
+      ],
+      "snapshot": {
+        "starStep": 10,
+        "level": 66,
+        "widget": 0,
+        "skillLevels": {},
+        "referenceAttackPp": 113.44,
+        "referenceAttackStatus": "community-star-table"
+      },
+      "notes": [
+        "Minor endpoint rounding discrepancy; step 31 uses primary value. Partial steps are not rescaled."
+      ]
+    },
+    {
+      "heroId": "roster-triton",
+      "slug": "triton",
+      "name": "Triton",
+      "troopClass": "infantry",
+      "sources": {
+        "primary": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50019_kingshot_end/",
+        "progression": "https://kingshotdata.com/heroes/triton/"
+      },
+      "officialMaxAttackPp": 540.43,
+      "communityMaxAttackPp": 540.43,
+      "progressionStatus": "community-table-endpoint-crosschecked",
+      "attackByStarStep": [
+        {
+          "starStep": 1,
+          "attackPp": 68.17
+        },
+        {
+          "starStep": 2,
+          "attackPp": 74.52
+        },
+        {
+          "starStep": 3,
+          "attackPp": 80.86
+        },
+        {
+          "starStep": 4,
+          "attackPp": 87.21
+        },
+        {
+          "starStep": 5,
+          "attackPp": 93.56
+        },
+        {
+          "starStep": 6,
+          "attackPp": 99.9
+        },
+        {
+          "starStep": 7,
+          "attackPp": 111.32
+        },
+        {
+          "starStep": 8,
+          "attackPp": 120.2
+        },
+        {
+          "starStep": 9,
+          "attackPp": 129.09
+        },
+        {
+          "starStep": 10,
+          "attackPp": 137.97
+        },
+        {
+          "starStep": 11,
+          "attackPp": 146.85
+        },
+        {
+          "starStep": 12,
+          "attackPp": 155.74
+        },
+        {
+          "starStep": 13,
+          "attackPp": 171.72
+        },
+        {
+          "starStep": 14,
+          "attackPp": 184.14
+        },
+        {
+          "starStep": 15,
+          "attackPp": 196.59
+        },
+        {
+          "starStep": 16,
+          "attackPp": 209.03
+        },
+        {
+          "starStep": 17,
+          "attackPp": 221.45
+        },
+        {
+          "starStep": 18,
+          "attackPp": 233.9
+        },
+        {
+          "starStep": 19,
+          "attackPp": 256.28
+        },
+        {
+          "starStep": 20,
+          "attackPp": 273.7
+        },
+        {
+          "starStep": 21,
+          "attackPp": 291.09
+        },
+        {
+          "starStep": 22,
+          "attackPp": 308.5
+        },
+        {
+          "starStep": 23,
+          "attackPp": 325.92
+        },
+        {
+          "starStep": 24,
+          "attackPp": 343.33
+        },
+        {
+          "starStep": 25,
+          "attackPp": 374.68
+        },
+        {
+          "starStep": 26,
+          "attackPp": 399.03
+        },
+        {
+          "starStep": 27,
+          "attackPp": 423.41
+        },
+        {
+          "starStep": 28,
+          "attackPp": 447.8
+        },
+        {
+          "starStep": 29,
+          "attackPp": 472.18
+        },
+        {
+          "starStep": 30,
+          "attackPp": 496.56
+        },
+        {
+          "starStep": 31,
+          "attackPp": 540.43
+        }
+      ],
+      "ordinaryWidgetLethalityByLevel": [
+        {
+          "level": 1,
+          "lethalityPp": 13.35
+        },
+        {
+          "level": 2,
+          "lethalityPp": 26.7
+        },
+        {
+          "level": 3,
+          "lethalityPp": 40.05
+        },
+        {
+          "level": 4,
+          "lethalityPp": 53.4
+        },
+        {
+          "level": 5,
+          "lethalityPp": 66.75
+        },
+        {
+          "level": 6,
+          "lethalityPp": 80.1
+        },
+        {
+          "level": 7,
+          "lethalityPp": 93.45
+        },
+        {
+          "level": 8,
+          "lethalityPp": 106.8
+        },
+        {
+          "level": 9,
+          "lethalityPp": 120.15
+        },
+        {
+          "level": 10,
+          "lethalityPp": 133.5
+        }
+      ],
+      "snapshot": {
+        "starStep": 16,
+        "level": 73,
+        "widget": 1,
+        "skillLevels": {},
+        "referenceAttackPp": 209.03,
+        "referenceAttackStatus": "community-star-table"
+      },
+      "notes": []
+    },
+    {
+      "heroId": "roster-sophia",
+      "slug": "sophia",
+      "name": "Sophia",
+      "troopClass": "cavalry",
+      "sources": {
+        "primary": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50030_kingshot_end/",
+        "progression": "https://kingshotdata.com/heroes/sophia/"
+      },
+      "officialMaxAttackPp": 540.43,
+      "communityMaxAttackPp": 540.43,
+      "progressionStatus": "community-table-endpoint-crosschecked",
+      "attackByStarStep": [
+        {
+          "starStep": 1,
+          "attackPp": 68.17
+        },
+        {
+          "starStep": 2,
+          "attackPp": 74.52
+        },
+        {
+          "starStep": 3,
+          "attackPp": 80.86
+        },
+        {
+          "starStep": 4,
+          "attackPp": 87.21
+        },
+        {
+          "starStep": 5,
+          "attackPp": 93.56
+        },
+        {
+          "starStep": 6,
+          "attackPp": 99.9
+        },
+        {
+          "starStep": 7,
+          "attackPp": 111.32
+        },
+        {
+          "starStep": 8,
+          "attackPp": 120.2
+        },
+        {
+          "starStep": 9,
+          "attackPp": 129.09
+        },
+        {
+          "starStep": 10,
+          "attackPp": 137.97
+        },
+        {
+          "starStep": 11,
+          "attackPp": 146.85
+        },
+        {
+          "starStep": 12,
+          "attackPp": 155.74
+        },
+        {
+          "starStep": 13,
+          "attackPp": 171.72
+        },
+        {
+          "starStep": 14,
+          "attackPp": 184.14
+        },
+        {
+          "starStep": 15,
+          "attackPp": 196.59
+        },
+        {
+          "starStep": 16,
+          "attackPp": 209.03
+        },
+        {
+          "starStep": 17,
+          "attackPp": 221.45
+        },
+        {
+          "starStep": 18,
+          "attackPp": 233.9
+        },
+        {
+          "starStep": 19,
+          "attackPp": 256.28
+        },
+        {
+          "starStep": 20,
+          "attackPp": 273.7
+        },
+        {
+          "starStep": 21,
+          "attackPp": 291.09
+        },
+        {
+          "starStep": 22,
+          "attackPp": 308.5
+        },
+        {
+          "starStep": 23,
+          "attackPp": 325.92
+        },
+        {
+          "starStep": 24,
+          "attackPp": 343.33
+        },
+        {
+          "starStep": 25,
+          "attackPp": 374.68
+        },
+        {
+          "starStep": 26,
+          "attackPp": 399.03
+        },
+        {
+          "starStep": 27,
+          "attackPp": 423.41
+        },
+        {
+          "starStep": 28,
+          "attackPp": 447.8
+        },
+        {
+          "starStep": 29,
+          "attackPp": 472.18
+        },
+        {
+          "starStep": 30,
+          "attackPp": 496.56
+        },
+        {
+          "starStep": 31,
+          "attackPp": 540.43
+        }
+      ],
+      "ordinaryWidgetLethalityByLevel": [
+        {
+          "level": 1,
+          "lethalityPp": 13.35
+        },
+        {
+          "level": 2,
+          "lethalityPp": 26.7
+        },
+        {
+          "level": 3,
+          "lethalityPp": 40.05
+        },
+        {
+          "level": 4,
+          "lethalityPp": 53.4
+        },
+        {
+          "level": 5,
+          "lethalityPp": 66.75
+        },
+        {
+          "level": 6,
+          "lethalityPp": 80.1
+        },
+        {
+          "level": 7,
+          "lethalityPp": 93.45
+        },
+        {
+          "level": 8,
+          "lethalityPp": 106.8
+        },
+        {
+          "level": 9,
+          "lethalityPp": 120.15
+        },
+        {
+          "level": 10,
+          "lethalityPp": 133.5
+        }
+      ],
+      "snapshot": {
+        "starStep": 24,
+        "level": 80,
+        "widget": 1,
+        "skillLevels": {},
+        "referenceAttackPp": 343.33,
+        "referenceAttackStatus": "community-star-table"
+      },
+      "notes": []
+    },
+    {
+      "heroId": "roster-chenko",
+      "slug": "chenko",
+      "name": "Chenko",
+      "troopClass": "cavalry",
+      "sources": {
+        "primary": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50007_kingshot_end/",
+        "progression": "https://kingshotdata.com/heroes/chenko/"
+      },
+      "officialMaxAttackPp": 140.11,
+      "communityMaxAttackPp": null,
+      "progressionStatus": "primary-max-only",
+      "attackByStarStep": [],
+      "ordinaryWidgetLethalityByLevel": [],
+      "snapshot": {
+        "starStep": 31,
+        "level": 80,
+        "widget": 0,
+        "skillLevels": {
+          "1": 5,
+          "2": 5
+        },
+        "referenceAttackPp": 140.11,
+        "referenceAttackStatus": "primary-max"
+      },
+      "notes": []
+    }
+  ]
+}

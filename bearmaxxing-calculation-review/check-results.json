@@ -1,0 +1,88 @@
+{
+  "scope": "Independent reference and algebra checks; not production integration tests or observed Bear damage validation.",
+  "checks": 20,
+  "passed": 20,
+  "failed": 0,
+  "results": [
+    {
+      "name": "Sixth-step encoding matches 3.3 and full-five-star snapshot",
+      "status": "pass"
+    },
+    {
+      "name": "Illegal partial five-star input rejected",
+      "status": "pass"
+    },
+    {
+      "name": "All seventeen retained curves contain unique, complete, monotone steps",
+      "status": "pass"
+    },
+    {
+      "name": "Primary maximum is retained across curve rounding discrepancies",
+      "status": "pass"
+    },
+    {
+      "name": "Conflicting Gordon/Fahd partial curves are withheld rather than rescaled",
+      "status": "pass"
+    },
+    {
+      "name": "Existing saved progression is used; Hilde is 3.5, not default five stars",
+      "status": "pass"
+    },
+    {
+      "name": "Widget levels zero through ten have correct neutral zero semantics",
+      "status": "pass"
+    },
+    {
+      "name": "Explicit skill zero survives assumed-cap resolution",
+      "status": "pass"
+    },
+    {
+      "name": "Unentered skill uses cap only when cap is known",
+      "status": "pass"
+    },
+    {
+      "name": "Gordon second skill is static Attack and never a joining-first skill",
+      "status": "pass"
+    },
+    {
+      "name": "Marlin includes omitted third Expedition skill",
+      "status": "pass"
+    },
+    {
+      "name": "Quinn slot identity retains name aliases without mixing defense and offense",
+      "status": "pass"
+    },
+    {
+      "name": "Hilde total-damage proc differs from Margot extra-attack packet",
+      "status": "pass"
+    },
+    {
+      "name": "Timed and skill-only effects cannot use simple isolated proc mean",
+      "status": "pass"
+    },
+    {
+      "name": "Defensive/economy heroes retain inherent stats but no fabricated offensive skill",
+      "status": "pass"
+    },
+    {
+      "name": "Helga account talent is separate from her three explicitly zero skills",
+      "status": "pass"
+    },
+    {
+      "name": "Synthetic report reconstructs reference without counting gear twice",
+      "status": "pass"
+    },
+    {
+      "name": "Reported neutral zero differs from absent/unconfirmed baseline",
+      "status": "pass"
+    },
+    {
+      "name": "Unknown report decomposition and incompatible subtraction are rejected",
+      "status": "pass"
+    },
+    {
+      "name": "Hammer efficiency retains spare-gear cost and does not compare currencies",
+      "status": "pass"
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import React from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
+import {createServer} from 'vite';
+import {emptyProfile} from '../src/profile.mjs';
+import {migrateProfile} from '../src/data/roster.mjs';
+import {calculate,accountEffects} from '../src/calculator.mjs';
+import {compareHosts} from '../src/host-comparison.mjs';
+const ready=()=>migrateProfile(emptyProfile());
+const hero=(p,name)=>p.heroes.find(h=>h.name===name);
+
+test('optional permanent stats never block the supported host and host slots are reserved before automatic fillers',()=>{
+ const p=ready();for(const t of ['infantry','cavalry','archer'])p.stats[t]={attack:null,lethality:null};
+ const names=['Helga','Petra','Rosa'];
+ for(const h of p.heroes)h.included=names.includes(h.name);
+ for(const name of names)hero(p,name).level=1;
+ p.joiners[0].slot2=hero(p,'Helga').id;
+ p.heroes.push({...hero(p,'Helga'),id:'same-hero-other-record',name:'Duplicate canonical hero',included:false,level:80,owned:false});
+ const host=calculate(p,'hosting');assert.equal(host.team.length,3);assert.deepEqual(host.team.map(e=>e.hero.name),names);
+ const result=calculate(p,'joining');assert.deepEqual(result.plan.assignment.host.map(h=>h.name),names);
+ const all=result.plan.marches.flatMap(m=>m.heroes.filter(Boolean));assert.equal(new Set(all.map(h=>h.id)).size,all.length);
+ assert.equal(all.length,12);
+ assert.equal(new Set(all.map(h=>h.canonicalHeroId??h.id)).size,all.length);
+ for(const m of result.plan.marches.filter(m=>m.joinIndex!=null))assert.ok(m.heroes.every(h=>!names.includes(h.name)));
+ const gearIds=host.team.flatMap(e=>e.gear.map(g=>g.id));assert.equal(new Set(gearIds).size,gearIds.length);
+});
+test('canonical role candidate identities and deliberate ownership/availability exclusions remain respected',()=>{
+ const p=ready(),chenko=hero(p,'Chenko');chenko.name='Renamed leader';chenko.canonicalHeroId='roster-chenko';
+ hero(p,'Helga').marchAvailable=false;hero(p,'Liz').owned=false;
+ const comparison=compareHosts(p,accountEffects(p));
+ assert.ok(comparison.best);assert.ok(comparison.best.team.every(e=>!['Helga','Liz'].includes(e.hero.name)));
+ const joined=calculate(p,'joining').plan;
+ assert.ok(joined.marches.some(m=>m.joinIndex!=null&&m.heroes[0]?.id===chenko.id));
+ assert.ok(joined.marches.flatMap(m=>m.heroes.filter(Boolean)).every(h=>!['Helga','Liz'].includes(h.name)));
+});
+test('essential host widget gaps do not block independent joining roles',()=>{
+ const p=ready();for(const h of p.heroes)h.included=['Helga','Petra','Rosa'].includes(h.name);
+ hero(p,'Rosa').widget=null;
+ const host=calculate(p,'hosting');assert.ok(!host.team);
+ assert.ok(host.modelGaps.some(g=>g.name==='Rosa'&&g.reasons.some(r=>/Widget rally skill.*unset/.test(r))));
+ const joined=calculate(p,'joining').plan;
+ assert.ok(joined.assignment.host.every(h=>h===null));
+ const ids=joined.marches.flatMap(m=>m.heroes.filter(Boolean)).map(h=>h.canonicalHeroId??h.id);assert.equal(new Set(ids).size,ids.length);assert.equal(joined.assignment.host.length,0);
+});
+test('incomplete joining squads retain only an explicitly shared planning assumption',()=>{
+ const p=ready();p.troopsPerMarch=100000;
+ for(const h of p.heroes){h.skillLevels[1]=0;h.skillLevelSource[1]='user-confirmed';}
+ const result=calculate(p,'joining'),row=result.plan.marches[1];
+ assert.ok(row.heroes.some(h=>h===null));assert.equal(row.capacity,100000);assert.equal(row.basis,'approximate common maximum');
+ assert.ok(result.leaderGaps.some(s=>s.includes('no available supported joining leader')));
+});
+test('Results renders compact recommendations with portraits and no dashboard editors',async t=>{
+ const vite=await createServer({server:{middlewareMode:true,hmr:false,ws:false},appType:'custom'});t.after(()=>vite.close());
+ const {App}=await vite.ssrLoadModule('/src/main.jsx');const p=ready();p.troopsPerMarch=100000;
+ for(const t of ['infantry','cavalry','archer'])p.troops[t].count=500000;
+ const html=renderToStaticMarkup(React.createElement(App,{initialProfile:p,initialTab:'Home'}));
+ for(const text of ['Hosting march','Joining marches','Next improvements','Completes the'])assert.ok(html.includes(text),text);
+ const ordered=['Next improvements','Hosting march','Joining marches'].map(label=>html.indexOf(label));assert.deepEqual([...ordered].sort((a,b)=>a-b),ordered);
+ for(const text of ['Edit march setup','Edit teams','Filler 0','Filler 1','Optional: refine','Open Home','class="home-intro"','filler 1"','filler 2"'])assert.ok(!html.includes(text),text);
+ assert.ok(!html.includes('Copy calculation diagnostics'));
+ assert.ok(!html.includes('Copy diagnostics'));assert.ok(!html.includes('Development tools'));
+ assert.ok(!html.includes('Supported plan alternatives'));
+ assert.ok(!html.includes('Estimated recommendation'));assert.ok(html.includes('About estimated recommendation'));
+ const editorHtml=renderToStaticMarkup(React.createElement(App,{initialProfile:p,initialTab:'Heroes'}));
+ assert.ok(!editorHtml.includes('Development tools'));
+ assert.ok(!html.includes('About calculations'));
+ assert.ok(!html.includes('Troop readiness'));
+ const troopsHtml=renderToStaticMarkup(React.createElement(App,{initialProfile:p,initialTab:'Troops'}));
+ assert.ok(!troopsHtml.includes('Full-capacity requirements'));
+ assert.ok(!html.includes('Train troops for four full marches'));
+ assert.ok(!html.includes('Resource:'));assert.ok(!html.includes('partial modeled-effects index'));
+ const blocked=structuredClone(p);blocked.heroes.find(h=>h.name==='Rosa').widget=8;blocked.gear[1].slot='invalid-slot';
+ const blockedHtml=renderToStaticMarkup(React.createElement(App,{initialProfile:blocked,initialTab:'Home'}));
+ assert.ok(blockedHtml.includes('Host comparison is blocked by profile validation.'));
+ assert.ok(blockedHtml.includes('slot must match its primary ID'));
+ assert.ok(!blockedHtml.includes('Host comparison is unavailable for the entered progression.'));
+ assert.equal((html.match(/<select/g)||[]).length,1);assert.ok(html.includes('app-language'));assert.ok(html.includes('/figma-heroes/')); assert.ok(html.includes('home-assigned-gear'));
+ const noCapacity=renderToStaticMarkup(React.createElement(App,{initialProfile:{...p,troopsPerMarch:0},initialTab:'Home'}));assert.ok(!noCapacity.includes('Troop readiness'));
+});

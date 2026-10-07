@@ -1,0 +1,1607 @@
+{
+  "version": "2026-10-05",
+  "heroes": {
+    "Long Fei": {
+      "effects": [
+        {
+          "skill": 3,
+          "name": "Art of War",
+          "stat": "extraDamage",
+          "values": [
+            0,
+            20,
+            40,
+            60,
+            80,
+            100
+          ],
+          "unresolved": "Proc timing, overlap and Bear damage integration are unverified.",
+          "chance": 0.25,
+          "unresolvedMechanics": [
+            "proc timing",
+            "overlap",
+            "Bear damage applicability"
+          ],
+          "scope": "all",
+          "bearMechanicsSource": "https://kingshotoptimizer.com/heroes/long-fei/",
+          "stackingFamily": "long-fei-strike",
+          "bearTreatment": "chance"
+        }
+      ],
+      "irrelevant": [
+        "Mighty Paragon: damage reduction",
+        "Celestial Sustenance: Defense",
+        "Strategic Strike: defender-only Attack"
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Strategic Strike",
+        "reason": "Defender-only Attack does not apply when hosting Bear.",
+        "appliesTo": "Attack while defending"
+      },
+      "source": "https://kingshotdata.com/heroes/long-fei/",
+      "irrelevantDetails": [
+        {
+          "name": "Mighty Paragon",
+          "appliesTo": "damage reduction"
+        },
+        {
+          "name": "Celestial Sustenance",
+          "appliesTo": "Defense"
+        },
+        {
+          "name": "Strategic Strike",
+          "appliesTo": "Attack while defending"
+        }
+      ]
+    },
+    "Zoe": {
+      "effects": [
+        {
+          "skill": 1,
+          "name": "Sundering Wound",
+          "stat": "damageOverTime",
+          "values": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40
+          ],
+          "unresolved": "Proc timing, overlap and Bear damage integration are unverified.",
+          "chance": 0.2,
+          "durationTurns": 3,
+          "unresolvedMechanics": [
+            "proc timing",
+            "overlap",
+            "Bear damage applicability"
+          ],
+          "scope": "all",
+          "bearMechanicsSource": "https://kingshotoptimizer.com/heroes/zoe/",
+          "stackingFamily": null,
+          "bearTreatment": "bear-excluded",
+          "bearExclusion": {
+            "reason": "Sundering Wound does not activate against Bear in the cited author's tests",
+            "source": "https://kingshotoptimizer.com/heroes/zoe/",
+            "evidence": "firsthand testing claim, not official"
+          }
+        },
+        {
+          "skill": 2,
+          "name": "Charisma",
+          "stat": "sharedAttack",
+          "values": [
+            0,
+            5,
+            10,
+            15,
+            20,
+            25
+          ],
+          "scope": "all",
+          "bearMechanicsSource": "https://kingshotoptimizer.com/heroes/zoe/",
+          "stackingFamily": "102",
+          "bearTreatment": "steady"
+        },
+        {
+          "skill": 3,
+          "name": "Infinite Arsenal",
+          "stat": "damageTaken",
+          "values": [
+            0,
+            10,
+            20,
+            30,
+            40,
+            50
+          ],
+          "unresolved": "Proc timing, overlap and Bear damage integration are unverified.",
+          "chance": 0.5,
+          "unresolvedMechanics": [
+            "proc timing",
+            "overlap",
+            "Bear damage applicability"
+          ],
+          "scope": "all",
+          "bearMechanicsSource": "https://kingshotoptimizer.com/heroes/zoe/",
+          "stackingFamily": "zoe-enemy-damage-taken",
+          "bearTreatment": "chance"
+        }
+      ],
+      "irrelevant": [
+        "Dark Lady: defender-only Attack"
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Dark Lady",
+        "reason": "Defender-only Attack.",
+        "appliesTo": "Attack while defending"
+      },
+      "source": "https://kingshotdata.com/heroes/zoe/",
+      "irrelevantDetails": [
+        {
+          "name": "Dark Lady",
+          "appliesTo": "Attack while defending"
+        }
+      ]
+    },
+    "Petra": {
+      "effects": [
+        {
+          "skill": 1,
+          "name": "Evil Eye",
+          "stat": "damageTaken",
+          "values": [
+            0,
+            10,
+            20,
+            30,
+            40,
+            50
+          ],
+          "unresolved": "Proc timing, overlap and Bear damage integration are unverified.",
+          "chance": 0.5,
+          "unresolvedMechanics": [
+            "proc timing",
+            "overlap",
+            "Bear damage applicability"
+          ],
+          "scope": "all",
+          "bearMechanicsSource": "https://kingshotoptimizer.com/heroes/petra/",
+          "stackingFamily": "petra-enemy-damage-taken",
+          "bearTreatment": "chance-per-attack"
+        },
+        {
+          "skill": 2,
+          "name": "The Favor",
+          "stat": "sharedAttack",
+          "values": [
+            0,
+            10,
+            20,
+            30,
+            40,
+            50
+          ],
+          "unresolved": "Proc timing, overlap and Bear damage integration are unverified.",
+          "chance": 0.5,
+          "unresolvedMechanics": [
+            "proc timing",
+            "overlap",
+            "Bear damage applicability"
+          ],
+          "scope": "all",
+          "bearMechanicsSource": "https://kingshotoptimizer.com/heroes/petra/",
+          "stackingFamily": "petra-attack",
+          "bearTreatment": "chance"
+        }
+      ],
+      "irrelevant": [
+        "The Shield: damage reduction"
+      ],
+      "widget": {
+        "kind": "sharedAttack",
+        "name": "Cosmic Eye",
+        "bonusUnlock": {
+          "widgetLevel": 2
+        },
+        "hostingValuesByWidgetLevel": [
+          0,
+          0,
+          5,
+          5,
+          7.5,
+          7.5,
+          10,
+          10,
+          12.5,
+          12.5,
+          15
+        ],
+        "progressionSource": "https://www.kingshotcommand.com/hero-widgets/petra",
+        "checked": "2026-10-05"
+      },
+      "source": "https://kingshotdata.com/heroes/petra/",
+      "irrelevantDetails": [
+        {
+          "name": "The Shield",
+          "appliesTo": "damage reduction"
+        }
+      ]
+    },
+    "Rosa": {
+      "effects": [
+        {
+          "skill": 1,
+          "name": "Chaos Gambit",
+          "stat": "damageDealt",
+          "values": [
+            0,
+            10,
+            20,
+            30,
+            40,
+            50
+          ],
+          "unresolved": "Proc timing, overlap and Bear damage integration are unverified.",
+          "chance": 0.4,
+          "unresolvedMechanics": [
+            "proc timing",
+            "overlap",
+            "Bear damage applicability"
+          ],
+          "scope": "all",
+          "bearMechanicsSource": "https://kingshotoptimizer.com/heroes/rosa/",
+          "stackingFamily": "101",
+          "bearTreatment": "chance"
+        },
+        {
+          "skill": 3,
+          "name": "Golden Rhythm",
+          "stat": "classAttack",
+          "values": [
+            0,
+            6,
+            12,
+            18,
+            24,
+            30
+          ],
+          "unresolved": "The source gives total Archer Attack but does not establish additive versus multiplicative stacking; excluded from the partial index.",
+          "unresolvedMechanics": [
+            "additive versus multiplicative Attack stacking"
+          ],
+          "scope": "archer",
+          "bearMechanicsSource": "https://kingshotoptimizer.com/heroes/rosa/",
+          "stackingFamily": "rosa-archer-attack",
+          "bearTreatment": "steady"
+        }
+      ],
+      "irrelevant": [
+        "Rose of War: enemy damage reduction"
+      ],
+      "widget": {
+        "kind": "sharedLethality",
+        "name": "Perihelion",
+        "bonusUnlock": {
+          "widgetLevel": 2
+        },
+        "hostingValuesByWidgetLevel": [
+          0,
+          0,
+          5,
+          5,
+          7.5,
+          7.5,
+          10,
+          10,
+          12.5,
+          12.5,
+          15
+        ],
+        "progressionSource": "https://www.kingshotcommand.com/hero-widgets/rosa",
+        "checked": "2026-10-05"
+      },
+      "source": "https://kingshotdata.com/heroes/rosa/",
+      "irrelevantDetails": [
+        {
+          "name": "Rose of War",
+          "appliesTo": "enemy damage reduction"
+        }
+      ]
+    },
+    "Yang": {
+      "effects": [
+        {
+          "skill": 1,
+          "name": "Avalanche",
+          "stat": "extraStrike",
+          "values": [
+            0,
+            20,
+            40,
+            60,
+            80,
+            100
+          ],
+          "unresolved": "Turn timing, overlap and Bear damage integration are unverified.",
+          "everyTurns": 4,
+          "unresolvedMechanics": [
+            "turn timing",
+            "overlap",
+            "Bear damage applicability"
+          ],
+          "scope": "all",
+          "bearMechanicsSource": "https://kingshotoptimizer.com/heroes/yang/",
+          "stackingFamily": "yang-direct-strike",
+          "bearTreatment": "periodic"
+        },
+        {
+          "skill": 2,
+          "name": "Ice Zone",
+          "stat": "extraDamage",
+          "values": [
+            0,
+            20,
+            40,
+            60,
+            80,
+            100
+          ],
+          "unresolved": "Proc timing, overlap and Bear damage integration are unverified.",
+          "chance": 0.4,
+          "unresolvedMechanics": [
+            "proc timing",
+            "overlap",
+            "Bear damage applicability"
+          ],
+          "scope": "archer",
+          "bearMechanicsSource": "https://kingshotoptimizer.com/heroes/yang/",
+          "stackingFamily": "yang-direct-strike",
+          "bearTreatment": "chance"
+        },
+        {
+          "skill": 3,
+          "name": "Ambush",
+          "stat": "damageDealt",
+          "values": [
+            0,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "unresolved": "Proc timing, overlap and Bear damage integration are unverified.",
+          "chanceByLevel": [
+            0,
+            0.08,
+            0.16,
+            0.24,
+            0.32,
+            0.4
+          ],
+          "unresolvedMechanics": [
+            "proc timing",
+            "overlap",
+            "Bear damage applicability"
+          ],
+          "scope": "all",
+          "bearMechanicsSource": "https://kingshotoptimizer.com/heroes/yang/",
+          "stackingFamily": "yang-ambush",
+          "bearTreatment": "chance"
+        }
+      ],
+      "irrelevant": [],
+      "widget": {
+        "kind": "sharedLethality",
+        "name": "Offensive Defense",
+        "bonusUnlock": {
+          "widgetLevel": 2
+        },
+        "hostingValuesByWidgetLevel": [
+          0,
+          0,
+          5,
+          5,
+          7.5,
+          7.5,
+          10,
+          10,
+          12.5,
+          12.5,
+          15
+        ],
+        "progressionSource": "https://www.kingshotcommand.com/hero-widgets/yang",
+        "checked": "2026-10-05"
+      },
+      "source": "https://kingshotdata.com/heroes/yang/",
+      "irrelevantDetails": []
+    },
+    "Vivian": {
+      "effects": [
+        {
+          "skill": 1,
+          "name": "Crouching Tiger",
+          "stat": "damageTaken",
+          "values": [
+            0,
+            5,
+            10,
+            15,
+            20,
+            25
+          ],
+          "unresolved": "Enemy damage-taken stacking with other offensive effects is unverified; this is not Attack.",
+          "unresolvedMechanics": [
+            "enemy damage-taken stacking"
+          ],
+          "scope": "all",
+          "bearMechanicsSource": "https://kingshotoptimizer.com/heroes/vivian/",
+          "stackingFamily": "vivian-enemy-damage-taken",
+          "bearTreatment": "steady"
+        },
+        {
+          "skill": 2,
+          "name": "Focus Fire",
+          "stat": "extraStrike",
+          "values": [
+            0,
+            20,
+            40,
+            60,
+            80,
+            100
+          ],
+          "unresolved": "Initial counter phase and Focus Fire/Trap collision remain uncertain.",
+          "everyAttacks": 4,
+          "nextAttackDamageTaken": [
+            0,
+            5,
+            7.5,
+            10,
+            12.5,
+            15
+          ],
+          "unresolvedMechanics": [
+            "initial counter phase",
+            "Focus Fire/Trap collision"
+          ],
+          "scope": "all",
+          "bearMechanicsSource": "https://kingshotoptimizer.com/heroes/vivian/",
+          "stackingFamily": "vivian-focus-fire",
+          "bearTreatment": "attack-event"
+        },
+        {
+          "skill": 3,
+          "name": "Trap of Greed",
+          "stat": "extraDamage",
+          "values": [
+            0,
+            12,
+            24,
+            36,
+            48,
+            60
+          ],
+          "unresolved": "Initial Archer counter phase and simultaneous Focus Fire/debuff precedence remain uncertain.",
+          "everyAttacks": 4,
+          "unresolvedMechanics": [
+            "initial Archer counter phase",
+            "Focus Fire/debuff precedence"
+          ],
+          "scope": "archer",
+          "bearMechanicsSource": "https://www.youtube.com/watch?v=tamg6W2DSGA",
+          "stackingFamily": "vivian-trap",
+          "bearTreatment": "attack-event"
+        }
+      ],
+      "irrelevant": [
+        "Money Driven: defender-only Defense"
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Money Driven",
+        "reason": "Defender-only Defense.",
+        "appliesTo": "Defense while defending"
+      },
+      "source": "https://kingshotdata.com/heroes/vivian/",
+      "irrelevantDetails": [
+        {
+          "name": "Money Driven",
+          "appliesTo": "Defense while defending"
+        }
+      ]
+    },
+    "Alcar": {
+      "effects": [
+        {
+          "skill": 1,
+          "name": "Rescuing Hands",
+          "stat": "friendlyDamageReduction",
+          "scope": "all",
+          "values": [
+            0,
+            14,
+            28,
+            42,
+            56,
+            70
+          ],
+          "bearExclusion": {
+            "reason": "Friendly damage reduction does not contribute to Bear offense.",
+            "source": "https://kingshotoptimizer.com/heroes/alcar/",
+            "evidence": "in-game skill transcription"
+          }
+        },
+        {
+          "skill": 2,
+          "name": "Praetorian Will",
+          "stat": "damageDealt",
+          "scope": "infantry",
+          "values": [
+            0,
+            20,
+            40,
+            60,
+            80,
+            100
+          ],
+          "unresolved": "Operation family and on-attack timing are not established by the skill description.",
+          "unresolvedMechanics": [
+            "operation family",
+            "stacking"
+          ]
+        },
+        {
+          "skill": 2,
+          "name": "Praetorian Will",
+          "stat": "damageDealt",
+          "scope": "cavalry",
+          "values": [
+            0,
+            2,
+            4,
+            6,
+            8,
+            10
+          ],
+          "unresolved": "Operation family and on-attack timing are not established by the skill description.",
+          "unresolvedMechanics": [
+            "operation family",
+            "stacking"
+          ]
+        },
+        {
+          "skill": 2,
+          "name": "Praetorian Will",
+          "stat": "damageDealt",
+          "scope": "archer",
+          "values": [
+            0,
+            2,
+            4,
+            6,
+            8,
+            10
+          ],
+          "unresolved": "Operation family and on-attack timing are not established by the skill description.",
+          "unresolvedMechanics": [
+            "operation family",
+            "stacking"
+          ]
+        },
+        {
+          "skill": 3,
+          "name": "Carpe Diem",
+          "stat": "extraDamage",
+          "scope": "infantry",
+          "values": [
+            0,
+            12,
+            24,
+            36,
+            48,
+            60
+          ],
+          "unresolved": "Operation family and on-attack timing are not established by the skill description.",
+          "unresolvedMechanics": [
+            "operation family",
+            "target-debuff application and expiry"
+          ]
+        },
+        {
+          "skill": 3,
+          "name": "Carpe Diem target debuff",
+          "stat": "damageTaken",
+          "scope": "all",
+          "values": [
+            0,
+            5,
+            10,
+            15,
+            20,
+            25
+          ],
+          "unresolved": "Operation family and on-attack timing are not established by the skill description.",
+          "unresolvedMechanics": [
+            "operation family",
+            "target-debuff application and expiry"
+          ]
+        }
+      ],
+      "irrelevant": [
+        "Rescuing Hands: friendly damage reduction",
+        "Vow of Honor: defender Health"
+      ],
+      "irrelevantDetails": [
+        {
+          "name": "Rescuing Hands",
+          "appliesTo": "friendly damage reduction"
+        },
+        {
+          "name": "Vow of Honor",
+          "appliesTo": "defender Health"
+        }
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Vow of Honor",
+        "reason": "Defender Health does not apply to Bear offense.",
+        "appliesTo": "defender Health"
+      },
+      "source": "https://kingshotoptimizer.com/heroes/alcar/"
+    },
+    "Jabel": {
+      "effects": [
+        {
+          "skill": 2,
+          "name": "Hero's Domain",
+          "stat": "extraDamage",
+          "values": [
+            0,
+            10,
+            20,
+            30,
+            40,
+            50
+          ],
+          "scope": "all",
+          "operation": "extra-damage-proc",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50012_kingshot_end/",
+          "aliases": [],
+          "chance": 0.5,
+          "unresolved": "proc packet eligibility and overlap/correlation with other offensive effects",
+          "unresolvedMechanics": [
+            "proc packet eligibility and overlap/correlation with other offensive effects"
+          ]
+        },
+        {
+          "skill": 3,
+          "name": "Youthful Rage",
+          "stat": "sharedLethality",
+          "values": [
+            0,
+            5,
+            10,
+            15,
+            20,
+            25
+          ],
+          "scope": "all",
+          "operation": "shared-lethality",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50012_kingshot_end/",
+          "aliases": []
+        }
+      ],
+      "irrelevant": [
+        "Rally Flag: defense-only"
+      ],
+      "irrelevantDetails": [
+        {
+          "name": "Rally Flag",
+          "appliesTo": "defense-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50012_kingshot_end/"
+        }
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Widget skill",
+        "appliesTo": "Defense or Health",
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      },
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50012_kingshot_end/",
+      "reviewedOn": "2026-10-06"
+    },
+    "Saul": {
+      "effects": [
+        {
+          "skill": 3,
+          "name": "Positional Batter",
+          "stat": "sharedLethality",
+          "values": [
+            0,
+            5,
+            10,
+            15,
+            20,
+            25
+          ],
+          "scope": "all",
+          "operation": "shared-lethality",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50017_kingshot_end/",
+          "aliases": []
+        }
+      ],
+      "irrelevant": [
+        "Taskforce Training: defense-only",
+        "Resourceful: economy-only"
+      ],
+      "irrelevantDetails": [
+        {
+          "name": "Taskforce Training",
+          "appliesTo": "defense-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50017_kingshot_end/"
+        },
+        {
+          "name": "Resourceful",
+          "appliesTo": "economy-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50017_kingshot_end/"
+        }
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Widget skill",
+        "appliesTo": "Defense or Health",
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      },
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50017_kingshot_end/",
+      "reviewedOn": "2026-10-06"
+    },
+    "Howard": {
+      "effects": [],
+      "irrelevant": [
+        "Defenders\u2019 Edge: defense-only",
+        "Weaken: defense-only"
+      ],
+      "irrelevantDetails": [
+        {
+          "name": "Defenders\u2019 Edge",
+          "appliesTo": "defense-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50004_kingshot_end/"
+        },
+        {
+          "name": "Weaken",
+          "appliesTo": "defense-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50004_kingshot_end/"
+        }
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Widget skill",
+        "appliesTo": "Defense or Health",
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      },
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50004_kingshot_end/",
+      "reviewedOn": "2026-10-06"
+    },
+    "Gordon": {
+      "effects": [
+        {
+          "skill": 2,
+          "name": "Trash Talk",
+          "stat": "sharedAttack",
+          "values": [
+            0,
+            5,
+            10,
+            15,
+            20,
+            25
+          ],
+          "scope": "all",
+          "operation": "shared-attack",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50005_kingshot_end/",
+          "aliases": []
+        }
+      ],
+      "irrelevant": [
+        "Super Nutrients: defense-only"
+      ],
+      "irrelevantDetails": [
+        {
+          "name": "Super Nutrients",
+          "appliesTo": "defense-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50005_kingshot_end/"
+        }
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Widget skill",
+        "appliesTo": "Defense or Health",
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      },
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50005_kingshot_end/",
+      "reviewedOn": "2026-10-06"
+    },
+    "Quinn": {
+      "effects": [
+        {
+          "skill": 2,
+          "name": "Burst Fire",
+          "stat": "extraDamage",
+          "values": [
+            0,
+            10,
+            20,
+            30,
+            40,
+            50
+          ],
+          "scope": "all",
+          "operation": "extra-damage-proc",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50006_kingshot_end/",
+          "aliases": [
+            "Precision Shot (fan slot 2)"
+          ],
+          "chance": 0.5,
+          "unresolved": "proc packet eligibility and overlap/correlation with other offensive effects",
+          "unresolvedMechanics": [
+            "proc packet eligibility and overlap/correlation with other offensive effects"
+          ]
+        }
+      ],
+      "irrelevant": [
+        "Precision Shot: defense-only"
+      ],
+      "irrelevantDetails": [
+        {
+          "name": "Precision Shot",
+          "appliesTo": "defense-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50006_kingshot_end/"
+        }
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Widget skill",
+        "appliesTo": "Defense or Health",
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      },
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50006_kingshot_end/",
+      "reviewedOn": "2026-10-06"
+    },
+    "Diana": {
+      "effects": [],
+      "irrelevant": [
+        "Iron Constitution: stamina-only",
+        "Quick Paced: hunting-speed"
+      ],
+      "irrelevantDetails": [
+        {
+          "name": "Iron Constitution",
+          "appliesTo": "stamina-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50008_kingshot_end/"
+        },
+        {
+          "name": "Quick Paced",
+          "appliesTo": "hunting-speed",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50008_kingshot_end/"
+        }
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Widget skill",
+        "appliesTo": "Defense or Health",
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      },
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50008_kingshot_end/",
+      "reviewedOn": "2026-10-06"
+    },
+    "Fahd": {
+      "effects": [],
+      "irrelevant": [
+        "Desert Eclipse: defense-only",
+        "Pathfinder: solo-hunt-speed"
+      ],
+      "irrelevantDetails": [
+        {
+          "name": "Desert Eclipse",
+          "appliesTo": "defense-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50029_kingshot_end/"
+        },
+        {
+          "name": "Pathfinder",
+          "appliesTo": "solo-hunt-speed",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50029_kingshot_end/"
+        }
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Widget skill",
+        "appliesTo": "Defense or Health",
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      },
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50029_kingshot_end/",
+      "reviewedOn": "2026-10-06"
+    },
+    "Forrest": {
+      "effects": [],
+      "irrelevant": [
+        "Woodland Inheritor: resource-only",
+        "Master Woodcutter: resource-only"
+      ],
+      "irrelevantDetails": [
+        {
+          "name": "Woodland Inheritor",
+          "appliesTo": "resource-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50000_kingshot_end/"
+        },
+        {
+          "name": "Master Woodcutter",
+          "appliesTo": "resource-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50000_kingshot_end/"
+        }
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Widget skill",
+        "appliesTo": "Defense or Health",
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      },
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50000_kingshot_end/",
+      "reviewedOn": "2026-10-06"
+    },
+    "Seth": {
+      "effects": [],
+      "irrelevant": [
+        "Burnished Iron: resource-only",
+        "Craftsmanship: resource-only"
+      ],
+      "irrelevantDetails": [
+        {
+          "name": "Burnished Iron",
+          "appliesTo": "resource-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50001_kingshot_end/"
+        },
+        {
+          "name": "Craftsmanship",
+          "appliesTo": "resource-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50001_kingshot_end/"
+        }
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Widget skill",
+        "appliesTo": "Defense or Health",
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      },
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50001_kingshot_end/",
+      "reviewedOn": "2026-10-06"
+    },
+    "Edwin": {
+      "effects": [],
+      "irrelevant": [
+        "Demolitions Expert: resource-only",
+        "Stone Mining: resource-only"
+      ],
+      "irrelevantDetails": [
+        {
+          "name": "Demolitions Expert",
+          "appliesTo": "resource-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50002_kingshot_end/"
+        },
+        {
+          "name": "Stone Mining",
+          "appliesTo": "resource-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50002_kingshot_end/"
+        }
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Widget skill",
+        "appliesTo": "Defense or Health",
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      },
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50002_kingshot_end/",
+      "reviewedOn": "2026-10-06"
+    },
+    "Olive": {
+      "effects": [],
+      "irrelevant": [
+        "Green Thumb: resource-only",
+        "Forager\u2019s Luck: resource-only"
+      ],
+      "irrelevantDetails": [
+        {
+          "name": "Green Thumb",
+          "appliesTo": "resource-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50003_kingshot_end/"
+        },
+        {
+          "name": "Forager\u2019s Luck",
+          "appliesTo": "resource-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50003_kingshot_end/"
+        }
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Widget skill",
+        "appliesTo": "Defense or Health",
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      },
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50003_kingshot_end/",
+      "reviewedOn": "2026-10-06"
+    },
+    "Hilde": {
+      "effects": [
+        {
+          "skill": 1,
+          "name": "Noble Path",
+          "stat": "sharedAttack",
+          "values": [
+            0,
+            3,
+            6,
+            9,
+            12,
+            15
+          ],
+          "scope": "all",
+          "operation": "shared-attack",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50013_kingshot_end/",
+          "aliases": []
+        },
+        {
+          "skill": 2,
+          "name": "Elixir of Strength",
+          "stat": "replacementHitTotalDamage",
+          "values": [
+            0,
+            120,
+            140,
+            160,
+            180,
+            200
+          ],
+          "scope": "all",
+          "operation": "replace-hit-with-total-damage",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50013_kingshot_end/",
+          "aliases": [],
+          "chance": 0.25,
+          "unresolved": "replacement-hit overlap and eligibility on extra-attack packets",
+          "unresolvedMechanics": [
+            "replacement-hit overlap and eligibility on extra-attack packets"
+          ]
+        }
+      ],
+      "irrelevant": [
+        "Trial by Fire: defense-only"
+      ],
+      "irrelevantDetails": [
+        {
+          "name": "Trial by Fire",
+          "appliesTo": "defense-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50013_kingshot_end/"
+        }
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Widget skill",
+        "appliesTo": "Defense or Health",
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      },
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50013_kingshot_end/",
+      "reviewedOn": "2026-10-06"
+    },
+    "Marlin": {
+      "effects": [
+        {
+          "skill": 1,
+          "name": "Wild Card",
+          "stat": "extraDamage",
+          "values": [
+            0,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "scope": "all",
+          "operation": "extra-damage-proc",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50018_kingshot_end/",
+          "aliases": [],
+          "chanceByLevel": [
+            0,
+            0.08,
+            0.16,
+            0.24,
+            0.32,
+            0.4
+          ],
+          "unresolved": "proc packet eligibility and overlap/correlation with other offensive effects",
+          "unresolvedMechanics": [
+            "proc packet eligibility and overlap/correlation with other offensive effects"
+          ]
+        },
+        {
+          "skill": 3,
+          "name": "Dynamo",
+          "stat": "extraDamage",
+          "values": [
+            0,
+            10,
+            20,
+            30,
+            40,
+            50
+          ],
+          "scope": "all",
+          "operation": "extra-damage-proc",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50018_kingshot_end/",
+          "aliases": [],
+          "chance": 0.5,
+          "unresolved": "proc packet eligibility and overlap/correlation with other offensive effects",
+          "unresolvedMechanics": [
+            "proc packet eligibility and overlap/correlation with other offensive effects"
+          ]
+        }
+      ],
+      "irrelevant": [
+        "Rumhead: defense-only"
+      ],
+      "irrelevantDetails": [
+        {
+          "name": "Rumhead",
+          "appliesTo": "defense-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50018_kingshot_end/"
+        }
+      ],
+      "widget": {
+        "kind": "sharedLethality",
+        "name": "Admiral of the Line",
+        "valuesBySkillLevel": [
+          0,
+          5,
+          7.5,
+          10,
+          12.5,
+          15
+        ],
+        "hostingValuesByWidgetLevel": null,
+        "stageStatus": "missing independent widget unlock mapping",
+        "progressionSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50018_kingshot_end/"
+      },
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50018_kingshot_end/",
+      "reviewedOn": "2026-10-06"
+    },
+    "Eric": {
+      "effects": [],
+      "irrelevant": [
+        "Holy Warrior: defense-only",
+        "Conviction: defense-only",
+        "Exhortation: defense-only"
+      ],
+      "irrelevantDetails": [
+        {
+          "name": "Holy Warrior",
+          "appliesTo": "defense-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50010_kingshot_end/"
+        },
+        {
+          "name": "Conviction",
+          "appliesTo": "defense-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50010_kingshot_end/"
+        },
+        {
+          "name": "Exhortation",
+          "appliesTo": "defense-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50010_kingshot_end/"
+        }
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Widget skill",
+        "appliesTo": "Defense or Health",
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      },
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50010_kingshot_end/",
+      "reviewedOn": "2026-10-06"
+    },
+    "Jaeger": {
+      "effects": [
+        {
+          "skill": 1,
+          "name": "The Tempest",
+          "stat": "damageDealt",
+          "values": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40
+          ],
+          "scope": "all",
+          "operation": "timed-damage-proc",
+          "source": "https://kingshotwiki.com/heroes/jaegar/",
+          "aliases": [],
+          "chance": 0.2,
+          "unresolved": "proc onset, refresh and overlap across its documented duration",
+          "unresolvedMechanics": [
+            "proc onset, refresh and overlap across its documented duration"
+          ]
+        }
+      ],
+      "irrelevant": [
+        "The Resistance: defense-only",
+        "The Celebration: defense-only"
+      ],
+      "irrelevantDetails": [
+        {
+          "name": "The Resistance",
+          "appliesTo": "defense-only",
+          "source": "https://kingshotwiki.com/heroes/jaegar/"
+        },
+        {
+          "name": "The Celebration",
+          "appliesTo": "defense-only",
+          "source": "https://kingshotwiki.com/heroes/jaegar/"
+        }
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Widget skill",
+        "appliesTo": "Defense or Health",
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      },
+      "source": "https://kingshotwiki.com/heroes/jaegar/",
+      "reviewedOn": "2026-10-06"
+    },
+    "Margot": {
+      "effects": [
+        {
+          "skill": 1,
+          "name": "Warbringer",
+          "stat": "sharedAttack",
+          "values": [
+            0,
+            5,
+            10,
+            15,
+            20,
+            25
+          ],
+          "scope": "all",
+          "operation": "shared-attack",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50014_kingshot_end/",
+          "aliases": []
+        },
+        {
+          "skill": 3,
+          "name": "Sleight Hand",
+          "stat": "extraAttackTotalDamage",
+          "values": [
+            0,
+            120,
+            140,
+            160,
+            180,
+            200
+          ],
+          "scope": "cavalry",
+          "operation": "extra-attack-total-damage",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50014_kingshot_end/",
+          "aliases": [],
+          "chance": 0.25,
+          "unresolved": "additional Cavalry packet counter participation and bonus eligibility",
+          "unresolvedMechanics": [
+            "additional Cavalry packet counter participation and bonus eligibility"
+          ]
+        }
+      ],
+      "irrelevant": [
+        "Subterfuge: defense-only"
+      ],
+      "irrelevantDetails": [
+        {
+          "name": "Subterfuge",
+          "appliesTo": "defense-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50014_kingshot_end/"
+        }
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Widget skill",
+        "appliesTo": "Defense or Health",
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      },
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50014_kingshot_end/",
+      "reviewedOn": "2026-10-06"
+    },
+    "Thrud": {
+      "effects": [
+        {
+          "skill": 1,
+          "name": "Battle Hunger",
+          "stat": "damageDealt",
+          "values": [
+            0,
+            3,
+            6,
+            9,
+            12,
+            15
+          ],
+          "scope": "infantry",
+          "operation": "class-damage-bonus",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50025_kingshot_end/",
+          "aliases": [],
+          "unresolved": "Bear operation group and class-specific joining application",
+          "unresolvedMechanics": [
+            "Bear operation group and class-specific joining application"
+          ]
+        },
+        {
+          "skill": 1,
+          "name": "Battle Hunger",
+          "stat": "damageDealt",
+          "values": [
+            0,
+            3,
+            6,
+            9,
+            12,
+            15
+          ],
+          "scope": "archer",
+          "operation": "class-damage-bonus",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50025_kingshot_end/",
+          "aliases": [],
+          "unresolved": "Bear operation group and class-specific joining application",
+          "unresolvedMechanics": [
+            "Bear operation group and class-specific joining application"
+          ]
+        },
+        {
+          "skill": 2,
+          "name": "Reckless Charge",
+          "stat": "extraDamage",
+          "values": [
+            0,
+            20,
+            40,
+            60,
+            80,
+            100
+          ],
+          "scope": "cavalry",
+          "operation": "extra-damage-proc",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50025_kingshot_end/",
+          "aliases": [],
+          "chance": 0.2,
+          "unresolved": "proc packet eligibility and overlap/correlation with other offensive effects",
+          "unresolvedMechanics": [
+            "proc packet eligibility and overlap/correlation with other offensive effects"
+          ]
+        },
+        {
+          "skill": 3,
+          "name": "Ancestral Guidance",
+          "stat": "damageDealt",
+          "values": [
+            0,
+            5,
+            10,
+            15,
+            20,
+            25
+          ],
+          "scope": "all",
+          "operation": "counter-triggered-damage",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50025_kingshot_end/",
+          "aliases": [],
+          "unresolved": "Cavalry counter timing and two-turn activation window",
+          "unresolvedMechanics": [
+            "Cavalry counter timing and two-turn activation window"
+          ]
+        }
+      ],
+      "irrelevant": [],
+      "irrelevantDetails": [],
+      "widget": {
+        "kind": "sharedLethality",
+        "name": "Wolf-Kissed",
+        "valuesBySkillLevel": [
+          0,
+          5,
+          7.5,
+          10,
+          12.5,
+          15
+        ],
+        "hostingValuesByWidgetLevel": null,
+        "stageStatus": "missing independent widget unlock mapping",
+        "progressionSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50025_kingshot_end/"
+      },
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50025_kingshot_end/",
+      "reviewedOn": "2026-10-06"
+    },
+    "Triton": {
+      "effects": [
+        {
+          "skill": 2,
+          "name": "Warfare of Power",
+          "stat": "skillDamage",
+          "values": [
+            0,
+            6,
+            12,
+            18,
+            24,
+            30
+          ],
+          "scope": "all",
+          "operation": "skill-damage-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50019_kingshot_end/",
+          "aliases": [],
+          "unresolved": "which Bear attack packets qualify as skill damage",
+          "unresolvedMechanics": [
+            "which Bear attack packets qualify as skill damage"
+          ]
+        }
+      ],
+      "irrelevant": [
+        "Command of Power: defense-only",
+        "Oath of Power: defense-only"
+      ],
+      "irrelevantDetails": [
+        {
+          "name": "Command of Power",
+          "appliesTo": "defense-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50019_kingshot_end/"
+        },
+        {
+          "name": "Oath of Power",
+          "appliesTo": "defense-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50019_kingshot_end/"
+        }
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Widget skill",
+        "appliesTo": "Defense or Health",
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      },
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50019_kingshot_end/",
+      "reviewedOn": "2026-10-06"
+    },
+    "Sophia": {
+      "effects": [
+        {
+          "skill": 2,
+          "name": "Terror - Deathblow",
+          "stat": "extraDamage",
+          "values": [
+            0,
+            40,
+            80,
+            120,
+            160,
+            200
+          ],
+          "scope": "all",
+          "operation": "terror-following-turn-cavalry-damage",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50030_kingshot_end/",
+          "aliases": [],
+          "unresolved": "Terror activation against Bear and following-turn packet timing",
+          "unresolvedMechanics": [
+            "Terror activation against Bear and following-turn packet timing"
+          ]
+        },
+        {
+          "skill": 3,
+          "name": "Terror - Annihilation",
+          "stat": "damageDealt",
+          "values": [
+            0,
+            15,
+            30,
+            45,
+            60,
+            75
+          ],
+          "scope": "all",
+          "operation": "terror-conditioned-shared-damage",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50030_kingshot_end/",
+          "aliases": [],
+          "unresolved": "Terror activation against Bear and shared bonus lifetime",
+          "unresolvedMechanics": [
+            "Terror activation against Bear and shared bonus lifetime"
+          ]
+        }
+      ],
+      "irrelevant": [
+        "Arcane Pact: defense-only"
+      ],
+      "irrelevantDetails": [
+        {
+          "name": "Arcane Pact",
+          "appliesTo": "defense-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50030_kingshot_end/"
+        }
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Widget skill",
+        "appliesTo": "Defense or Health",
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      },
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50030_kingshot_end/",
+      "reviewedOn": "2026-10-06"
+    },
+    "Chenko": {
+      "effects": [
+        {
+          "skill": 1,
+          "name": "Stand of Arms",
+          "stat": "sharedLethality",
+          "values": [
+            0,
+            5,
+            10,
+            15,
+            20,
+            25
+          ],
+          "scope": "all",
+          "operation": "shared-lethality",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50007_kingshot_end/",
+          "aliases": []
+        }
+      ],
+      "irrelevant": [
+        "Shield Wall: defense-only"
+      ],
+      "irrelevantDetails": [
+        {
+          "name": "Shield Wall",
+          "appliesTo": "defense-only",
+          "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50007_kingshot_end/"
+        }
+      ],
+      "widget": {
+        "kind": "irrelevant",
+        "name": "Widget skill",
+        "appliesTo": "Defense or Health",
+        "reason": "Documented Expedition widget effect is defensive, or hero has no widget."
+      },
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50007_kingshot_end/",
+      "reviewedOn": "2026-10-06"
+    }
+  },
+  "irrelevantSkillDetails": {
+    "Chenko": [
+      {
+        "name": "Shield Wall",
+        "appliesTo": "damage reduction",
+        "source": "https://kingshotdata.com/heroes/chenko/"
+      }
+    ],
+    "Amane": [
+      {
+        "name": "Exorcism",
+        "appliesTo": "Infirmary Healing Speed",
+        "source": "https://kingshotdata.com/heroes/amane/"
+      }
+    ],
+    "Yeonwoo": [
+      {
+        "name": "Well-Traveled",
+        "appliesTo": "Research Speed",
+        "source": "https://kingshotdata.com/heroes/yeonwoo/"
+      }
+    ]
+  }
+}

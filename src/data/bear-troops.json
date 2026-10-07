@@ -1,0 +1,1999 @@
+{
+  "version": "2026-10-06",
+  "source": "https://strategicnoodle.com/kingshot/database/troops",
+  "evidence": "Published community reference coefficients; not publisher-confirmed Kingshot data",
+  "retrieved": "2026-10-06",
+  "crossCheck": "https://kingshotsimulator.com/",
+  "originCaution": "Daryl describes his table as adapted State of Survival data. Kingshot transfer is an assumption, not official validation. Adopt explicit published rows only; do not extrapolate or interpolate.",
+  "conflicts": [
+    {
+      "tier": 11,
+      "tg": 5,
+      "troop": "infantry",
+      "publishedTable": 715,
+      "darylTable": 716
+    }
+  ],
+  "rows": {
+    "1:0": {
+      "infantry": {
+        "attack": 63,
+        "lethality": 10,
+        "health": 189,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 189,
+        "lethality": 10,
+        "health": 63,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 252,
+        "lethality": 10,
+        "health": 47,
+        "defense": 10
+      }
+    },
+    "1:1": {
+      "infantry": {
+        "attack": 66,
+        "lethality": 10,
+        "health": 197,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 197,
+        "lethality": 10,
+        "health": 66,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 262,
+        "lethality": 10,
+        "health": 49,
+        "defense": 10
+      }
+    },
+    "1:2": {
+      "infantry": {
+        "attack": 69,
+        "lethality": 10,
+        "health": 206,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 206,
+        "lethality": 10,
+        "health": 69,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 275,
+        "lethality": 10,
+        "health": 51,
+        "defense": 10
+      }
+    },
+    "1:3": {
+      "infantry": {
+        "attack": 72,
+        "lethality": 10,
+        "health": 217,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 217,
+        "lethality": 10,
+        "health": 72,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 289,
+        "lethality": 10,
+        "health": 54,
+        "defense": 10
+      }
+    },
+    "1:4": {
+      "infantry": {
+        "attack": 76,
+        "lethality": 10,
+        "health": 228,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 228,
+        "lethality": 10,
+        "health": 76,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 303,
+        "lethality": 10,
+        "health": 57,
+        "defense": 10
+      }
+    },
+    "1:5": {
+      "infantry": {
+        "attack": 80,
+        "lethality": 10,
+        "health": 239,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 239,
+        "lethality": 10,
+        "health": 80,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 319,
+        "lethality": 10,
+        "health": 59,
+        "defense": 10
+      }
+    },
+    "1:6": {
+      "infantry": {
+        "attack": 84,
+        "lethality": 10,
+        "health": 251,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 251,
+        "lethality": 10,
+        "health": 84,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 334,
+        "lethality": 10,
+        "health": 62,
+        "defense": 10
+      }
+    },
+    "1:7": {
+      "infantry": {
+        "attack": 88,
+        "lethality": 10,
+        "health": 263,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 263,
+        "lethality": 10,
+        "health": 88,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 351,
+        "lethality": 10,
+        "health": 66,
+        "defense": 10
+      }
+    },
+    "1:8": {
+      "infantry": {
+        "attack": 92,
+        "lethality": 10,
+        "health": 277,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 277,
+        "lethality": 10,
+        "health": 92,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 369,
+        "lethality": 10,
+        "health": 69,
+        "defense": 10
+      }
+    },
+    "2:0": {
+      "infantry": {
+        "attack": 94,
+        "lethality": 10,
+        "health": 283,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 283,
+        "lethality": 10,
+        "health": 94,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 378,
+        "lethality": 10,
+        "health": 71,
+        "defense": 10
+      }
+    },
+    "2:1": {
+      "infantry": {
+        "attack": 98,
+        "lethality": 10,
+        "health": 294,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 294,
+        "lethality": 10,
+        "health": 98,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 393,
+        "lethality": 10,
+        "health": 74,
+        "defense": 10
+      }
+    },
+    "2:2": {
+      "infantry": {
+        "attack": 103,
+        "lethality": 10,
+        "health": 309,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 309,
+        "lethality": 10,
+        "health": 103,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 413,
+        "lethality": 10,
+        "health": 78,
+        "defense": 10
+      }
+    },
+    "2:3": {
+      "infantry": {
+        "attack": 108,
+        "lethality": 10,
+        "health": 324,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 324,
+        "lethality": 10,
+        "health": 108,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 433,
+        "lethality": 10,
+        "health": 81,
+        "defense": 10
+      }
+    },
+    "2:4": {
+      "infantry": {
+        "attack": 113,
+        "lethality": 10,
+        "health": 341,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 341,
+        "lethality": 10,
+        "health": 113,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 455,
+        "lethality": 10,
+        "health": 85,
+        "defense": 10
+      }
+    },
+    "2:5": {
+      "infantry": {
+        "attack": 119,
+        "lethality": 10,
+        "health": 358,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 358,
+        "lethality": 10,
+        "health": 119,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 478,
+        "lethality": 10,
+        "health": 90,
+        "defense": 10
+      }
+    },
+    "2:6": {
+      "infantry": {
+        "attack": 125,
+        "lethality": 10,
+        "health": 376,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 376,
+        "lethality": 10,
+        "health": 125,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 502,
+        "lethality": 10,
+        "health": 94,
+        "defense": 10
+      }
+    },
+    "2:7": {
+      "infantry": {
+        "attack": 131,
+        "lethality": 10,
+        "health": 394,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 394,
+        "lethality": 10,
+        "health": 131,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 527,
+        "lethality": 10,
+        "health": 99,
+        "defense": 10
+      }
+    },
+    "2:8": {
+      "infantry": {
+        "attack": 138,
+        "lethality": 10,
+        "health": 414,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 414,
+        "lethality": 10,
+        "health": 138,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 553,
+        "lethality": 10,
+        "health": 104,
+        "defense": 10
+      }
+    },
+    "3:0": {
+      "infantry": {
+        "attack": 132,
+        "lethality": 10,
+        "health": 397,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 397,
+        "lethality": 10,
+        "health": 132,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 529,
+        "lethality": 10,
+        "health": 99,
+        "defense": 10
+      }
+    },
+    "3:1": {
+      "infantry": {
+        "attack": 137,
+        "lethality": 10,
+        "health": 413,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 413,
+        "lethality": 10,
+        "health": 137,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 550,
+        "lethality": 10,
+        "health": 103,
+        "defense": 10
+      }
+    },
+    "3:2": {
+      "infantry": {
+        "attack": 144,
+        "lethality": 10,
+        "health": 434,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 434,
+        "lethality": 10,
+        "health": 144,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 578,
+        "lethality": 10,
+        "health": 108,
+        "defense": 10
+      }
+    },
+    "3:3": {
+      "infantry": {
+        "attack": 151,
+        "lethality": 10,
+        "health": 455,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 455,
+        "lethality": 10,
+        "health": 151,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 607,
+        "lethality": 10,
+        "health": 114,
+        "defense": 10
+      }
+    },
+    "3:4": {
+      "infantry": {
+        "attack": 159,
+        "lethality": 10,
+        "health": 478,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 478,
+        "lethality": 10,
+        "health": 159,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 637,
+        "lethality": 10,
+        "health": 119,
+        "defense": 10
+      }
+    },
+    "3:5": {
+      "infantry": {
+        "attack": 167,
+        "lethality": 10,
+        "health": 502,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 502,
+        "lethality": 10,
+        "health": 167,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 669,
+        "lethality": 10,
+        "health": 125,
+        "defense": 10
+      }
+    },
+    "3:6": {
+      "infantry": {
+        "attack": 175,
+        "lethality": 10,
+        "health": 527,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 527,
+        "lethality": 10,
+        "health": 175,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 702,
+        "lethality": 10,
+        "health": 131,
+        "defense": 10
+      }
+    },
+    "3:7": {
+      "infantry": {
+        "attack": 184,
+        "lethality": 10,
+        "health": 553,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 553,
+        "lethality": 10,
+        "health": 184,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 737,
+        "lethality": 10,
+        "health": 138,
+        "defense": 10
+      }
+    },
+    "3:8": {
+      "infantry": {
+        "attack": 193,
+        "lethality": 10,
+        "health": 581,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 581,
+        "lethality": 10,
+        "health": 193,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 774,
+        "lethality": 10,
+        "health": 145,
+        "defense": 10
+      }
+    },
+    "4:0": {
+      "infantry": {
+        "attack": 172,
+        "lethality": 10,
+        "health": 516,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 516,
+        "lethality": 10,
+        "health": 172,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 688,
+        "lethality": 10,
+        "health": 129,
+        "defense": 10
+      }
+    },
+    "4:1": {
+      "infantry": {
+        "attack": 179,
+        "lethality": 10,
+        "health": 537,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 537,
+        "lethality": 10,
+        "health": 179,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 716,
+        "lethality": 10,
+        "health": 134,
+        "defense": 10
+      }
+    },
+    "4:2": {
+      "infantry": {
+        "attack": 188,
+        "lethality": 10,
+        "health": 563,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 563,
+        "lethality": 10,
+        "health": 188,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 751,
+        "lethality": 10,
+        "health": 141,
+        "defense": 10
+      }
+    },
+    "4:3": {
+      "infantry": {
+        "attack": 197,
+        "lethality": 10,
+        "health": 592,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 592,
+        "lethality": 10,
+        "health": 197,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 789,
+        "lethality": 10,
+        "health": 148,
+        "defense": 10
+      }
+    },
+    "4:4": {
+      "infantry": {
+        "attack": 207,
+        "lethality": 10,
+        "health": 621,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 621,
+        "lethality": 10,
+        "health": 207,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 828,
+        "lethality": 10,
+        "health": 155,
+        "defense": 10
+      }
+    },
+    "4:5": {
+      "infantry": {
+        "attack": 217,
+        "lethality": 10,
+        "health": 652,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 652,
+        "lethality": 10,
+        "health": 217,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 870,
+        "lethality": 10,
+        "health": 163,
+        "defense": 10
+      }
+    },
+    "4:6": {
+      "infantry": {
+        "attack": 228,
+        "lethality": 10,
+        "health": 685,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 685,
+        "lethality": 10,
+        "health": 228,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 913,
+        "lethality": 10,
+        "health": 171,
+        "defense": 10
+      }
+    },
+    "4:7": {
+      "infantry": {
+        "attack": 240,
+        "lethality": 10,
+        "health": 719,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 719,
+        "lethality": 10,
+        "health": 240,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 959,
+        "lethality": 10,
+        "health": 180,
+        "defense": 10
+      }
+    },
+    "4:8": {
+      "infantry": {
+        "attack": 252,
+        "lethality": 10,
+        "health": 755,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 755,
+        "lethality": 10,
+        "health": 252,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1007,
+        "lethality": 10,
+        "health": 189,
+        "defense": 10
+      }
+    },
+    "5:0": {
+      "infantry": {
+        "attack": 206,
+        "lethality": 10,
+        "health": 619,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 619,
+        "lethality": 10,
+        "health": 206,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 825,
+        "lethality": 10,
+        "health": 155,
+        "defense": 10
+      }
+    },
+    "5:1": {
+      "infantry": {
+        "attack": 214,
+        "lethality": 10,
+        "health": 644,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 644,
+        "lethality": 10,
+        "health": 214,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 858,
+        "lethality": 10,
+        "health": 161,
+        "defense": 10
+      }
+    },
+    "5:2": {
+      "infantry": {
+        "attack": 225,
+        "lethality": 10,
+        "health": 676,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 676,
+        "lethality": 10,
+        "health": 225,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 901,
+        "lethality": 10,
+        "health": 169,
+        "defense": 10
+      }
+    },
+    "5:3": {
+      "infantry": {
+        "attack": 236,
+        "lethality": 10,
+        "health": 710,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 710,
+        "lethality": 10,
+        "health": 236,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 946,
+        "lethality": 10,
+        "health": 178,
+        "defense": 10
+      }
+    },
+    "5:4": {
+      "infantry": {
+        "attack": 248,
+        "lethality": 10,
+        "health": 745,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 745,
+        "lethality": 10,
+        "health": 248,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 993,
+        "lethality": 10,
+        "health": 187,
+        "defense": 10
+      }
+    },
+    "5:5": {
+      "infantry": {
+        "attack": 260,
+        "lethality": 10,
+        "health": 782,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 782,
+        "lethality": 10,
+        "health": 260,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1043,
+        "lethality": 10,
+        "health": 196,
+        "defense": 10
+      }
+    },
+    "5:6": {
+      "infantry": {
+        "attack": 273,
+        "lethality": 10,
+        "health": 822,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 822,
+        "lethality": 10,
+        "health": 273,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1095,
+        "lethality": 10,
+        "health": 206,
+        "defense": 10
+      }
+    },
+    "5:7": {
+      "infantry": {
+        "attack": 287,
+        "lethality": 10,
+        "health": 863,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 863,
+        "lethality": 10,
+        "health": 287,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1150,
+        "lethality": 10,
+        "health": 216,
+        "defense": 10
+      }
+    },
+    "5:8": {
+      "infantry": {
+        "attack": 301,
+        "lethality": 10,
+        "health": 906,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 906,
+        "lethality": 10,
+        "health": 301,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1207,
+        "lethality": 10,
+        "health": 227,
+        "defense": 10
+      }
+    },
+    "6:0": {
+      "infantry": {
+        "attack": 243,
+        "lethality": 10,
+        "health": 730,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 730,
+        "lethality": 10,
+        "health": 243,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 974,
+        "lethality": 10,
+        "health": 183,
+        "defense": 10
+      }
+    },
+    "6:1": {
+      "infantry": {
+        "attack": 253,
+        "lethality": 10,
+        "health": 759,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 759,
+        "lethality": 10,
+        "health": 253,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1013,
+        "lethality": 10,
+        "health": 190,
+        "defense": 10
+      }
+    },
+    "6:2": {
+      "infantry": {
+        "attack": 265,
+        "lethality": 10,
+        "health": 797,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 797,
+        "lethality": 10,
+        "health": 265,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1064,
+        "lethality": 10,
+        "health": 200,
+        "defense": 10
+      }
+    },
+    "6:3": {
+      "infantry": {
+        "attack": 279,
+        "lethality": 10,
+        "health": 837,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 837,
+        "lethality": 10,
+        "health": 279,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1117,
+        "lethality": 10,
+        "health": 210,
+        "defense": 10
+      }
+    },
+    "6:4": {
+      "infantry": {
+        "attack": 293,
+        "lethality": 10,
+        "health": 879,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 879,
+        "lethality": 10,
+        "health": 293,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1173,
+        "lethality": 10,
+        "health": 220,
+        "defense": 10
+      }
+    },
+    "6:5": {
+      "infantry": {
+        "attack": 307,
+        "lethality": 10,
+        "health": 923,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 923,
+        "lethality": 10,
+        "health": 307,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1231,
+        "lethality": 10,
+        "health": 231,
+        "defense": 10
+      }
+    },
+    "6:6": {
+      "infantry": {
+        "attack": 323,
+        "lethality": 10,
+        "health": 969,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 969,
+        "lethality": 10,
+        "health": 323,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1293,
+        "lethality": 10,
+        "health": 243,
+        "defense": 10
+      }
+    },
+    "6:7": {
+      "infantry": {
+        "attack": 339,
+        "lethality": 10,
+        "health": 1017,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1017,
+        "lethality": 10,
+        "health": 339,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1357,
+        "lethality": 10,
+        "health": 255,
+        "defense": 10
+      }
+    },
+    "6:8": {
+      "infantry": {
+        "attack": 356,
+        "lethality": 10,
+        "health": 1068,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1068,
+        "lethality": 10,
+        "health": 356,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1425,
+        "lethality": 10,
+        "health": 268,
+        "defense": 10
+      }
+    },
+    "7:0": {
+      "infantry": {
+        "attack": 287,
+        "lethality": 10,
+        "health": 862,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 862,
+        "lethality": 10,
+        "health": 287,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1149,
+        "lethality": 10,
+        "health": 215,
+        "defense": 10
+      }
+    },
+    "7:1": {
+      "infantry": {
+        "attack": 298,
+        "lethality": 10,
+        "health": 896,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 896,
+        "lethality": 10,
+        "health": 298,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1195,
+        "lethality": 10,
+        "health": 224,
+        "defense": 10
+      }
+    },
+    "7:2": {
+      "infantry": {
+        "attack": 313,
+        "lethality": 10,
+        "health": 941,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 941,
+        "lethality": 10,
+        "health": 313,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1255,
+        "lethality": 10,
+        "health": 235,
+        "defense": 10
+      }
+    },
+    "7:3": {
+      "infantry": {
+        "attack": 329,
+        "lethality": 10,
+        "health": 988,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 988,
+        "lethality": 10,
+        "health": 329,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1317,
+        "lethality": 10,
+        "health": 247,
+        "defense": 10
+      }
+    },
+    "7:4": {
+      "infantry": {
+        "attack": 346,
+        "lethality": 10,
+        "health": 1038,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1038,
+        "lethality": 10,
+        "health": 346,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1383,
+        "lethality": 10,
+        "health": 259,
+        "defense": 10
+      }
+    },
+    "7:5": {
+      "infantry": {
+        "attack": 363,
+        "lethality": 10,
+        "health": 1090,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1090,
+        "lethality": 10,
+        "health": 363,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1452,
+        "lethality": 10,
+        "health": 272,
+        "defense": 10
+      }
+    },
+    "7:6": {
+      "infantry": {
+        "attack": 381,
+        "lethality": 10,
+        "health": 1144,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1144,
+        "lethality": 10,
+        "health": 381,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1525,
+        "lethality": 10,
+        "health": 285,
+        "defense": 10
+      }
+    },
+    "7:7": {
+      "infantry": {
+        "attack": 400,
+        "lethality": 10,
+        "health": 1201,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1201,
+        "lethality": 10,
+        "health": 400,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1601,
+        "lethality": 10,
+        "health": 300,
+        "defense": 10
+      }
+    },
+    "7:8": {
+      "infantry": {
+        "attack": 420,
+        "lethality": 10,
+        "health": 1261,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1261,
+        "lethality": 10,
+        "health": 420,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1681,
+        "lethality": 10,
+        "health": 315,
+        "defense": 10
+      }
+    },
+    "8:0": {
+      "infantry": {
+        "attack": 339,
+        "lethality": 10,
+        "health": 1017,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1017,
+        "lethality": 10,
+        "health": 339,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1356,
+        "lethality": 10,
+        "health": 254,
+        "defense": 10
+      }
+    },
+    "8:1": {
+      "infantry": {
+        "attack": 353,
+        "lethality": 10,
+        "health": 1058,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1058,
+        "lethality": 10,
+        "health": 353,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1410,
+        "lethality": 10,
+        "health": 264,
+        "defense": 10
+      }
+    },
+    "8:2": {
+      "infantry": {
+        "attack": 370,
+        "lethality": 10,
+        "health": 1111,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1111,
+        "lethality": 10,
+        "health": 370,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1481,
+        "lethality": 10,
+        "health": 277,
+        "defense": 10
+      }
+    },
+    "8:3": {
+      "infantry": {
+        "attack": 389,
+        "lethality": 10,
+        "health": 1166,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1166,
+        "lethality": 10,
+        "health": 389,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1555,
+        "lethality": 10,
+        "health": 291,
+        "defense": 10
+      }
+    },
+    "8:4": {
+      "infantry": {
+        "attack": 408,
+        "lethality": 10,
+        "health": 1224,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1224,
+        "lethality": 10,
+        "health": 408,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1633,
+        "lethality": 10,
+        "health": 306,
+        "defense": 10
+      }
+    },
+    "8:5": {
+      "infantry": {
+        "attack": 429,
+        "lethality": 10,
+        "health": 1286,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1286,
+        "lethality": 10,
+        "health": 429,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1714,
+        "lethality": 10,
+        "health": 321,
+        "defense": 10
+      }
+    },
+    "8:6": {
+      "infantry": {
+        "attack": 450,
+        "lethality": 10,
+        "health": 1350,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1350,
+        "lethality": 10,
+        "health": 450,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1800,
+        "lethality": 10,
+        "health": 337,
+        "defense": 10
+      }
+    },
+    "8:7": {
+      "infantry": {
+        "attack": 472,
+        "lethality": 10,
+        "health": 1417,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1417,
+        "lethality": 10,
+        "health": 472,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1890,
+        "lethality": 10,
+        "health": 354,
+        "defense": 10
+      }
+    },
+    "8:8": {
+      "infantry": {
+        "attack": 496,
+        "lethality": 10,
+        "health": 1488,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1488,
+        "lethality": 10,
+        "health": 496,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1984,
+        "lethality": 10,
+        "health": 372,
+        "defense": 10
+      }
+    },
+    "9:0": {
+      "infantry": {
+        "attack": 400,
+        "lethality": 10,
+        "health": 1200,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1200,
+        "lethality": 10,
+        "health": 400,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1600,
+        "lethality": 10,
+        "health": 300,
+        "defense": 10
+      }
+    },
+    "9:1": {
+      "infantry": {
+        "attack": 416,
+        "lethality": 10,
+        "health": 1248,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1248,
+        "lethality": 10,
+        "health": 416,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1664,
+        "lethality": 10,
+        "health": 312,
+        "defense": 10
+      }
+    },
+    "9:2": {
+      "infantry": {
+        "attack": 437,
+        "lethality": 10,
+        "health": 1310,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1310,
+        "lethality": 10,
+        "health": 437,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1747,
+        "lethality": 10,
+        "health": 328,
+        "defense": 10
+      }
+    },
+    "9:3": {
+      "infantry": {
+        "attack": 459,
+        "lethality": 10,
+        "health": 1376,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1376,
+        "lethality": 10,
+        "health": 459,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1835,
+        "lethality": 10,
+        "health": 344,
+        "defense": 10
+      }
+    },
+    "9:4": {
+      "infantry": {
+        "attack": 482,
+        "lethality": 10,
+        "health": 1445,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1445,
+        "lethality": 10,
+        "health": 482,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1926,
+        "lethality": 10,
+        "health": 361,
+        "defense": 10
+      }
+    },
+    "9:5": {
+      "infantry": {
+        "attack": 506,
+        "lethality": 10,
+        "health": 1517,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1517,
+        "lethality": 10,
+        "health": 506,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 2023,
+        "lethality": 10,
+        "health": 379,
+        "defense": 10
+      }
+    },
+    "9:6": {
+      "infantry": {
+        "attack": 531,
+        "lethality": 10,
+        "health": 1593,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1593,
+        "lethality": 10,
+        "health": 531,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 2124,
+        "lethality": 10,
+        "health": 398,
+        "defense": 10
+      }
+    },
+    "9:7": {
+      "infantry": {
+        "attack": 557,
+        "lethality": 10,
+        "health": 1672,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1672,
+        "lethality": 10,
+        "health": 557,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 2230,
+        "lethality": 10,
+        "health": 418,
+        "defense": 10
+      }
+    },
+    "9:8": {
+      "infantry": {
+        "attack": 585,
+        "lethality": 10,
+        "health": 1756,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1756,
+        "lethality": 10,
+        "health": 585,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 2341,
+        "lethality": 10,
+        "health": 439,
+        "defense": 10
+      }
+    },
+    "10:0": {
+      "infantry": {
+        "attack": 472,
+        "lethality": 10,
+        "health": 1416,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1416,
+        "lethality": 10,
+        "health": 472,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1888,
+        "lethality": 10,
+        "health": 354,
+        "defense": 10
+      }
+    },
+    "10:1": {
+      "infantry": {
+        "attack": 491,
+        "lethality": 10,
+        "health": 1473,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1473,
+        "lethality": 10,
+        "health": 491,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 1964,
+        "lethality": 10,
+        "health": 368,
+        "defense": 10
+      }
+    },
+    "10:2": {
+      "infantry": {
+        "attack": 515,
+        "lethality": 10,
+        "health": 1546,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1546,
+        "lethality": 10,
+        "health": 515,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 2062,
+        "lethality": 10,
+        "health": 387,
+        "defense": 10
+      }
+    },
+    "10:3": {
+      "infantry": {
+        "attack": 541,
+        "lethality": 10,
+        "health": 1624,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1624,
+        "lethality": 10,
+        "health": 541,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 2165,
+        "lethality": 10,
+        "health": 406,
+        "defense": 10
+      }
+    },
+    "10:4": {
+      "infantry": {
+        "attack": 568,
+        "lethality": 10,
+        "health": 1705,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1705,
+        "lethality": 10,
+        "health": 568,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 2273,
+        "lethality": 10,
+        "health": 426,
+        "defense": 10
+      }
+    },
+    "10:5": {
+      "infantry": {
+        "attack": 597,
+        "lethality": 10,
+        "health": 1790,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1790,
+        "lethality": 10,
+        "health": 597,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 2387,
+        "lethality": 10,
+        "health": 448,
+        "defense": 10
+      }
+    },
+    "10:6": {
+      "infantry": {
+        "attack": 627,
+        "lethality": 10,
+        "health": 1880,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1880,
+        "lethality": 10,
+        "health": 627,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 2506,
+        "lethality": 10,
+        "health": 470,
+        "defense": 10
+      }
+    },
+    "10:7": {
+      "infantry": {
+        "attack": 658,
+        "lethality": 10,
+        "health": 1973,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1973,
+        "lethality": 10,
+        "health": 658,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 2631,
+        "lethality": 10,
+        "health": 493,
+        "defense": 10
+      }
+    },
+    "10:8": {
+      "infantry": {
+        "attack": 691,
+        "lethality": 10,
+        "health": 2072,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 2072,
+        "lethality": 10,
+        "health": 691,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 2763,
+        "lethality": 10,
+        "health": 518,
+        "defense": 10
+      }
+    },
+    "11:0": {
+      "infantry": {
+        "attack": 566,
+        "lethality": 10,
+        "health": 1699,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1699,
+        "lethality": 10,
+        "health": 566,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 2266,
+        "lethality": 10,
+        "health": 390,
+        "defense": 10
+      }
+    },
+    "11:1": {
+      "infantry": {
+        "attack": 589,
+        "lethality": 10,
+        "health": 1767,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1767,
+        "lethality": 10,
+        "health": 589,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 2357,
+        "lethality": 10,
+        "health": 406,
+        "defense": 10
+      }
+    },
+    "11:2": {
+      "infantry": {
+        "attack": 618,
+        "lethality": 10,
+        "health": 1855,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1855,
+        "lethality": 10,
+        "health": 618,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 2474,
+        "lethality": 10,
+        "health": 426,
+        "defense": 10
+      }
+    },
+    "11:3": {
+      "infantry": {
+        "attack": 649,
+        "lethality": 10,
+        "health": 1948,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 1948,
+        "lethality": 10,
+        "health": 649,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 2598,
+        "lethality": 10,
+        "health": 447,
+        "defense": 10
+      }
+    },
+    "11:4": {
+      "infantry": {
+        "attack": 681,
+        "lethality": 10,
+        "health": 2045,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 2045,
+        "lethality": 10,
+        "health": 681,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 2728,
+        "lethality": 10,
+        "health": 470,
+        "defense": 10
+      }
+    },
+    "11:5": {
+      "infantry": {
+        "attack": 715,
+        "lethality": 10,
+        "health": 2148,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 2148,
+        "lethality": 10,
+        "health": 715,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 2865,
+        "lethality": 10,
+        "health": 493,
+        "defense": 10
+      }
+    },
+    "11:6": {
+      "infantry": {
+        "attack": 751,
+        "lethality": 10,
+        "health": 2255,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 2255,
+        "lethality": 10,
+        "health": 751,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 3008,
+        "lethality": 10,
+        "health": 518,
+        "defense": 10
+      }
+    },
+    "11:7": {
+      "infantry": {
+        "attack": 789,
+        "lethality": 10,
+        "health": 2368,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 2368,
+        "lethality": 10,
+        "health": 789,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 3158,
+        "lethality": 10,
+        "health": 544,
+        "defense": 10
+      }
+    },
+    "11:8": {
+      "infantry": {
+        "attack": 828,
+        "lethality": 10,
+        "health": 2486,
+        "defense": 10
+      },
+      "cavalry": {
+        "attack": 2486,
+        "lethality": 10,
+        "health": 828,
+        "defense": 10
+      },
+      "archer": {
+        "attack": 3316,
+        "lethality": 10,
+        "health": 571,
+        "defense": 10
+      }
+    }
+  }
+}

@@ -1,0 +1,672 @@
+{
+  "version": "2026-10-04",
+  "heroes": [
+    {
+      "name": "Amane",
+      "troop": "archer",
+      "effects": [
+        {
+          "skill": 1,
+          "kind": "group102",
+          "max": 25,
+          "scope": "all"
+        }
+      ],
+      "widget": null,
+      "note": "",
+      "source": "https://kingshotdata.com/heroes/amane/",
+      "hostReady": true,
+      "skillNames": [
+        "Expedition 1",
+        "Expedition 2",
+        "Expedition 3"
+      ]
+    },
+    {
+      "name": "Yeonwoo",
+      "troop": "archer",
+      "effects": [
+        {
+          "skill": 1,
+          "kind": "group101",
+          "max": 25,
+          "scope": "all"
+        }
+      ],
+      "widget": null,
+      "note": "",
+      "source": "https://kingshotdata.com/heroes/yeonwoo/",
+      "hostReady": true,
+      "skillNames": [
+        "Expedition 1",
+        "Expedition 2",
+        "Expedition 3"
+      ]
+    },
+    {
+      "name": "Chenko",
+      "troop": "cavalry",
+      "effects": [
+        {
+          "skill": 1,
+          "kind": "group101",
+          "max": 25,
+          "scope": "all"
+        }
+      ],
+      "widget": null,
+      "note": "",
+      "source": "https://kingshotdata.com/heroes/chenko/",
+      "hostReady": true,
+      "skillNames": [
+        "Expedition 1",
+        "Expedition 2",
+        "Expedition 3"
+      ],
+      "reviewedSkillSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50007_kingshot_end/"
+    },
+    {
+      "name": "Amadeus",
+      "troop": "infantry",
+      "effects": [
+        {
+          "skill": 1,
+          "kind": "group101",
+          "max": 25,
+          "scope": "all"
+        },
+        {
+          "skill": 2,
+          "kind": "group102",
+          "max": 25,
+          "scope": "all"
+        },
+        {
+          "skill": 3,
+          "kind": "chance",
+          "max": 50,
+          "scope": "all",
+          "chance": 0.4
+        }
+      ],
+      "widget": "Aegis of Fate",
+      "note": "Owned talent is entered in permanent baseline; widget ordinary stat must be confirmed.",
+      "source": "https://kingshotdata.com/heroes/amadeus/",
+      "hostReady": true,
+      "skillNames": [
+        "Lethality",
+        "Attack",
+        "Chance damage"
+      ]
+    },
+    {
+      "name": "Helga",
+      "troop": "infantry",
+      "effects": [
+        {
+          "skill": 2,
+          "kind": "group102",
+          "max": 25,
+          "scope": "all"
+        },
+        {
+          "skill": 3,
+          "kind": "group101",
+          "max": 25,
+          "scope": "all"
+        }
+      ],
+      "widget": "Bands of Tyre",
+      "note": "Owned talent is entered in permanent baseline.",
+      "source": "https://kingshotdata.com/heroes/helga/",
+      "hostReady": true,
+      "skillNames": [
+        "Expedition 1",
+        "Expedition 2",
+        "Expedition 3"
+      ]
+    },
+    {
+      "name": "Long Fei",
+      "troop": "infantry",
+      "effects": [
+        {
+          "skill": 3,
+          "kind": "chance",
+          "max": 100,
+          "scope": "all",
+          "chance": 0.25
+        }
+      ],
+      "widget": "Immortal\u2019s Flask",
+      "note": "200% total damage means 100% extra. Widget stat requires entry.",
+      "source": "https://kingshotdata.com/heroes/long-fei/",
+      "hostReady": true,
+      "skillNames": [
+        "Expedition 1",
+        "Expedition 2",
+        "Expedition 3"
+      ]
+    },
+    {
+      "name": "Petra",
+      "troop": "cavalry",
+      "effects": [
+        {
+          "skill": 1,
+          "kind": "chance",
+          "max": 50,
+          "scope": "all",
+          "chance": 0.5
+        },
+        {
+          "skill": 2,
+          "kind": "chance",
+          "max": 50,
+          "scope": "all",
+          "chance": 0.5
+        }
+      ],
+      "widget": "Fate\u2019s Writ",
+      "note": "Independent proc approximation; duplicate-proc behavior is disputed.",
+      "source": "https://kingshotdata.com/heroes/petra/",
+      "hostReady": true,
+      "skillNames": [
+        "Expedition 1",
+        "Expedition 2",
+        "Expedition 3"
+      ]
+    },
+    {
+      "name": "Margot",
+      "troop": "cavalry",
+      "effects": [],
+      "widget": null,
+      "note": "Only first joining skill is modeled. Host skills require further validation.",
+      "source": "https://kingshotdata.com/heroes/margot/",
+      "hostReady": false,
+      "skillNames": [
+        "Expedition 1",
+        "Expedition 2",
+        "Expedition 3"
+      ],
+      "reviewedSkillSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50014_kingshot_end/"
+    },
+    {
+      "name": "Rosa",
+      "troop": "archer",
+      "effects": [
+        {
+          "skill": 1,
+          "kind": "chance",
+          "max": 50,
+          "scope": "all",
+          "chance": 0.4
+        },
+        {
+          "skill": 3,
+          "kind": "attackMultiplier",
+          "max": 30,
+          "scope": "archer"
+        }
+      ],
+      "widget": "Aeolian",
+      "note": "Golden Rhythm modeled as class attack multiplier; interaction needs calibration.",
+      "source": "https://kingshotdata.com/heroes/rosa/",
+      "hostReady": true,
+      "skillNames": [
+        "Chaos Gambit",
+        "Rose of War",
+        "Golden Rhythm"
+      ]
+    },
+    {
+      "name": "Yang",
+      "troop": "archer",
+      "effects": [
+        {
+          "skill": 1,
+          "kind": "extra",
+          "max": 100,
+          "scope": "all",
+          "every": 4
+        },
+        {
+          "skill": 2,
+          "kind": "extraChance",
+          "max": 100,
+          "scope": "archer",
+          "chance": 0.4
+        },
+        {
+          "skill": 3,
+          "kind": "chance",
+          "max": 50,
+          "scope": "all",
+          "chance": 0.4
+        }
+      ],
+      "widget": "Frostkin",
+      "note": "Extra strikes use expected ten-turn averages; inheritance of overlapping effects is uncertain.",
+      "source": "https://kingshotdata.com/heroes/yang/",
+      "hostReady": true,
+      "skillNames": [
+        "Avalanche",
+        "Ice Zone",
+        "Ambush"
+      ]
+    },
+    {
+      "name": "Vivian",
+      "troop": "archer",
+      "effects": [
+        {
+          "skill": 1,
+          "kind": "damageTaken",
+          "max": 25,
+          "scope": "all"
+        }
+      ],
+      "widget": "Lucky Spinner",
+      "note": "Enemy damage taken is distinct from Attack; timed offensive effects and stacking are unresolved.",
+      "source": "https://kingshotdata.com/heroes/vivian/",
+      "hostReady": false,
+      "skillNames": [
+        "Expedition 1",
+        "Expedition 2",
+        "Expedition 3"
+      ]
+    },
+    {
+      "name": "Wee & Woo",
+      "troop": "archer",
+      "effects": [
+        {
+          "skill": 1,
+          "kind": "attackMultiplier",
+          "max": 15,
+          "scope": "all"
+        },
+        {
+          "skill": 1,
+          "kind": "lethalityMultiplier",
+          "max": 10,
+          "scope": "all"
+        },
+        {
+          "skill": 2,
+          "kind": "damageMultiplier",
+          "max": 25,
+          "scope": "all"
+        },
+        {
+          "skill": 3,
+          "kind": "chance",
+          "max": 50,
+          "scope": "all",
+          "chance": 0.5
+        }
+      ],
+      "widget": "Exclusive widget",
+      "note": "Class-target wording and extra-strike interactions require calibration.",
+      "source": "https://kingshotdata.com/heroes/generation-7-heroes/",
+      "hostReady": true,
+      "skillNames": [
+        "Expedition 1",
+        "Expedition 2",
+        "Expedition 3"
+      ]
+    },
+    {
+      "name": "Diego",
+      "troop": "infantry",
+      "effects": [
+        {
+          "skill": 2,
+          "kind": "chance",
+          "max": 50,
+          "scope": "all",
+          "chance": 0.5
+        },
+        {
+          "skill": 3,
+          "kind": "lethalityMultiplier",
+          "max": 25,
+          "scope": "all"
+        }
+      ],
+      "widget": "Exclusive widget",
+      "note": "Gen 8 expected effects are provisional; widget requires entry.",
+      "source": "https://kingshotdata.com/heroes/diego/",
+      "hostReady": true,
+      "skillNames": [
+        "Expedition 1",
+        "Expedition 2",
+        "Expedition 3"
+      ]
+    },
+    {
+      "name": "Liz",
+      "troop": "cavalry",
+      "effects": [
+        {
+          "skill": 1,
+          "kind": "chance",
+          "max": 50,
+          "scope": "all",
+          "chance": 0.5
+        },
+        {
+          "skill": 3,
+          "kind": "extraChance",
+          "max": 150,
+          "scope": "cavalry",
+          "chance": 0.5
+        }
+      ],
+      "widget": "Exclusive widget",
+      "note": "First skill is approximated as an offense multiplier; exact operation unverified.",
+      "source": "https://kingshotdata.com/heroes/liz/",
+      "hostReady": true,
+      "skillNames": [
+        "Expedition 1",
+        "Expedition 2",
+        "Expedition 3"
+      ]
+    },
+    {
+      "name": "Luna",
+      "troop": "archer",
+      "effects": [
+        {
+          "skill": 1,
+          "kind": "attackMultiplier",
+          "max": 25,
+          "scope": "all"
+        },
+        {
+          "skill": 3,
+          "kind": "extraChance",
+          "max": 50,
+          "scope": "archer",
+          "chance": 1
+        }
+      ],
+      "widget": "Envoy of Ancients",
+      "note": "Arrowflash interactions with Volley and Howling Wind remain untested.",
+      "source": "https://kingshotdata.com/heroes/luna/",
+      "hostReady": true,
+      "skillNames": [
+        "Expedition 1",
+        "Expedition 2",
+        "Expedition 3"
+      ]
+    },
+    {
+      "name": "Gordon",
+      "troop": "cavalry",
+      "effects": [
+        {
+          "skill": 2,
+          "kind": "squadAttack",
+          "max": 25,
+          "scope": "all"
+        }
+      ],
+      "widget": null,
+      "note": "Trash Talk gives 5\u201325% Squad Attack; exact host stacking and selection unverified. Health skill omitted.",
+      "source": "https://kingshotdata.com/heroes/gordon/",
+      "hostReady": false,
+      "skillNames": [
+        "Super Nutrients (health; omitted)",
+        "Trash Talk"
+      ],
+      "reviewedSkillSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50005_kingshot_end/"
+    },
+    {
+      "name": "Zoe",
+      "troop": "infantry",
+      "effects": [
+        {
+          "skill": 2,
+          "kind": "group102",
+          "max": 25,
+          "scope": "all"
+        }
+      ],
+      "widget": "The Unrighteous",
+      "source": "https://kingshotdata.com/heroes/zoe/",
+      "hostReady": false,
+      "note": "Partial comparison: Charisma and inherent/widget stats supported; procs unresolved."
+    },
+    {
+      "name": "Jabel",
+      "troop": "cavalry",
+      "effects": [],
+      "widget": null,
+      "hostReady": false,
+      "reviewedSkillSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50012_kingshot_end/",
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50012_kingshot_end/"
+    },
+    {
+      "name": "Saul",
+      "troop": "archer",
+      "effects": [],
+      "widget": null,
+      "hostReady": false,
+      "reviewedSkillSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50017_kingshot_end/",
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50017_kingshot_end/"
+    },
+    {
+      "name": "Howard",
+      "troop": "infantry",
+      "effects": [],
+      "widget": null,
+      "hostReady": false,
+      "reviewedSkillSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50004_kingshot_end/",
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50004_kingshot_end/"
+    },
+    {
+      "name": "Quinn",
+      "troop": "archer",
+      "effects": [],
+      "widget": null,
+      "hostReady": false,
+      "reviewedSkillSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50006_kingshot_end/",
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50006_kingshot_end/"
+    },
+    {
+      "name": "Diana",
+      "troop": "archer",
+      "effects": [],
+      "widget": null,
+      "hostReady": false,
+      "reviewedSkillSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50008_kingshot_end/",
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50008_kingshot_end/"
+    },
+    {
+      "name": "Fahd",
+      "troop": "cavalry",
+      "effects": [],
+      "widget": null,
+      "hostReady": false,
+      "reviewedSkillSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50029_kingshot_end/",
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50029_kingshot_end/"
+    },
+    {
+      "name": "Forrest",
+      "troop": "infantry",
+      "effects": [],
+      "widget": null,
+      "hostReady": false,
+      "reviewedSkillSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50000_kingshot_end/",
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50000_kingshot_end/"
+    },
+    {
+      "name": "Seth",
+      "troop": "infantry",
+      "effects": [],
+      "widget": null,
+      "hostReady": false,
+      "reviewedSkillSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50001_kingshot_end/",
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50001_kingshot_end/"
+    },
+    {
+      "name": "Edwin",
+      "troop": "cavalry",
+      "effects": [],
+      "widget": null,
+      "hostReady": false,
+      "reviewedSkillSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50002_kingshot_end/",
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50002_kingshot_end/"
+    },
+    {
+      "name": "Olive",
+      "troop": "archer",
+      "effects": [],
+      "widget": null,
+      "hostReady": false,
+      "reviewedSkillSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50003_kingshot_end/",
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50003_kingshot_end/"
+    },
+    {
+      "name": "Hilde",
+      "troop": "cavalry",
+      "effects": [],
+      "widget": null,
+      "hostReady": false,
+      "reviewedSkillSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50013_kingshot_end/",
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50013_kingshot_end/"
+    },
+    {
+      "name": "Marlin",
+      "troop": "archer",
+      "effects": [],
+      "widget": null,
+      "hostReady": false,
+      "reviewedSkillSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50018_kingshot_end/",
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50018_kingshot_end/"
+    },
+    {
+      "name": "Eric",
+      "troop": "infantry",
+      "effects": [],
+      "widget": null,
+      "hostReady": false,
+      "reviewedSkillSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50010_kingshot_end/",
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50010_kingshot_end/"
+    },
+    {
+      "name": "Jaeger",
+      "troop": "archer",
+      "effects": [],
+      "widget": null,
+      "hostReady": false,
+      "reviewedSkillSource": "https://kingshotwiki.com/heroes/jaegar/",
+      "source": "https://kingshotwiki.com/heroes/jaegar/"
+    },
+    {
+      "name": "Thrud",
+      "troop": "cavalry",
+      "effects": [],
+      "widget": null,
+      "hostReady": false,
+      "reviewedSkillSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50025_kingshot_end/",
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50025_kingshot_end/"
+    },
+    {
+      "name": "Triton",
+      "troop": "infantry",
+      "effects": [],
+      "widget": null,
+      "hostReady": false,
+      "reviewedSkillSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50019_kingshot_end/",
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50019_kingshot_end/"
+    },
+    {
+      "name": "Sophia",
+      "troop": "cavalry",
+      "effects": [],
+      "widget": null,
+      "hostReady": false,
+      "reviewedSkillSource": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50030_kingshot_end/",
+      "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50030_kingshot_end/"
+    }
+  ],
+  "pets": [
+    {
+      "name": "Alpha Black Panther",
+      "kind": "lethality",
+      "stages": [
+        2.5,
+        3,
+        3.5,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "name": "Giant Rhino",
+      "kind": "attack",
+      "stages": [
+        2.5,
+        3,
+        3.5,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "name": "Mighty Bison",
+      "kind": "capacity",
+      "stages": [
+        1500,
+        3000,
+        4500,
+        6000,
+        7500,
+        9000,
+        10500,
+        12000,
+        13500,
+        15000
+      ]
+    },
+    {
+      "name": "Great Moose",
+      "kind": "rallyCapacity",
+      "stages": [
+        60000,
+        70000,
+        80000,
+        90000,
+        100000,
+        110000,
+        120000,
+        130000,
+        140000,
+        150000
+      ]
+    },
+    {
+      "name": "Grizzly Bear",
+      "kind": "travel",
+      "stages": []
+    },
+    {
+      "name": "Ironclad War Bear",
+      "kind": "unresolved",
+      "stages": []
+    }
+  ]
+}

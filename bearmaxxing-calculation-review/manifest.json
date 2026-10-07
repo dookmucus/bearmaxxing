@@ -1,0 +1,36 @@
+{
+  "reviewedOn": "2026-10-06",
+  "purpose": "Supplementary reference integration and independent checks",
+  "files": [
+    {
+      "name": "REPORT.md",
+      "bytes": 14509,
+      "sha256": "5b091766dcbb6cf127b3cf7e81b83f809672799415fccfd53c9b39a6ccf47692"
+    },
+    {
+      "name": "START-HERE.md",
+      "bytes": 3956,
+      "sha256": "3c56a76f9391d0d28028c639a9feeb13d82bcfe5e8b2f056861cdfbc72a9c8bc"
+    },
+    {
+      "name": "check-results.json",
+      "bytes": 2553,
+      "sha256": "9f2cc22b375f99c15d959a59e094d7df4394088088dab6476ce47a06e6fd8816"
+    },
+    {
+      "name": "hero-progression-review.json",
+      "bytes": 63290,
+      "sha256": "0913cff6eae1796b22bbdfc9dac0f5f113f8e833ac0043f7f2fb10789fabef1b"
+    },
+    {
+      "name": "reference-checks.mjs",
+      "bytes": 9179,
+      "sha256": "e6d78fc23a26b62cb2ebc1ea71711d66dadd57ecd4b73d3adc1a6595f3d096f5"
+    },
+    {
+      "name": "supplementary-hero-effects.json",
+      "bytes": 27571,
+      "sha256": "5d88ad1fd92e57505ac3bb900e971090eb16272f6560e5f573327d7f74ebc8cf"
+    }
+  ]
+}

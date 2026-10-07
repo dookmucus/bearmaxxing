@@ -5,3 +5,6 @@ dist/
 .env
 .env.*
 !.env.example
+
+# Removed generated snapshot; preview the current dist build instead.
+BearMaxxing-preview.html

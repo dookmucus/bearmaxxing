@@ -1,0 +1,738 @@
+{
+  "version": "2026-10-06",
+  "sources": {
+    "official": {
+      "url": "https://centurygames.helpshift.com/hc/en/140-kingshot/faq/9125-combat-faq-1783436100/",
+      "evidence": "official rules",
+      "supports": [
+        "rally initiator skills from all three heroes",
+        "four member primary skills",
+        "turn-based expedition combat"
+      ],
+      "doesNotEstablish": [
+        "Bear-specific coefficients",
+        "effect operation IDs",
+        "widgets",
+        "proc counter timing"
+      ]
+    },
+    "bear": {
+      "url": "https://kingshotguides.com/guide/bear-trap-damage-mechanics-and-example-simulation/",
+      "evidence": "firsthand author model and Bear example, community",
+      "supports": [
+        "square-root troop-count scaling",
+        "ten-turn Bear example",
+        "T6 TG0 class stats",
+        "Archer 1.10 versus Bear"
+      ],
+      "limitations": [
+        "not an official formula",
+        "other tiers and TG procs not provided by this example"
+      ]
+    },
+    "joiners": {
+      "url": "https://kingshotguides.com/guide/joiner-hero-mechanics-no-one-told-you-about/",
+      "evidence": "firsthand controlled accounts and battle report comparisons",
+      "supports": [
+        "same family sums; different families multiply",
+        "101 Chenko/Yeonwoo/Amadeus",
+        "102 Amane",
+        "first-slot first skill; four selected by level/order"
+      ],
+      "limitations": [
+        "published controlled tests were PvP; Bear use is an explicit transfer assumption"
+      ]
+    },
+    "handoff": {
+      "url": "START-HERE.txt",
+      "evidence": "User-supplied community research handoff; shared research sources are not independent confirmations"
+    }
+  },
+  "bear": {
+    "rounds": 10,
+    "targetCount": 5000,
+    "targetDefense": 10,
+    "targetHealth": 83.3333,
+    "archerMultiplier": 1.1,
+    "source": "bear"
+  },
+  "baseTroops": {
+    "6:0": {
+      "infantry": {
+        "attack": 243,
+        "lethality": 10
+      },
+      "cavalry": {
+        "attack": 730,
+        "lethality": 10
+      },
+      "archer": {
+        "attack": 974,
+        "lethality": 10
+      }
+    }
+  },
+  "families": {
+    "101": {
+      "name": "Lethality/DamageUp",
+      "source": "joiners"
+    },
+    "102": {
+      "name": "Attack/DamageUp",
+      "source": "joiners"
+    }
+  },
+  "heroes": {
+    "Rosa": [
+      {
+        "skill": 1,
+        "scope": "all",
+        "family": "101",
+        "kind": "chance",
+        "source": "https://kingshotoptimizer.com/heroes/rosa/",
+        "evidence": "firsthand testing claims in author hero analysis",
+        "probability": 0.4,
+        "duplicateRule": "add",
+        "stackingVerifiedBySource": true
+      },
+      {
+        "skill": 3,
+        "scope": "archer",
+        "family": "rosa-archer-attack",
+        "kind": "steady",
+        "source": "https://kingshotoptimizer.com/heroes/rosa/",
+        "evidence": "firsthand testing claims in author hero analysis",
+        "familyUnresolved": true,
+        "unresolved": [
+          "operation family for Golden Rhythm versus other Attack skills"
+        ]
+      }
+    ],
+    "Yang": [
+      {
+        "skill": 1,
+        "scope": "all",
+        "family": "yang-direct-strike",
+        "kind": "periodic",
+        "source": "https://kingshotoptimizer.com/heroes/yang/",
+        "evidence": "firsthand testing claims in author hero analysis",
+        "period": 4,
+        "timingOffsets": [
+          0,
+          1
+        ],
+        "duplicateRule": "unknown",
+        "unresolved": [
+          "first counter tick and extra-strike interactions"
+        ]
+      },
+      {
+        "skill": 2,
+        "scope": "archer",
+        "family": "yang-direct-strike",
+        "kind": "chance",
+        "source": "https://kingshotoptimizer.com/heroes/yang/",
+        "evidence": "firsthand testing claims in author hero analysis",
+        "probability": 0.4,
+        "duplicateRule": "unknown",
+        "unresolved": [
+          "extra-strike interaction with Ice Zone"
+        ]
+      },
+      {
+        "skill": 3,
+        "scope": "all",
+        "family": "yang-ambush",
+        "kind": "chance",
+        "source": "https://kingshotoptimizer.com/heroes/yang/",
+        "evidence": "firsthand testing claims in author hero analysis",
+        "probabilityByLevel": [
+          0,
+          0.08,
+          0.16,
+          0.24,
+          0.32,
+          0.4
+        ],
+        "duplicateRule": "unknown",
+        "unresolved": [
+          "correlation between Ambush and the strike effects"
+        ]
+      }
+    ],
+    "Long Fei": [
+      {
+        "skill": 3,
+        "scope": "all",
+        "family": "long-fei-strike",
+        "kind": "chance",
+        "source": "https://kingshotoptimizer.com/heroes/long-fei/",
+        "evidence": "firsthand testing claims in author hero analysis",
+        "probability": 0.25,
+        "rollScope": "per troop class",
+        "familyUnresolved": true,
+        "unresolved": [
+          "operation family when combined with other extra-damage skills"
+        ]
+      }
+    ],
+    "Zoe": [
+      {
+        "skill": 1,
+        "scope": "all",
+        "family": null,
+        "kind": "bear-excluded",
+        "source": "https://kingshotoptimizer.com/heroes/zoe/",
+        "evidence": "firsthand testing claims in author hero analysis",
+        "reason": "Author reports Sundering Wound does not trigger against Bear; not inferred from wording"
+      },
+      {
+        "skill": 2,
+        "scope": "all",
+        "family": "102",
+        "kind": "steady",
+        "source": "https://kingshotoptimizer.com/heroes/zoe/",
+        "evidence": "firsthand testing claims in author hero analysis",
+        "hostFamilyAssumption": true
+      },
+      {
+        "skill": 3,
+        "scope": "all",
+        "family": "zoe-enemy-damage-taken",
+        "kind": "chance",
+        "source": "https://kingshotoptimizer.com/heroes/zoe/",
+        "evidence": "firsthand testing claims in author hero analysis",
+        "probability": 0.5,
+        "duplicateRule": "nonstacking",
+        "familyUnresolved": true,
+        "unresolved": [
+          "debuff overlap with Petra/Vivian"
+        ]
+      }
+    ],
+    "Petra": [
+      {
+        "skill": 1,
+        "scope": "all",
+        "family": "petra-enemy-damage-taken",
+        "kind": "chance-per-attack",
+        "source": "https://kingshotoptimizer.com/heroes/petra/",
+        "evidence": "firsthand testing claims in author hero analysis",
+        "probability": 0.5,
+        "duplicateRule": "nonstacking",
+        "familyUnresolved": true,
+        "unresolved": [
+          "debuff overlap and within-turn order"
+        ],
+        "attackRolls": "number of nonzero troop classes; 87.5% only for three attacks"
+      },
+      {
+        "skill": 2,
+        "scope": "all",
+        "family": "petra-attack",
+        "kind": "chance",
+        "source": "https://kingshotoptimizer.com/heroes/petra/",
+        "evidence": "firsthand testing claims in author hero analysis",
+        "probability": 0.5,
+        "familyUnresolved": true,
+        "unresolved": [
+          "The Favor operation family and correlation with Evil Eye"
+        ]
+      }
+    ],
+    "Vivian": [
+      {
+        "skill": 1,
+        "scope": "all",
+        "family": "vivian-enemy-damage-taken",
+        "kind": "steady",
+        "source": "https://kingshotoptimizer.com/heroes/vivian/",
+        "evidence": "firsthand testing claims in author hero analysis",
+        "duplicateRule": "unknown",
+        "familyUnresolved": false,
+        "unresolved": [
+          "duplicate Vivian stacking; overlap with other damage-taken skills"
+        ]
+      },
+      {
+        "skill": 2,
+        "scope": "all",
+        "family": "vivian-focus-fire",
+        "kind": "attack-event",
+        "source": "https://www.youtube.com/watch?v=tamg6W2DSGA",
+        "evidence": "Supplied handoff transcript, 22:59\u201326:56; community testing, not independently reproduced",
+        "period": 4,
+        "unresolved": [
+          "initial shared-counter phase",
+          "simultaneous Focus Fire/Trap of Greed replacement precedence"
+        ],
+        "replacementDebuff": true,
+        "timingEvidence": "Shared counter advances on normal attacks and Volley; fourth event triggers; next hit replaces Crouching Tiger with its weaker effect."
+      },
+      {
+        "skill": 3,
+        "scope": "archer",
+        "family": "vivian-trap",
+        "kind": "attack-event",
+        "source": "https://www.youtube.com/watch?v=tamg6W2DSGA",
+        "evidence": "Supplied handoff transcript, 22:59\u201326:56",
+        "reason": "Periodic Archer damage retained against infantry Bear; only multi-target advantage disappears",
+        "unresolved": [
+          "initial Archer ordinary-attack counter phase",
+          "Focus Fire/Trap simultaneous damage stacking and debuff precedence"
+        ]
+      }
+    ],
+    "Alcar": [
+      {
+        "skill": 1,
+        "scope": "all",
+        "kind": "bear-excluded",
+        "family": null,
+        "reason": "Rescuing Hands reduces friendly damage taken; it is not Bear offense.",
+        "source": "https://kingshotoptimizer.com/heroes/alcar/",
+        "evidence": "in-game skill transcription"
+      },
+      {
+        "skill": 2,
+        "scope": "infantry",
+        "family": "alcar-class-damage",
+        "kind": "steady",
+        "source": "https://www.youtube.com/watch?v=xNbGnQFhiWs",
+        "evidence": "Supplied handoff transcript, 7:29\u20138:13; full-round target scope, not operation-family proof",
+        "unresolved": [
+          "Praetorian Will/Carpe Diem additive versus multiplicative families",
+          "Carpe Diem damage-taken stacking with Zoe/Petra/Vivian"
+        ]
+      },
+      {
+        "skill": 2,
+        "scope": "cavalry",
+        "family": "alcar-class-damage",
+        "kind": "steady",
+        "source": "https://www.youtube.com/watch?v=xNbGnQFhiWs",
+        "evidence": "Supplied handoff transcript, 7:29\u20138:13; full-round target scope, not operation-family proof",
+        "unresolved": [
+          "Praetorian Will/Carpe Diem additive versus multiplicative families",
+          "Carpe Diem damage-taken stacking with Zoe/Petra/Vivian"
+        ]
+      },
+      {
+        "skill": 2,
+        "scope": "archer",
+        "family": "alcar-class-damage",
+        "kind": "steady",
+        "source": "https://www.youtube.com/watch?v=xNbGnQFhiWs",
+        "evidence": "Supplied handoff transcript, 7:29\u20138:13; full-round target scope, not operation-family proof",
+        "unresolved": [
+          "Praetorian Will/Carpe Diem additive versus multiplicative families",
+          "Carpe Diem damage-taken stacking with Zoe/Petra/Vivian"
+        ]
+      },
+      {
+        "skill": 3,
+        "scope": "infantry",
+        "family": "alcar-infantry-damage",
+        "kind": "steady",
+        "source": "https://www.youtube.com/watch?v=xNbGnQFhiWs",
+        "evidence": "Supplied handoff transcript, 7:29\u20138:13; full-round target scope, not operation-family proof",
+        "unresolved": [
+          "Praetorian Will/Carpe Diem additive versus multiplicative families",
+          "Carpe Diem damage-taken stacking with Zoe/Petra/Vivian"
+        ]
+      },
+      {
+        "skill": 3,
+        "scope": "all",
+        "family": "alcar-target-damage-taken",
+        "kind": "steady",
+        "source": "https://www.youtube.com/watch?v=xNbGnQFhiWs",
+        "evidence": "Supplied handoff transcript, 7:29\u20138:13; full-round target scope, not operation-family proof",
+        "unresolved": [
+          "Praetorian Will/Carpe Diem additive versus multiplicative families",
+          "Carpe Diem damage-taken stacking with Zoe/Petra/Vivian"
+        ]
+      }
+    ],
+    "Jabel": [
+      {
+        "skill": 2,
+        "scope": "all",
+        "family": "jabel-skill-2",
+        "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50012_kingshot_end/",
+        "evidence": "Primary magnitude/operation; Bear stacking is an explicit comparison assumption",
+        "hostFamilyAssumption": true,
+        "kind": "chance",
+        "probability": 0.5,
+        "probabilityByLevel": null,
+        "familyUnresolved": true,
+        "reviewProc": true,
+        "unresolved": [
+          "proc packet eligibility and overlap/correlation with other offensive effects"
+        ]
+      },
+      {
+        "skill": 3,
+        "scope": "all",
+        "family": "101",
+        "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50012_kingshot_end/",
+        "evidence": "Primary magnitude/operation; Bear stacking is an explicit comparison assumption",
+        "hostFamilyAssumption": true,
+        "kind": "steady"
+      }
+    ],
+    "Saul": [
+      {
+        "skill": 3,
+        "scope": "all",
+        "family": "101",
+        "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50017_kingshot_end/",
+        "evidence": "Primary magnitude/operation; Bear stacking is an explicit comparison assumption",
+        "hostFamilyAssumption": true,
+        "kind": "steady"
+      }
+    ],
+    "Howard": [],
+    "Gordon": [
+      {
+        "skill": 2,
+        "scope": "all",
+        "family": "102",
+        "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50005_kingshot_end/",
+        "evidence": "Primary magnitude/operation; Bear stacking is an explicit comparison assumption",
+        "hostFamilyAssumption": true,
+        "kind": "steady"
+      }
+    ],
+    "Quinn": [
+      {
+        "skill": 2,
+        "scope": "all",
+        "family": "quinn-skill-2",
+        "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50006_kingshot_end/",
+        "evidence": "Primary magnitude/operation; Bear stacking is an explicit comparison assumption",
+        "hostFamilyAssumption": true,
+        "kind": "chance",
+        "probability": 0.5,
+        "probabilityByLevel": null,
+        "familyUnresolved": true,
+        "reviewProc": true,
+        "unresolved": [
+          "proc packet eligibility and overlap/correlation with other offensive effects"
+        ]
+      }
+    ],
+    "Diana": [],
+    "Fahd": [],
+    "Forrest": [],
+    "Seth": [],
+    "Edwin": [],
+    "Olive": [],
+    "Hilde": [
+      {
+        "skill": 1,
+        "scope": "all",
+        "family": "102",
+        "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50013_kingshot_end/",
+        "evidence": "Primary magnitude/operation; Bear stacking is an explicit comparison assumption",
+        "hostFamilyAssumption": true,
+        "kind": "steady"
+      },
+      {
+        "skill": 2,
+        "scope": "all",
+        "family": "hilde-skill-2",
+        "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50013_kingshot_end/",
+        "evidence": "Primary magnitude/operation; Bear stacking is an explicit comparison assumption",
+        "hostFamilyAssumption": true,
+        "kind": "chance-replacement",
+        "probability": 0.25,
+        "familyUnresolved": true,
+        "reviewProc": true,
+        "unresolved": [
+          "replacement-hit overlap and eligibility on extra-attack packets"
+        ]
+      }
+    ],
+    "Marlin": [
+      {
+        "skill": 1,
+        "scope": "all",
+        "family": "marlin-skill-1",
+        "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50018_kingshot_end/",
+        "evidence": "Primary magnitude/operation; Bear stacking is an explicit comparison assumption",
+        "hostFamilyAssumption": true,
+        "kind": "chance",
+        "probability": null,
+        "probabilityByLevel": [
+          0,
+          0.08,
+          0.16,
+          0.24,
+          0.32,
+          0.4
+        ],
+        "familyUnresolved": true,
+        "reviewProc": true,
+        "unresolved": [
+          "proc packet eligibility and overlap/correlation with other offensive effects"
+        ]
+      },
+      {
+        "skill": 3,
+        "scope": "all",
+        "family": "marlin-skill-3",
+        "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50018_kingshot_end/",
+        "evidence": "Primary magnitude/operation; Bear stacking is an explicit comparison assumption",
+        "hostFamilyAssumption": true,
+        "kind": "chance",
+        "probability": 0.5,
+        "probabilityByLevel": null,
+        "familyUnresolved": true,
+        "reviewProc": true,
+        "unresolved": [
+          "proc packet eligibility and overlap/correlation with other offensive effects"
+        ]
+      }
+    ],
+    "Eric": [],
+    "Jaeger": [
+      {
+        "skill": 1,
+        "scope": "all",
+        "family": "jaeger-skill-1",
+        "source": "https://kingshotwiki.com/heroes/jaegar/",
+        "evidence": "Primary magnitude/operation; Bear stacking is an explicit comparison assumption",
+        "hostFamilyAssumption": true,
+        "kind": "unresolved-operation",
+        "unresolved": [
+          "proc onset, refresh and overlap across its documented duration"
+        ]
+      }
+    ],
+    "Margot": [
+      {
+        "skill": 1,
+        "scope": "all",
+        "family": "102",
+        "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50014_kingshot_end/",
+        "evidence": "Primary magnitude/operation; Bear stacking is an explicit comparison assumption",
+        "hostFamilyAssumption": true,
+        "kind": "steady"
+      },
+      {
+        "skill": 3,
+        "scope": "cavalry",
+        "family": "margot-skill-3",
+        "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50014_kingshot_end/",
+        "evidence": "Primary magnitude/operation; Bear stacking is an explicit comparison assumption",
+        "hostFamilyAssumption": true,
+        "kind": "unresolved-operation",
+        "unresolved": [
+          "additional Cavalry packet counter participation and bonus eligibility"
+        ]
+      }
+    ],
+    "Thrud": [
+      {
+        "skill": 1,
+        "scope": "infantry",
+        "family": "thrud-skill-1",
+        "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50025_kingshot_end/",
+        "evidence": "Primary magnitude/operation; Bear stacking is an explicit comparison assumption",
+        "hostFamilyAssumption": true,
+        "kind": "steady",
+        "familyUnresolved": true,
+        "unresolved": [
+          "Bear operation group and class-specific joining application"
+        ]
+      },
+      {
+        "skill": 1,
+        "scope": "archer",
+        "family": "thrud-skill-1",
+        "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50025_kingshot_end/",
+        "evidence": "Primary magnitude/operation; Bear stacking is an explicit comparison assumption",
+        "hostFamilyAssumption": true,
+        "kind": "steady",
+        "familyUnresolved": true,
+        "unresolved": [
+          "Bear operation group and class-specific joining application"
+        ]
+      },
+      {
+        "skill": 2,
+        "scope": "cavalry",
+        "family": "thrud-skill-2",
+        "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50025_kingshot_end/",
+        "evidence": "Primary magnitude/operation; Bear stacking is an explicit comparison assumption",
+        "hostFamilyAssumption": true,
+        "kind": "chance",
+        "probability": 0.2,
+        "probabilityByLevel": null,
+        "familyUnresolved": true,
+        "reviewProc": true,
+        "unresolved": [
+          "proc packet eligibility and overlap/correlation with other offensive effects"
+        ]
+      },
+      {
+        "skill": 3,
+        "scope": "all",
+        "family": "thrud-skill-3",
+        "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50025_kingshot_end/",
+        "evidence": "Primary magnitude/operation; Bear stacking is an explicit comparison assumption",
+        "hostFamilyAssumption": true,
+        "kind": "unresolved-operation",
+        "unresolved": [
+          "Cavalry counter timing and two-turn activation window"
+        ]
+      }
+    ],
+    "Triton": [
+      {
+        "skill": 2,
+        "scope": "all",
+        "family": "triton-skill-2",
+        "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50019_kingshot_end/",
+        "evidence": "Primary magnitude/operation; Bear stacking is an explicit comparison assumption",
+        "hostFamilyAssumption": true,
+        "kind": "unresolved-operation",
+        "unresolved": [
+          "which Bear attack packets qualify as skill damage"
+        ]
+      }
+    ],
+    "Sophia": [
+      {
+        "skill": 2,
+        "scope": "all",
+        "family": "sophia-skill-2",
+        "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50030_kingshot_end/",
+        "evidence": "Primary magnitude/operation; Bear stacking is an explicit comparison assumption",
+        "hostFamilyAssumption": true,
+        "kind": "unresolved-operation",
+        "unresolved": [
+          "Terror activation against Bear and following-turn packet timing"
+        ]
+      },
+      {
+        "skill": 3,
+        "scope": "all",
+        "family": "sophia-skill-3",
+        "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50030_kingshot_end/",
+        "evidence": "Primary magnitude/operation; Bear stacking is an explicit comparison assumption",
+        "hostFamilyAssumption": true,
+        "kind": "unresolved-operation",
+        "unresolved": [
+          "Terror activation against Bear and shared bonus lifetime"
+        ]
+      }
+    ],
+    "Chenko": [
+      {
+        "skill": 1,
+        "scope": "all",
+        "family": "101",
+        "source": "https://kingshotwiki.com/heroes/kingshot_wiki_hero_name_50007_kingshot_end/",
+        "evidence": "Primary magnitude/operation; Bear stacking is an explicit comparison assumption",
+        "hostFamilyAssumption": true,
+        "kind": "steady"
+      }
+    ]
+  },
+  "widget": {
+    "ordinary": "class-local additive stat from existing progression table",
+    "rallySkill": "separate multiplier; sums same-stat widget percentages before multiplying once",
+    "source": "https://frakinator.streamlit.app/",
+    "evidence": "Supplied handoff inspected Theory widget example; solo 234.6%, rally 7.5% gives 259.695%",
+    "activationSource": "https://kingshotdata.com/heroes/petra/",
+    "activation": "initiating rally only; independent of hero portrait order",
+    "unresolved": [
+      "interaction of widget Special Bonuses with saved Master/Pet special-stat decomposition",
+      "Multiple same-stat rally widgets additive versus multiplicative relationship is not established by the one-widget fixture"
+    ]
+  },
+  "comparisonScenarios": {
+    "procModel": [
+      "expected-independent",
+      "expected-merged-unknown-families"
+    ],
+    "timingOffsets": [
+      0,
+      1
+    ],
+    "joiningContexts": [
+      {
+        "id": "no-overlap",
+        "families": {},
+        "duplicateSkills": [],
+        "selected": true
+      },
+      {
+        "id": "three-101",
+        "families": {
+          "101": 75
+        },
+        "duplicateSkills": [],
+        "selected": true
+      },
+      {
+        "id": "three-102",
+        "families": {
+          "102": 75
+        },
+        "duplicateSkills": [],
+        "selected": true
+      },
+      {
+        "id": "mixed",
+        "families": {
+          "101": 50,
+          "102": 25
+        },
+        "duplicateSkills": [],
+        "selected": true
+      },
+      {
+        "id": "duplicate-petra",
+        "families": {
+          "101": 25,
+          "102": 25
+        },
+        "duplicateSkills": [
+          "Petra:1"
+        ],
+        "selected": true
+      },
+      {
+        "id": "captain-yang-same-phase",
+        "families": {},
+        "periodicEffects": [
+          {
+            "family": "yang-direct-strike",
+            "period": 4,
+            "value": 100
+          }
+        ],
+        "duplicateSkills": [],
+        "selected": true,
+        "assumption": "Hypothetical selected receiving captain has level-5 Avalanche; same phase and additive family treatment, not the player's captain data. Duplicate suppression remains unresolved."
+      },
+      {
+        "id": "not-selected",
+        "families": {},
+        "duplicateSkills": [],
+        "selected": false
+      }
+    ],
+    "probabilities": null,
+    "assumptions": [
+      "Contexts are sensitivity cases, not observations of the player's captains",
+      "Three joins enter separate rallies; never sum their family bonuses into one rally",
+      "Unknown captain Attack/Lethality scales each rally separately; compare marginal factors, not invented absolute captain scores",
+      "Unknown mechanics retain intervals/signatures; no unique overall damage winner is claimed",
+      "Select highest total modeled hosting damage in the central formation case; finite and mechanic variations only assess stability. Joining contexts cannot buy a hosting-damage sacrifice. Missing troop mechanics leave hosting unranked."
+    ]
+  }
+}

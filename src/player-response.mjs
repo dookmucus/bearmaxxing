@@ -1,3 +1,4 @@
+import {englishMessage} from './english-messages.mjs';
 export async function readPlayerResponse(response) {
   const text = await response.text();
   let body;
@@ -9,17 +10,17 @@ export async function readPlayerResponse(response) {
     const isHtml = /text\/html/i.test(contentType) || /<!doctype html|<html[\s>]/i.test(text);
 
     if (isHtml) {
-      throw new Error('The player API route returned the app page instead of a function response. Check that Netlify deployed the player function and that /api/player/:id routes before the SPA fallback.');
+      throw new Error(englishMessage("messages.player.response.readPlayerResponse.the.player.api.route.returned.the.app.page.instead.of"));
     }
     if (response.status === 404) {
-      throw new Error('The player import function was not found (HTTP 404). Check the Netlify Functions directory and the latest deployment.');
+      throw new Error(englishMessage("messages.player.response.readPlayerResponse.the.player.import.function.was.not.found.http.404.check"));
     }
-    throw new Error(`The player import endpoint returned a non-JSON response (HTTP ${response.status}). Check the Netlify function deployment and logs.`);
+    throw new Error(englishMessage("messages.player.response.readPlayerResponse.the.player.import.endpoint.returned.a.non.json.response.http",{status:response.status}));
   }
 
-  if (!response.ok) throw new Error(body?.error || `Player lookup failed (HTTP ${response.status}).`);
+  if (!response.ok) throw new Error(body?.error || englishMessage("messages.player.response.readPlayerResponse.player.lookup.failed.http",{status:response.status}));
   if (!body || typeof body !== 'object' || Array.isArray(body)) {
-    throw new Error('The player import endpoint returned an unexpected JSON response.');
+    throw new Error(englishMessage("messages.player.response.readPlayerResponse.the.player.import.endpoint.returned.an.unexpected.json.response"));
   }
   return body;
 }
