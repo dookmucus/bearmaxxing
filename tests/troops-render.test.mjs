@@ -18,15 +18,12 @@ test('Troops editor exposes only compact inventory while preserving saved planni
  assert.ok(!html.includes('>10/10/80</span>'));
  for(const label of ['Maximum march size','Infantry maximum march count','Cavalry maximum march count','Archers maximum march count','troop-march-setup','troop-march-size-fields'])assert.ok(!html.includes(label),label);
  assert.ok(html.includes('troop-columns'));
- assert.ok(html.includes('Inventory-supported'));
- assert.ok(html.includes('3 groups'));assert.ok(html.includes('4 groups'));
- assert.ok(html.includes('troop-inventory-plans'));
- assert.ok(html.includes('5 groups · includes optional hero-free pusher'));
- assert.ok(html.includes('troop-inventory-cards'));
- assert.equal((html.match(/class="troop-inventory-group"/g)??[]).length,3);
+ assert.ok(html.includes('Inventory balance'));
+ assert.ok(html.includes('No troops in the entered inventory.'));
+ assert.ok(html.includes('troop-inventory-balance'));
+ for(const obsolete of ['Inventory-supported','3 groups','4 groups','5 groups','Per group:','troop-inventory-cards','troop-inventory-group'])assert.ok(!html.includes(obsolete),obsolete);
  assert.ok(!html.includes('Show optional 5-group plan'));
  assert.ok(!html.includes('type="checkbox"'));
- assert.ok(html.includes('Limiting'));
  assert.ok(!html.includes('troop-capacity-options'));
  assert.ok(!html.includes('Full-capacity requirements'));
  assert.ok(!html.includes('Additional troops needed to fill all planned marches'));
@@ -37,6 +34,7 @@ test('Troops editor exposes only compact inventory while preserving saved planni
  assert.ok(!custom.includes('Pusher capacity'));
  assert.ok(!custom.includes('Hero-free pusher'));
  const home=renderToStaticMarkup(React.createElement(App,{initialTab:'Home',initialProfile:p}));
+ assert.ok(!home.includes('Inventory balance'));assert.ok(!home.includes('troop-inventory-balance'));
  assert.ok(!home.includes('Hero-free pusher'));
  assert.ok(!home.includes('pusher capacity'));
  assert.ok(!custom.includes('troop-setup-options'));
@@ -44,9 +42,24 @@ test('Troops editor exposes only compact inventory while preserving saved planni
  assert.ok(custom.includes('Infantry Building TG'));
  assert.ok(!custom.includes('Saved Chenko'));
  assert.ok(!custom.includes('Full-capacity requirements'));
- const without=emptyProfile();without.troops.infantry.count=20000;without.troops.cavalry.count=30000;without.troops.archer.count=160000;
+ const without=emptyProfile();without.troops.infantry.count=20000;without.troops.cavalry.count=30000;without.troops.archer.count=160001;
  const optional=renderToStaticMarkup(React.createElement(App,{initialTab:'Troops',initialProfile:without}));
  assert.ok(!optional.includes('Inventory-supported total:'));
  assert.ok(!optional.includes('Additional troops needed'));
  assert.ok(!optional.includes('Enter Maximum march size'));
+ assert.ok(optional.includes('Infantry limits your available 10/10/80 allocation.'));
+ assert.ok(optional.includes('Extra troops can remain unused.'));
+ assert.ok(optional.includes('Prioritize Infantry if you need more troops for simultaneous marches.'));
+ const {setLanguage,t:translate}=await vite.ssrLoadModule('/src/i18n.mjs');
+ try{
+  for(const language of ['en','es','fr','de','tr','ko','zh-Hans','zh-Hant']){
+   setLanguage(language,{persist:false});
+   const translated=renderToStaticMarkup(React.createElement(App,{initialTab:'Troops',initialProfile:without}));
+   for(const key of ['troops.balance.title','troops.balance.limit.infantry'])assert.ok(translated.includes(translate(key)),`${language}: ${key}`);
+   assert.ok(translated.includes('troop-inventory-balance'));
+   assert.ok(!translated.includes('troop-inventory-cards'));assert.ok(!translated.includes('troops.balance.'));
+   assert.equal((translated.match(/type="number"/g)??[]).length,6);
+   if(language!=='en')assert.ok(!/Inventory balance|Prioritize Infantry|Extra troops can remain unused/.test(translated));
+  }
+ }finally{setLanguage('en',{persist:false});}
 });

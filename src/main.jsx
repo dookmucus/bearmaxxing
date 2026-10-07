@@ -1,9 +1,11 @@
 import {heroDisplayName} from './entity-display.mjs';
 import {useLanguage} from './use-language.jsx';
+import {WelcomeModal} from './welcome-modal.jsx';
 import {languages} from './locales/registry.mjs';
 import {canonicalHeroId,heroAvailableInPlanner} from './hero-identity.mjs';
 import {canonicalPetId} from './pet-identity.mjs';
-import {inventoryGroups} from './inventory-planning.mjs';
+import {inventoryBalance} from './inventory-planning.mjs';
+import {inventoryBalanceCopy} from './inventory-balance-copy.mjs';
 import {t as tr,formatNumber,formatPercent,localizeText,entityName,englishMessage} from './i18n.mjs';
 import {useCalculations,diagnosticText} from './use-calculations.jsx';
 import {heroPlanGuidance,heroFieldGuidance,gearFieldGuidance,masterFieldGuidance,masterResearchGuidance,petGuidance} from './player-guidance.mjs';
@@ -247,6 +249,7 @@ export function App({initialTab, initialProfile} = {}) {
     </div>;
   }
   function troopInventory() {
+    const balance=inventoryBalanceCopy(inventoryBalance(p));
     return <div className="troop-editor">
       <div className="troop-columns"><span aria-hidden="true"></span><span>{tr("main.troopInventory.quantity")}</span><span>{tr("main.troopInventory.tier")}<InfoTooltip label={tr("main.troopInventory.troop.tier")}>{tr("main.troopInventory.select.the.tier.of.your.troops.in.this.class")}</InfoTooltip></span><span>{tr("main.troopInventory.building.tg")}<InfoTooltip label={tr("main.troopInventory.building.tg")}>{tr("main.troopInventory.enter.the.last.fully.completed.building.truegold.level")}</InfoTooltip></span></div>
       <div className="troop-compact-rows">{TYPES.map(t=>{
@@ -258,13 +261,11 @@ export function App({initialTab, initialProfile} = {}) {
           <Field hideVisibleLabel displayLabel={tr("main.troopInventory.building.tg")} label={tr("main.troopInventory.building.tg.2", {t: LABELS[t]})} value={troop.tg} onChange={v=>troopValue(t,'tg',v)}/>
         </div>;
       })}</div>
-      <div className="troop-inventory-plans">
-        <h3>{tr('troops.inventory.title')}<InfoTooltip label={tr('troops.inventory.title')}>{tr('troops.inventory.help')}</InfoTooltip></h3>
-        <div className="troop-inventory-cards">{[3,4,5].map(groups=>{const plan=inventoryGroups(p,groups);return <div className="troop-inventory-group" key={groups}>
-          <h3>{tr(`troops.inventory.groups${groups}`)}</h3>
-          {plan.known?<><p>{tr('troops.inventory.perGroup',{infantry:plan.perGroup.infantry,cavalry:plan.perGroup.cavalry,archers:plan.perGroup.archer,total:plan.totalPerGroup})}</p><p className="hint">{tr('troops.inventory.limiting',{types:plan.limiting.map(t=>tr(`troops.${t}`)).join(', ')})}</p></>:<p className="hint">{tr('troops.inventory.unknown')}</p>}
-        </div>;})}</div>
-        <p className="hint">{tr('troops.inventory.scope')}</p>
+      <div className="troop-inventory-balance">
+        <h3>{balance.title}<InfoTooltip label={balance.title}>{balance.tooltip}</InfoTooltip></h3>
+        <p>{balance.description}</p>
+        {balance.surplus&&<p className="hint">{balance.surplus}</p>}
+        {balance.priority&&<p>{balance.priority}</p>}
       </div>
     </div>;
   }
@@ -308,6 +309,7 @@ export function App({initialTab, initialProfile} = {}) {
     setSetup(next.setup);setTab(next.tab);
   }
   return <main className="calculator">
+    <WelcomeModal/>
     <header className="page-header"><h1 className="brand-logo"><img src="/logo.png" alt="BearMaxxing"/></h1><div className="header-import"><Field hideVisibleLabel label={tr("main.App.kingshot.id.optional")} type="text" value={p.playerId} placeholder={tr("main.App.kingshot.id")} onChange={v => update('playerId', v)}/><button className="secondary" disabled={busy || !/^\d{5,15}$/.test(p.playerId)} onClick={lookup}>{busy ? tr("main.App.importing") : tr("main.App.import")}</button><div className="field visually-hidden-label header-language"><FieldHeader id="app-language" label={tr('language.label')}/><select id="app-language" aria-label={tr('language.label')} value={locale} onChange={e=>selectLanguage(e.target.value)}>{Object.entries(languages).map(([id,language])=><option key={id} value={id} lang={id}>{language.name}</option>)}</select></div></div></header>
     {importSummary && <p className="import-summary" role="status">{localizeText(importSummary)}</p>}
     {storageError&&<p className="notice" role="status">{tr("main.App.browser.storage.is.unavailable.you.can.keep.using.this")}</p>}

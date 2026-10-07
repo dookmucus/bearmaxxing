@@ -13,6 +13,17 @@ export function comparisonProfile(profile){
  return normalized;
 }
 const whole=value=>value!==null&&value!==undefined&&value!==''&&typeof value!=='boolean'&&Number.isSafeInteger(Number(value))&&Number(value)>=0;
+export function inventoryBalance(profile){
+ const inventory=Object.fromEntries(types.map(t=>[t,inventoryCount(profile,t)]));
+ if(types.some(t=>!whole(inventory[t])))return {known:false,empty:false,limiting:[],surplus:[]};
+ // Compare relative supplies directly. Rounding to whole groups would create
+ // false ties and imply a deployable size that this guidance cannot establish.
+ const relative={infantry:Number(inventory.infantry),cavalry:Number(inventory.cavalry),archer:Number(inventory.archer)/8};
+ const minimum=Math.min(...Object.values(relative));
+ return {known:true,empty:types.every(t=>Number(inventory[t])===0),
+  limiting:types.filter(t=>relative[t]===minimum),surplus:types.filter(t=>relative[t]>minimum)};
+}
+// Legacy arithmetic for offline callers only; it does not establish march size.
 export function inventoryGroups(profile,groups){
  if(![1,3,4,5].includes(groups))throw new Error('Unsupported inventory group count');
  const inventory=Object.fromEntries(types.map(t=>[t,inventoryCount(profile,t)]));

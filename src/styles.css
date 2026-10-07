@@ -467,4 +467,17 @@ html:lang(zh-Hant) body{font-family:system-ui,-apple-system,"PingFang TC","Micro
 @media(max-width:700px){.pets-combined-design .pet-refinement-combined{grid-template-columns:1fr}.pets-combined-design .pet-columns,.pets-combined-design .pet-compact-row{grid-template-columns:44px 96px 112px;gap:8px}}
 @media(max-width:380px){.pets-combined-design .pet-columns,.pets-combined-design .pet-compact-row{grid-template-columns:40px 84px 96px}}
 
-.troop-inventory-plans{margin-top:20px;border-top:1px solid var(--border);padding-top:16px}.troop-inventory-plans>h3{display:flex;align-items:center;gap:6px}.troop-inventory-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:var(--row-gap);margin:14px 0}.troop-inventory-group{min-width:0;border:1px solid var(--border);border-radius:var(--panel-radius);background:var(--control-surface);padding:16px}.troop-inventory-group h3{margin:0 0 6px}.troop-inventory-group p{font-size:12px;margin:4px 0}.troop-inventory-plans>.hint{font-size:12px}
+.troop-inventory-balance{margin-top:20px;border-top:1px solid var(--border);padding-top:16px}.troop-inventory-balance>h3{display:flex;align-items:center;gap:6px;margin-bottom:8px}.troop-inventory-balance p{font-size:12px;margin:4px 0}
+:root .welcome-modal{width:min(560px,calc(100vw - 24px));max-width:none;max-height:calc(100dvh - 24px);padding:0;background:var(--panel);color:var(--text-primary);border:1px solid var(--border);border-radius:var(--panel-radius);box-shadow:0 12px 28px #0008}
+.welcome-modal::backdrop{background:#000a}
+.welcome-shell{display:flex;flex-direction:column;max-height:calc(100dvh - 26px);padding:var(--card-padding);gap:16px}
+.welcome-header{flex:none}
+.welcome-header h2{font-size:18px;margin-bottom:12px;line-height:1.35}
+.welcome-language{margin:0;flex-direction:row;align-items:center;gap:10px;font-size:12px}
+.welcome-language select{width:auto;padding:5px 8px;min-height:32px;max-width:180px}
+.welcome-content{overflow-y:auto;min-height:0;overscroll-behavior:contain;font-size:13px;padding:3px}
+.welcome-content p+p{margin-top:12px}
+.welcome-footer{display:flex;align-items:center;justify-content:flex-end;gap:16px;flex:none;border-top:1px solid var(--border);padding-top:12px}
+.welcome-footer label{display:flex;align-items:center;gap:8px;font-size:12px;line-height:1.4;cursor:pointer}
+.welcome-footer input{width:16px;height:16px;flex:none;margin:0;accent-color:var(--accent-yellow)}
+.welcome-footer button{flex:none}

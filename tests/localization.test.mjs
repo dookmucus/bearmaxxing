@@ -3,6 +3,8 @@ import {t,englishMessage,localizeText,formatNumber,formatPercent,setLanguage,res
 import {languages} from '../src/locales/registry.mjs';
 import {joiningLeaderCopy,joiningHeroCopy} from '../src/results-copy.mjs';
 import {enteredRosterProfile} from './helpers/entered-roster.mjs';
+import {inventoryBalance} from '../src/inventory-planning.mjs';
+import {inventoryBalanceCopy} from '../src/inventory-balance-copy.mjs';
 const storage=()=>{const values=new Map();return {getItem:key=>values.get(key)??null,setItem:(key,value)=>values.set(key,value),values};};
 test('English catalog, named placeholders, plural forms and safe fallback',()=>{
  assert.equal(t('results.rallyCapacity',{capacity:400000}),'Rally capacity contribution: +400,000');
@@ -37,14 +39,39 @@ test('star progression remains unambiguous in tooltips and nested engine copy tr
  }finally{languages.de=previousDe;}
 });
 
-test('inventory-supported copy translates equal-group counts and limiting types in all eight languages',()=>{
- for(const code of Object.keys(languages)){
-  const copy=t('troops.inventory.perGroup',{infantry:1000,cavalry:1000,archers:8000,total:10000},code);
-  for(const n of [1000,8000,10000])assert.ok(copy.includes(formatNumber(n,{useGrouping:true},code)),`${code}: ${copy}`);
-  const types=[t('troops.infantry',{},code),t('troops.archer',{},code)].join(', ');
-  assert.ok(t('troops.inventory.limiting',{types},code).includes(types));
-  assert.ok(t('troops.inventory.groups3',{},code).includes('3'));assert.ok(t('troops.inventory.groups4',{},code).includes('4'));assert.ok(t('troops.inventory.groups5',{},code).includes('5'));
- }
+test('inventory balance labels, limits, ties, conditional priorities and empty states translate in all eight languages',()=>{
+ const profile=(i,c,a)=>({troops:{infantry:{count:i},cavalry:{count:c},archer:{count:a}}});
+ const states=[[100,150,1600],[150,100,1600],[150,200,800],[120,120,1000],[120,130,960],[130,120,960],[120,120,960],[0,0,0],[0,100,0],[null,100,800]];
+ try{
+  for(const code of Object.keys(languages)){
+   setLanguage(code,{persist:false});
+   for(const key of Object.keys(languages.en.messages).filter(key=>key.startsWith('troops.balance.'))){
+    assert.ok(Object.hasOwn(languages[code].messages,key),`${code}: ${key}`);
+    if(code!=='en')assert.notEqual(languages[code].messages[key],languages.en.messages[key],`${code}: ${key}`);
+   }
+   assert.ok(!Object.keys(languages[code].messages).some(key=>key.startsWith('troops.inventory.')));
+   for(const counts of states){
+    const balance=inventoryBalance(profile(...counts)),copy=inventoryBalanceCopy(balance);
+    assert.equal(copy.title,t('troops.balance.title'));
+    assert.equal(copy.tooltip,t('troops.balance.help'));
+    for(const text of [copy.title,copy.tooltip,copy.description,copy.surplus,copy.priority].filter(Boolean)){
+     assert.ok(!text.includes('troops.balance.'));assert.ok(!/\{[^}]+\}/.test(text));
+     if(code!=='en')assert.ok(!/Inventory balance|Prioritize|if you need|Based on your troop inventory|Extra troops can remain unused/.test(text),`${code}: ${text}`);
+    }
+    if(!balance.known||balance.empty){assert.equal(copy.priority,null);assert.equal(copy.surplus,null);}
+    else {
+     assert.ok(copy.priority);
+     if(balance.limiting.length===2)for(const type of balance.limiting)assert.ok(copy.description.includes(t(type==='archer'?'troops.archers':`troops.${type}`)));
+     for(const type of balance.surplus)assert.ok(copy.surplus.includes(t(type==='archer'?'troops.archers':`troops.${type}`)));
+    }
+   }
+  }
+  setLanguage('en',{persist:false});
+  const copy=inventoryBalanceCopy(inventoryBalance(profile(150,200,800)));
+  assert.equal(copy.description,'Archers limit your available 10/10/80 allocation.');
+  assert.equal(copy.priority,'Prioritize Archers if you need more troops for simultaneous marches.');
+  assert.equal(copy.tooltip,'Based on your troop inventory. Actual deployment depends on march capacity and available rally space.');
+ }finally{setLanguage('en',{persist:false});}
 });
 
 test('recent joining copy stays concise and localized in all eight languages',()=>{

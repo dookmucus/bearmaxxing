@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {inventoryGroups,BEAR_FORMATION} from '../src/inventory-planning.mjs';
+import {inventoryGroups,inventoryBalance,BEAR_FORMATION} from '../src/inventory-planning.mjs';
 import {emptyProfile} from '../src/profile.mjs';
 import {migrateProfile} from '../src/data/roster.mjs';
 import {accountEffects,calculate,requirements} from '../src/calculator.mjs';
@@ -11,9 +11,38 @@ import {actualMarchCapacity,plannedCapacityMissing} from '../src/march-capacity-
 import {evaluateHostTrio} from '../src/host-comparison.mjs';
 import {hostBearComparison} from '../src/bear-comparison.mjs';
 import {actionableImprovements} from '../src/results-improvements.mjs';
+import {evaluateUpgrade} from '../src/upgrade-model.mjs';
 
 const inventory=(i,c,a)=>({troops:{infantry:{count:i},cavalry:{count:c},archer:{count:a}}});
 const snapshot=()=>JSON.parse(fs.readFileSync(new URL('../audits/incoming-hosting-2026-10-06/replay.json',import.meta.url))).profileSnapshot;
+test('balance: each troop type can limit relative supply and others are surplus',()=>{
+ for(const [counts,limiting,surplus] of [
+  [[100,150,1600],['infantry'],['cavalry','archer']],
+  [[150,100,1600],['cavalry'],['infantry','archer']],
+  [[150,200,800],['archer'],['infantry','cavalry']]
+ ]){
+  const p=inventory(...counts),before=structuredClone(p),balance=inventoryBalance(p);
+  assert.deepEqual(balance,{known:true,empty:false,limiting,surplus});
+  assert.ok(!Object.hasOwn(balance,'totalPerGroup'));assert.ok(!Object.hasOwn(balance,'perGroup'));
+  assert.deepEqual(p,before);
+ }
+});
+test('balance: exact relative ties include all limiting types without whole-group rounding',()=>{
+ for(const [counts,limiting,surplus] of [
+  [[120,120,1000],['infantry','cavalry'],['archer']],
+  [[120,130,960],['infantry','archer'],['cavalry']],
+  [[130,120,960],['cavalry','archer'],['infantry']],
+  [[120,120,960],['infantry','cavalry','archer'],[]],
+  [[121,122,965],['archer'],['infantry','cavalry']],
+  [[120,130,961],['infantry'],['cavalry','archer']]
+ ])assert.deepEqual(inventoryBalance(inventory(...counts)),{known:true,empty:false,limiting,surplus});
+});
+test('balance: empty, partial-zero and unknown inventories do not invent troop targets',()=>{
+ assert.deepEqual(inventoryBalance(inventory(0,0,0)),{known:true,empty:true,limiting:['infantry','cavalry','archer'],surplus:[]});
+ assert.deepEqual(inventoryBalance(inventory(100,0,800)),{known:true,empty:false,limiting:['cavalry'],surplus:['infantry','archer']});
+ assert.deepEqual(inventoryBalance(inventory(0,100,0)),{known:true,empty:false,limiting:['infantry','archer'],surplus:['cavalry']});
+ for(const unknown of [null,undefined,'',-1,1.5,true,Infinity])assert.deepEqual(inventoryBalance(inventory(unknown,100,800)),{known:false,empty:false,limiting:[],surplus:[]});
+});
 test('arithmetic: whole 10/10/80 blocks conserve unbalanced inventory for 3, 4 and 5 groups',()=>{
  const p=inventory(101,150,1001),before=structuredClone(p);
  for(const [groups,blocks] of [[3,33],[4,25],[5,20]]){
@@ -74,6 +103,10 @@ test('recommendations: absent capacities, surplus inventory and optional pusher 
  assert.deepEqual(summarize(edited),baseline);
  edited.troops.infantry.count=999999;edited.troops.cavalry.count=12345;edited.troops.archer.count=8000000;
  assert.deepEqual(summarize(edited),baseline);
+ const upgrade=profile=>evaluateUpgrade(profile,{...profile,combinedPetRefinement:{...profile.combinedPetRefinement,attack:Number(profile.combinedPetRefinement.attack)+10}},accountEffects);
+ const beforeUpgrade=upgrade(p),afterUpgrade=upgrade(edited);
+ assert.ok(beforeUpgrade);assert.ok(afterUpgrade);
+ for(const key of ['damageGain','personalPointsDelta','joiningBenefits','selectedHost','selectedJoiningLeaders'])assert.deepEqual(afterUpgrade[key],beforeUpgrade[key],key);
 });
 test('rankings: an exact 10/10/80 deployed count adds a common scale without changing relative team ordering',()=>{
  const p=migrateProfile(snapshot()),account=accountEffects(p),trios=[['Zoe','Petra','Yang'],['Zoe','Petra','Rosa'],['Zoe','Petra','Vivian']];
