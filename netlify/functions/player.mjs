@@ -2,7 +2,9 @@ const headers={'Content-Type':'application/json','Cache-Control':'no-store'};
 const reply=(status,data)=>new Response(JSON.stringify(data),{status,headers});
 export default async function handler(req){
  if(req.method!=='GET')return reply(405,{error:'Only GET requests are supported.'});
- const id=new URL(req.url).searchParams.get('id');
+ const url=new URL(req.url);
+ // Netlify's Request can retain the original public URL after the rewrite.
+ const id=url.pathname.match(/^\/api\/player\/([^/]+)\/?$/)?.[1]??url.searchParams.get('id');
  if(!/^\d{5,15}$/.test(id||''))return reply(400,{error:'Enter a valid numeric Kingshot player ID (5–15 digits).'});
  const key=process.env.MIGHTPULSE_API_KEY;
  if(!key)return reply(503,{error:'Player import needs a MightPulse API key. Set MIGHTPULSE_API_KEY in Netlify, redeploy, and try again. Manual entry works without a key.'});
