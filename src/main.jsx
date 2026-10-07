@@ -141,9 +141,9 @@ export function App({initialTab, initialProfile} = {}) {
   const {locale,select:selectLanguage}=useLanguage();
   const [restored] = useState(() => restoreAppState(deviceStorage(),initialProfile));
   const [profile, setProfile] = useState(restored.profile);
-  const [setup,setSetup]=useState(restored.setup);
+  const [setup,setSetup]=useState({...restored.setup,step:restored.setup.completed?restored.setup.step:0});
   const [storageError,setStorageError]=useState(restored.storageError);
-  const [tab, setTab] = useState(initialTab&&tabs.includes(initialTab)?initialTab:'Home');
+  const [tab, setTab] = useState(initialTab&&tabs.includes(initialTab)?initialTab:'Heroes');
   const [notice, setNotice] = useState('');
   const [importSummary, setImportSummary] = useState('');
   const [busy, setBusy] = useState(false);

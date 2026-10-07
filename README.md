@@ -23,7 +23,7 @@ For local imports, create `.env` with `MIGHTPULSE_API_KEY=` and paste your provi
 
 ## Calculator flow
 
-First-time setup walks through Heroes, Gear, Masters, Pets, and Troops. It saves each change and the current step locally; established locally saved profiles migrate directly to the completed Home view. After setup, Home, Heroes, Gear, Masters, Pets, and Troops are available from the navigation. Home shows the supported hosting trio, simultaneous joining squads, shared troop needs, and a likely next priority. Unknown combat effects remain unknown. Optional Player ID import preserves manually confirmed values and excluded heroes without changing setup progress.
+First-time setup walks through Heroes, Gear, Masters, Pets, and Troops. It saves each change and the current step locally; fresh and established profiles open on Heroes, retaining saved values and setup completion. After setup, Home, Heroes, Gear, Masters, Pets, and Troops are available from the navigation. Home shows the supported hosting trio, simultaneous joining squads, shared troop needs, and a likely next priority. Unknown combat effects remain unknown. Optional Player ID import preserves manually confirmed values and excluded heroes without changing setup progress.
 
 ### Heroes and equipment
 
