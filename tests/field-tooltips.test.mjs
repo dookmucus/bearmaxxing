@@ -1,6 +1,6 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';
 import React from 'react';import {renderToStaticMarkup} from 'react-dom/server';import {createServer} from 'vite';
-import {emptyProfile} from '../src/profile.mjs';
+import {enteredRosterProfile as emptyProfile} from './helpers/entered-roster.mjs';
 test('non-damage fields retain inputs but omit info actions; offensive and unknown fields retain explanations',async t=>{
  const vite=await createServer({server:{middlewareMode:true,hmr:false,ws:false},appType:'custom'});t.after(()=>vite.close());
  const {App}=await vite.ssrLoadModule('/src/main.jsx');

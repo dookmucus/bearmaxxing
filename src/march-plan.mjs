@@ -24,7 +24,7 @@ function candidateList(profile,used,classes){
     .sort((a,b)=>(heroCapacity(b.level)??-1)-(heroCapacity(a.level)??-1)||a.name.localeCompare(b.name));
 }
 export function assignMarchHeroes(profile,hostTeam=[],jointAssignment=null){
- if(jointAssignment)return jointAssignment;
+ if(jointAssignment)return withMissingLeaderSlots(profile,{...jointAssignment,joins:[...jointAssignment.joins],issues:[...jointAssignment.issues]});
  const host=profile.hostEnabled?hostTeam.filter(Boolean):[];
  const selection=supportedJoiningPlans(profile,host).plans[0];
  if(selection)return selection.assignment;
@@ -32,6 +32,11 @@ export function assignMarchHeroes(profile,hostTeam=[],jointAssignment=null){
  const roles=profile.heroes.filter(h=>marchEligible(h)&&!used.has(heroIdentity(h))).map(joiningRole).filter(r=>!r.rejection).sort((a,b)=>Number(b.coverageComplete)-Number(a.coverageComplete)||String(a.id).localeCompare(String(b.id))).slice(0,profile.joinCount);
  const partial=assembleJoiningSquads(profile,host,roles,true);
  const result=partial??{host:host.map(e=>e.hero??e),joins:[],issues:[]};
+ return withMissingLeaderSlots(profile,result);
+}
+function withMissingLeaderSlots(profile,result){
+ // Troop planning retains requested march slots. Results only shows squads
+ // with an entered leader; these empty slots do not invent a recommendation.
  while(result.joins.length<profile.joinCount){const index=result.joins.length;result.joins.push({name:`Join ${index+1}`,heroes:[null,null,null],equivalent:[[],[],[]],manual:[false,false,false],joiner:{...profile.joiners?.[index],name:''}});result.issues.push(`Join ${index+1}: no available supported joining leader.`);}
  return result;
 }

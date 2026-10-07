@@ -759,5 +759,7 @@
   },
   "troops.archers": "궁병",
   "player.guidance.replacementHit": "{skill}: {chance}% 확률로 총 {total}% 피해를 주는 타격을 가합니다.",
-  "player.guidance.extraAttack": "{skill}: {chance}% 확률로 {troop}의 추가 공격이 총 {total}% 피해를 줍니다."
+  "player.guidance.extraAttack": "{skill}: {chance}% 확률로 {troop}의 추가 공격이 총 {total}% 피해를 줍니다.",
+  "results.join.optionalFiller": "병종을 채우는 선택적 영웅",
+  "results.join.optionalFillerDetails": "제안일 뿐이며 보유 여부는 확인되지 않았습니다. 피해량이나 수용량 보너스는 계산하지 않습니다."
 }

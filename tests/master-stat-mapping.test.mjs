@@ -34,7 +34,7 @@ test('Defense and unmapped masters never inherit an Attack mapping from a saved 
 });
 test('every master percentage flows once to the correct recommendation stat and offense factor',()=>{
  for(const [name,stat] of Object.entries(mappings)){
-  const p=emptyProfile();p.pets=[];p.heroes.find(h=>h.name==='Helga').owned=false; // Isolate Master stat deltas.
+  const p=emptyProfile();p.pets=[]; // Isolate Master stat deltas.
   const recommendation=calculate(p,'hosting');assert.ok(recommendation.team);
   const heroes=recommendation.team.map(entry=>entry.hero);
   const before=evaluateHostTrio(p,heroes,accountEffects(p));
@@ -54,7 +54,7 @@ test('every master percentage flows once to the correct recommendation stat and 
  }
 });
 test('Cassia affinity, distinct skills, talent and research cannot collapse into one bonus',()=>{
- const p=emptyProfile();p.pets=[];p.heroes.find(h=>h.name==='Helga').owned=false; // Isolate Master stat deltas.
+ const p=emptyProfile();p.pets=[]; // Isolate Master stat deltas.
  const cassia=p.masters.find(m=>m.name==='Cassia');
  Object.assign(cassia,{affinityLevel:100,squadBonus:'14.40',talentLevel:11,skillLevels:{1:0,2:4,3:6,4:2},specialResearchProgress:400});
  assert.equal(masterEffects(cassia).attack,2);

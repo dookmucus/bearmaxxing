@@ -8,3 +8,7 @@ dist/
 
 # Removed generated snapshot; preview the current dist build instead.
 BearMaxxing-preview.html
+
+# Local research/replay output stays outside release commits.
+# Existing tracked audit reports and regression fixtures remain versioned.
+/audits/

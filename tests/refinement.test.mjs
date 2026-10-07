@@ -6,20 +6,17 @@ import {migrateProfile} from '../src/data/roster.mjs';
 import {gearOffense} from '../src/engine.mjs';
 import {accountEffects,calculate} from '../src/calculator.mjs';
 
-test('roster and three gear sets are stable defaults with explicit provenance',()=>{
+test('fresh roster is empty and three gear sets retain explicit provenance',()=>{
   const p=emptyProfile();
-  assert.equal(p.heroes.length,37);
-  assert.equal(p.heroes.find(h=>h.name==='Gordon').troop,'cavalry');
-  assert.deepEqual(p.heroes.find(h=>h.name==='Amadeus').provenance,{owned:'assumed',level:'assumed',stars:'assumed',widget:'assumed'});
-  assert.equal(p.heroes.find(h=>h.name==='Amadeus').owned,false);
+  assert.deepEqual(p.heroes,[]);
   assert.equal(p.gear.length,12);
   assert.equal(new Set(p.gear.map(g=>g.id)).size,12);
   assert.ok(p.gear.every(g=>g.quality==='gold'&&g.provenance.quality==='assumed'));
 });
-test('legacy setup migration preserves entries while filling roster and set slots',()=>{
+test('legacy setup migration preserves entries without filling the roster; set slots remain compatible',()=>{
   const old=emptyProfile();old.heroes=[{id:'custom',name:'Gordon',troop:'cavalry',owned:false,level:67,stars:3,attack:22,lethality:12}];old.gear=[{id:'custom-gear',name:'Saved boots',troop:'cavalry',slot:'boots',quality:'purple',enhancement:50,forge:2,lethality:19}];
   const next=migrateProfile(old);
-  assert.equal(next.heroes.length,37);
+  assert.equal(next.heroes.length,1);
   assert.equal(next.heroes.find(h=>h.name==='Gordon').level,67);
   assert.equal(next.heroes.find(h=>h.name==='Gordon').owned,false);
   assert.equal(next.gear.length,13);
@@ -28,7 +25,7 @@ test('legacy setup migration preserves entries while filling roster and set slot
 test('import matches roster and preserves manual gear corrections on reimport',()=>{
   const response={player:{heroes:[{id:8,name:'Gordon',level:70,stars:4,gear:[{slot:'helmet',troop_label:'Cavalry',quality_label:'Mythic',enhancement_level:60,refine_level:4}]}]}};
   const first=mergeApi(emptyProfile(),response);
-  assert.equal(first.heroes.length,37);
+  assert.equal(first.heroes.length,1);
   assert.equal(first.heroes.find(h=>h.name==='Gordon').provenance.level,'imported');
   const piece=first.gear.find(g=>g.id==='api-gear-8-helmet-0');piece.enhancement=67;piece.provenance.enhancement='user-confirmed';
   const again=mergeApi(first,response);
@@ -42,7 +39,7 @@ test('offensive gear excludes health-only regular stats',()=>{
   assert.equal(gearOffense({slot:'helmet',quality:'none'}).lethality,0);
 });
 test('personal points stay separate; active pets and masters change relevant outputs',()=>{
-  const p=emptyProfile();p.heroes.find(h=>h.name==='Helga').owned=false; // Isolate Master/pet effects.
+  const p=emptyProfile(); // Isolate Master/pet effects.
   p.masters.find(m=>m.name==='Valora').talentLevel=5;
   p.masters.find(m=>m.name==='Valora').skillLevels[4]=2;
   p.masters.find(m=>m.name==='Valora').skillLevels[1]=1;

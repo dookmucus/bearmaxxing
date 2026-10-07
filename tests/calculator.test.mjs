@@ -1,3 +1,4 @@
+import {enteredRosterProfile} from './helpers/entered-roster.mjs';
 import {CAPACITY_PROMPT} from '../src/march-capacity-inputs.mjs';
 import {demoProfile} from './helpers/primary-demo.mjs';
 import {test} from 'node:test';
@@ -7,7 +8,7 @@ import {validateProfile, troopPlan, bestGear} from '../src/engine.mjs';
 import {calculate, requirements, upgradeBaselines, known} from '../src/calculator.mjs';
 
 function joins() {
-  const p = emptyProfile();
+  const p = enteredRosterProfile();
   p.hostEnabled = false; p.joinCapacity = 100003;
   for (const t of ['infantry', 'cavalry', 'archer']) p.troops[t].count = 500000;
   return p;
@@ -23,9 +24,7 @@ test('new profile retains marked defaults and unknown reference coefficients', (
   assert.equal(p.joiners[0].skill, null);
   assert.deepEqual(p.ratios, {infantry: 10, cavalry: 10, archer: 80});
   assert.deepEqual(p.joiners.map(j => j.name), ['', '', '']);
-  assert.equal(p.heroes.length, 37);
-  assert.equal(p.heroes.find(h => h.name === 'Amadeus').owned, false);
-  assert.equal(p.heroes.find(h => h.name === 'Gordon').owned, true);
+  assert.deepEqual(p.heroes, []);
   assert.equal(p.gear.length, 12);
   for (const value of [null, undefined, '', false, NaN, -1]) assert.equal(known(value), false);
   assert.equal(known(0), true);
@@ -71,10 +70,10 @@ test('unknown simultaneous hosting choice blocks allocation and enabling it requ
   const result = calculate(p, 'joining');
   assert.equal(result.plan.marches.length, 4);
   assert.equal(result.hostEnabled, true);
-  assert.equal(result.leaderGaps.length, 0); // default leaders are assumed owned and marked as such
+  assert.equal(result.leaderGaps.length, 0); // This fixture explicitly includes the available leaders
 });
 test('saved joining names do not reserve heroes, even with casing or duplicate legacy names',()=>{
- const p=emptyProfile();p.capacityPlanningModel='shared-maximum';p.troopsPerMarch=100000;
+ const p=enteredRosterProfile();p.capacityPlanningModel='shared-maximum';p.troopsPerMarch=100000;
  for(const t of ['infantry','cavalry','archer'])p.troops[t].count=500000;
  const before=calculate(p,'hosting').team.map(e=>e.hero.id);
  p.joiners=[{name:' Chenko '},{name:'amANE'},{name:'amANE'}];
@@ -84,7 +83,7 @@ test('saved joining names do not reserve heroes, even with casing or duplicate l
  assert.equal(new Set(heroes.map(h=>h.canonicalHeroId??h.id)).size,12);
 });
 test('renamed supported leaders retain their first-skill mappings without forcing role assignments',()=>{
- const p=emptyProfile();p.capacityPlanningModel='shared-maximum';p.troopsPerMarch=100000;
+ const p=enteredRosterProfile();p.capacityPlanningModel='shared-maximum';p.troopsPerMarch=100000;
  for(const t of ['infantry','cavalry','archer'])p.troops[t].count=500000;
  const candidate=p.heroes.find(h=>h.name==='Chenko');candidate.name='My cavalry hero';
  const plan=calculate(p,'joining').plan;

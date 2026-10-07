@@ -759,5 +759,7 @@
   },
   "troops.archers": "Bogenschützen",
   "player.guidance.replacementHit": "{skill}: {chance}% Chance auf einen Treffer mit {total}% Gesamtschaden.",
-  "player.guidance.extraAttack": "{skill}: {chance}% Chance auf einen zusätzlichen Angriff von {troop} mit {total}% Gesamtschaden."
+  "player.guidance.extraAttack": "{skill}: {chance}% Chance auf einen zusätzlichen Angriff von {troop} mit {total}% Gesamtschaden.",
+  "results.join.optionalFiller": "Optionaler Held zur Klassenvervollständigung",
+  "results.join.optionalFillerDetails": "Nur ein Vorschlag; der Besitz ist nicht bestätigt. Es wird kein Schadens- oder Kapazitätsbonus berechnet."
 }

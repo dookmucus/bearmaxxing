@@ -5,7 +5,7 @@ import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 import {createServer} from 'vite';
 import {heroPortraitFile} from '../src/portrait-assets.mjs';
-import {emptyProfile} from '../src/profile.mjs';
+import {enteredRosterProfile as emptyProfile} from './helpers/entered-roster.mjs';
 import {setCommonSkillLevel} from '../src/hero-skills-control.mjs';
 import {heroContributions} from '../src/hero-effects.mjs';
 

@@ -1,6 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {emptyProfile,mergeApi} from '../src/profile.mjs';
+import {mergeApi} from '../src/profile.mjs';
+import {enteredRosterProfile as emptyProfile} from './helpers/entered-roster.mjs';
 import {MAIN_TABS,SETUP_STEPS,PLAN_STEPS,planStepIndex,navigatePlanStep,STORAGE_KEY,advanceSetup,persistAppState,restoreAppState} from '../src/setup-state.mjs';
 
 const storage=()=>{const data=new Map();return {getItem:key=>data.get(key)??null,setItem:(key,value)=>data.set(key,value)};};

@@ -46,7 +46,7 @@ test('verified level passives and active ranks follow advancement stage',()=>{
 });
 
 test('passive Attack stacks once and unlocked buffs are assumed despite archived activation choices',()=>{
-  const p=emptyProfile();p.heroes.find(h=>h.name==='Helga').owned=false; // Isolate pet Attack.
+  const p=emptyProfile(); // Isolate pet Attack.
   const wolf=p.pets.find(x=>x.name==='Gray Wolf');wolf.owned=true;wolf.level=11;
   const rhino=p.pets.find(x=>x.name==='Giant Rhino');rhino.owned=true;rhino.level=11;
   rhino.refinement={infantry:1,cavalry:2,archer:3};

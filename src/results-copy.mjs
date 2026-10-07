@@ -66,6 +66,7 @@ export function joiningLeaderCopy(hero,role=hero&&joiningRole(hero)){
 
 export function joiningHeroCopy(hero,slot,equivalent=[],manual=false,role=null,capacityCalculated=true){
  if(!hero)return {summary:tr("results.copy.joiningHeroCopy.no.available.hero"),detail:tr("results.copy.joiningHeroCopy.include.an.available.hero.of.the.missing.class.in")};
+ if(hero.optionalFiller)return {summary:tr('results.join.optionalFiller'),detail:tr('results.join.optionalFillerDetails')};
  if(slot===0)return joiningLeaderCopy(hero,role??joiningRole(hero));
  const capacity=heroCapacity(hero.level),troop=labels[hero.troop];
  const alternatives=equivalent.slice(0,3);

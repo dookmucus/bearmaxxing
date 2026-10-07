@@ -7,7 +7,7 @@ import {petBuffEffects,petBuffDetails,petBuffDescription,petLevelEffect} from '.
 import {completeMarchPlan,heroCapacity} from '../src/march-plan.mjs';
 const names=['Giant Rhino','Alpha Black Panther','Mighty Bison','Great Moose'];
 function ready(){
- const p=emptyProfile();p.heroes.find(h=>h.name==='Helga').owned=false; // Isolate pet totals.
+ const p=emptyProfile(); // Isolate pet totals.
  for(const pet of p.pets)if(names.includes(pet.name))Object.assign(pet,{level:11,active:false});
  for(const t of ['infantry','cavalry','archer'])p.troops[t].count=1000000;
  return p;

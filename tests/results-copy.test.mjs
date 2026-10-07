@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {emptyProfile} from '../src/profile.mjs';
+import {enteredRosterProfile as emptyProfile} from './helpers/entered-roster.mjs';
 import {rallyCapacityCopy,improvementCopy,joiningLeaderCopy} from '../src/results-copy.mjs';
 import {accountEffects,calculate} from '../src/calculator.mjs';
 import {actionableImprovements} from '../src/results-improvements.mjs';

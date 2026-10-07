@@ -2,7 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {heroContributions,joiningLeaderSkill,heroProgression} from '../src/hero-effects.mjs';
 import {compareHosts,evaluateHostTrio} from '../src/host-comparison.mjs';
-import {emptyProfile} from '../src/profile.mjs';
+import {enteredRosterProfile as emptyProfile} from './helpers/entered-roster.mjs';
 import {migrateProfile} from '../src/data/roster.mjs';
 import {calculate,accountEffects} from '../src/calculator.mjs';
 import {actionableImprovements,hostingChoiceExplanation} from '../src/results-improvements.mjs';

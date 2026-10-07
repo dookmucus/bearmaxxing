@@ -5,6 +5,7 @@ import {TYPES} from './engine.mjs';
 import {usesActualMarchInputs} from './march-capacity-inputs.mjs';
 import {hasAccountBaseCapacity} from './input-defaults.mjs';
 import {planBearDimensions,dimensionDominates,joiningBearComparison} from './bear-comparison.mjs';
+import {optionalFillerPool} from './optional-fillers.mjs';
 const id=h=>heroIdentity(h);
 const stable=(a,b)=>String(id(a)).localeCompare(String(id(b)));
 const vectorKeys=['attack','lethality','damageTaken','attackMultiplier','lethalityMultiplier','damageDealt','extraDamage','extraStrike','damageOverTime'];
@@ -21,6 +22,8 @@ export function assembleJoiningSquads(profile,host,leaders,allowPartial=false){
   const ac=roleCapacity(a),bc=roleCapacity(b);
   return ac===null?(bc===null?stable(a,b):1):bc===null?-1:bc-ac||stable(a,b);
  })]));
+ const suggestions=optionalFillerPool(profile);
+ for(const t of TYPES)pools[t].push(...suggestions.filter(h=>h.troop===t&&!occupied.has(id(h))));
  const joins=leaders.map((role,index)=>({name:`Join ${index+1}`,heroes:[role.hero,null,null],leaderRole:role,equivalent:[[],[],[]],manual:[false,false,false],joiner:{...profile.joiners?.[index],name:role.hero.name},reason:`${role.hero.name} offers ${offerText(role)}; the other heroes complete the troop classes.`}));
  for(const row of joins)for(const [index,t] of TYPES.filter(t=>t!==row.heroes[0].troop).entries()){
   const chosen=pools[t].shift();if(!chosen){if(!allowPartial)return null;continue;}
@@ -28,7 +31,7 @@ export function assembleJoiningSquads(profile,host,leaders,allowPartial=false){
  }
  const used=new Set(joins.flatMap(row=>row.heroes).filter(Boolean).map(id));
  for(const row of joins)for(const slot of [1,2]){
-  const chosen=row.heroes[slot];if(!chosen)continue;const cap=roleCapacity(chosen);
+  const chosen=row.heroes[slot];if(!chosen||chosen.optionalFiller)continue;const cap=roleCapacity(chosen);
   // Stable IDs only choose a display representative; equal effects are ties.
   row.equivalent[slot]=cap===null?[]:profile.heroes.filter(h=>roleEligible(h)&&h.troop===chosen.troop&&id(h)!==id(chosen)&&!host.some(e=>id(e.hero??e)===id(h))&&!leaders.some(l=>l.id===id(h))&&roleCapacity(h)===cap).map(h=>h.name);
  }
@@ -156,7 +159,7 @@ export function supportedJoiningPlans(profile,host=[]){
  const count=Number(profile.joinCount??3),plans=[];
  if(!Number.isInteger(count)||count<1||count>6)return {plans,gaps:all.filter(r=>r.rejection)};
  for(const leaders of combinations(roles,count)){
-  const assignment=assembleJoiningSquads(profile,host,leaders);if(!assignment)continue;
+  const assignment=assembleJoiningSquads(profile,host,leaders,true);if(!assignment)continue;
   plans.push({leaders,assignment,host:null,metrics:metrics(null,leaders,assignment,profile),key:leaders.map(l=>l.id).sort().join(",")});
  }
  plans.sort(displayOrder);
@@ -174,21 +177,22 @@ export function optimizeMarchPlan(profile,account){
  const all=profile.heroes.filter(roleEligible).map(joiningRole),roles=all.filter(r=>!r.rejection);
  const combos=validation.length?[]:combinations(roles,Number(profile.joinCount??3));
  const needsFillerCapacity=!usesActualMarchInputs(profile)&&hasAccountBaseCapacity(profile);
- const availableCounts=Object.fromEntries(TYPES.map(t=>[t,profile.heroes.filter(h=>roleEligible(h)&&h.troop===t).length]));
  const comparisons=[];let evaluated=0;
- for(const host of hosts)for(const leaders of combos){
+ for(const host of hosts){
+ const remaining=roles.filter(l=>!(host?.team??[]).some(e=>id(e.hero)===l.id));
+ const candidateCombos=remaining.length<Number(profile.joinCount??3)?combinations(remaining,remaining.length):combos;
+ for(const leaders of validation.length?[]:candidateCombos){
   const team=host?.team??[];
   if(leaders.some(l=>team.some(e=>id(e.hero)===l.id)))continue;
-  // Every legal march needs one of each class. With distinct leaders/host and
-  // enough owned available heroes per class, fillers always exist. If entered
-  // maximum capacity already includes them, constructing tens of thousands of
-  // equivalent filler records cannot affect selection. Materialize on demand.
-  if(TYPES.some(t=>availableCounts[t]<leaders.length+team.filter(e=>e.hero.troop===t).length))continue;
-  let assignment=needsFillerCapacity?assembleJoiningSquads(profile,team,leaders):null;
+  // Missing fillers are optional class suggestions, never offensive inputs.
+  // Materialize on demand when entered capacity already includes heroes.
+  if(!host&&!leaders.length)continue;
+  let assignment=needsFillerCapacity?assembleJoiningSquads(profile,team,leaders,true):null;
   if(needsFillerCapacity&&!assignment)continue;
-  const candidate={host,leaders,get assignment(){return assignment??=assembleJoiningSquads(profile,team,leaders);},metrics:metrics(host,leaders,assignment??{fillerCapacity:null},profile),key:`${team.map(e=>id(e.hero)).join(',')}/${leaders.map(l=>l.id).sort().join(',')}`,coverageComplete:Boolean((!profile.hostEnabled||host?.coverageComplete)&&!(host?.team??[]).some(e=>e.contribution.effectStatuses.some(s=>['missing_mapping','unresolved_mechanics'].includes(s.status)))&&leaders.every(l=>l.coverageComplete)&&!(account.unsupported?.length)),reason:'Jointly assigned without sharing heroes; no combined Bear damage score.'};
+  const candidate={host,leaders,get assignment(){return assignment??=assembleJoiningSquads(profile,team,leaders,true);},metrics:metrics(host,leaders,assignment??{fillerCapacity:null},profile),key:`${team.map(e=>id(e.hero)).join(',')}/${leaders.map(l=>l.id).sort().join(',')}`,coverageComplete:Boolean((!profile.hostEnabled||host?.coverageComplete)&&!(host?.team??[]).some(e=>e.contribution.effectStatuses.some(s=>['missing_mapping','unresolved_mechanics'].includes(s.status)))&&leaders.every(l=>l.coverageComplete)&&!(account.unsupported?.length)),reason:'Jointly assigned without sharing heroes; no combined Bear damage score.'};
   evaluated++;
   comparisons.push(candidate);
+ }
  }
  // Exhaustive Pareto alternatives are development diagnostics, not the
  // current-plan objective. Materialize them only when explicitly requested.

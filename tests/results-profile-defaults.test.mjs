@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {emptyProfile} from '../src/profile.mjs';
+import {enteredRosterProfile as emptyProfile} from './helpers/entered-roster.mjs';
 import {migrateProfile} from '../src/data/roster.mjs';
 import {applySkillDefaults,effectiveSkillLevel,SKILL_UNLOCKS} from '../src/hero-skill-unlocks.mjs';
 import {commonSkillInfo} from '../src/hero-skills-control.mjs';

@@ -759,5 +759,7 @@
   },
   "troops.archers": "Archers",
   "player.guidance.replacementHit": "{skill} : {chance}% de chances de porter un coup infligeant {total}% de dégâts totaux.",
-  "player.guidance.extraAttack": "{skill} : {chance}% de chances de lancer une attaque supplémentaire de {troop} infligeant {total}% de dégâts totaux."
+  "player.guidance.extraAttack": "{skill} : {chance}% de chances de lancer une attaque supplémentaire de {troop} infligeant {total}% de dégâts totaux.",
+  "results.join.optionalFiller": "Héros facultatif pour compléter la classe",
+  "results.join.optionalFillerDetails": "Suggestion uniquement ; sa possession n’est pas confirmée. Aucun bonus de dégâts ou de capacité n’est calculé."
 }

@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {emptyProfile} from '../src/profile.mjs';
+import {enteredRosterProfile as emptyProfile} from './helpers/entered-roster.mjs';
 import {migrateProfile} from '../src/data/roster.mjs';
 import {accountEffects,calculate} from '../src/calculator.mjs';
 import {optimizeMarchPlan,assembleJoiningSquads} from '../src/joint-plan.mjs';
@@ -94,7 +94,7 @@ test('migration archives automatic reservations without changing inputs, configu
 });
 test('insufficient class inventory produces an explicit incomplete plan without overlapping heroes',()=>{
  const p=ready();for(const h of p.heroes.filter(h=>h.troop==='infantry').slice(3))h.owned=false;
- const r=optimizeMarchPlan(p,accountEffects(p));assert.equal(r.selected,null);assert.match(r.issues.join(' '),/No complete supported plan/);
+ const r=optimizeMarchPlan(p,accountEffects(p));assert.ok(r.selected);assert.ok(r.selected.assignment.joins.some(row=>row.heroes.some(h=>!h)));
  const plan=calculate(p,'joining').plan;assert.ok(plan);
  const ids=plan.marches.flatMap(m=>m.heroes.filter(Boolean)).map(heroIdentity);assert.equal(new Set(ids).size,ids.length);
 });

@@ -50,3 +50,12 @@ test('five-step setup ends on Results with normal editing navigation', async t =
   for(const name of ['Join 1','Join 2','Join 3','Chenko','Amane','Vivian'])assert.ok(populated.includes(name));
   assert.ok(!populated.includes('Troop readiness'));
 });
+
+test('fresh setup retains the catalogue picker and Results renders no assumed teams',async t=>{
+ const vite=await createServer({server:{middlewareMode:true,hmr:false,ws:false},appType:'custom'});t.after(()=>vite.close());
+ const {App}=await vite.ssrLoadModule('/src/main.jsx');
+ const heroes=renderToStaticMarkup(React.createElement(App,{initialProfile:emptyProfile(),initialTab:'Heroes'}));
+ assert.ok(heroes.includes('hero-picker-trigger'));assert.ok(!heroes.includes('hero-compact-row rarity-'));
+ const results=renderToStaticMarkup(React.createElement(App,{initialProfile:emptyProfile(),initialTab:'Home'}));
+ assert.ok(!results.includes('class="home-hero"'));assert.ok(!results.includes('class="home-join"'));assert.ok(!results.includes('class="home-squad-member"'));
+});

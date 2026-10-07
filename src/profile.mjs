@@ -2,7 +2,7 @@ import {heroReferenceName} from './hero-identity.mjs';
 import {normalizeHeroAvailability} from './bear-plan-defaults.mjs';
 import {applyInputDefaults} from './input-defaults.mjs';
 const types=['infantry','cavalry','archer'];
-import {defaultHeroes,defaultGear,defaultMasters,defaultPets,heroKey,migrateProfile} from './data/roster.mjs';
+import {defaultGear,defaultMasters,defaultPets,heroKey,migrateProfile} from './data/roster.mjs';
 import {defaultIncluded,starStepForStars} from './hero-effects.mjs';
 import {applySkillDefaults} from './hero-skill-unlocks.mjs';
 const metadataNumber = value => value !== null && value !== undefined && value !== '' && Number.isFinite(Number(value)) && Number(value) >= 0 ? Number(value) : null;
@@ -12,7 +12,7 @@ export function emptyProfile(){return applyInputDefaults({
  effectiveStats:Object.fromEntries(types.map(t=>[t,{attack:null,lethality:null}])),
  ratios:{infantry:10,cavalry:10,archer:80},weights:{infantry:null,cavalry:null,archer:null},
  troops:Object.fromEntries(types.map(t=>[t,{count:null,tier:null,tg:null}])),stats:Object.fromEntries(types.map(t=>[t,{attack:null,lethality:null}])),
- heroes:defaultHeroes(),gear:defaultGear(),masters:defaultMasters(),pets:defaultPets(),joiners:Array.from({length:3},()=>({name:'',skill:null})),upgrades:[],importedAt:null,apiCoverage:[],isDemo:false,marchSlots:4,pusherEnabled:false,pusherCapacity:null,petRefinementMode:'per-pet',combinedPetRefinement:{infantry:null,cavalry:null,archer:null},otherPetRefinement:{attack:null,lethality:null},defaultTroopTier:10,mixedTiersEnabled:false,tierInventory:Object.fromEntries(types.map(t=>[t,{}]))
+ heroes:[],gear:defaultGear(),masters:defaultMasters(),pets:defaultPets(),joiners:Array.from({length:3},()=>({name:'',skill:null})),upgrades:[],importedAt:null,apiCoverage:[],isDemo:false,marchSlots:4,pusherEnabled:false,pusherCapacity:null,petRefinementMode:'per-pet',combinedPetRefinement:{infantry:null,cavalry:null,archer:null},otherPetRefinement:{attack:null,lethality:null},defaultTroopTier:10,mixedTiersEnabled:false,tierInventory:Object.fromEntries(types.map(t=>[t,{}]))
 });}
 export function demoProfile(){const p=emptyProfile();return {...p,hostEnabled:true,hostCapacity:100000,joinCapacity:100000,gearComplete:true,name:'Example governor',playerId:'',city:'30',kingdom:'Demo',isDemo:true,
  troops:{infantry:{count:160000,tier:10,tg:2},cavalry:{count:140000,tier:10,tg:2},archer:{count:245000,tier:10,tg:2}},

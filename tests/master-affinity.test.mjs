@@ -11,7 +11,7 @@ import {createServer} from 'vite';
 
 const master=(p,name)=>p.masters.find(m=>m.name===name);
 // Isolate Master effects from the separately tested owned-hero talent.
-function isolated(){const p=emptyProfile();p.heroes.find(h=>h.name==='Helga').owned=false;p.pets=[];for(const m of p.masters){m.affinityLevel=0;}return p;}
+function isolated(){const p=emptyProfile();p.pets=[];for(const m of p.masters){m.affinityLevel=0;}return p;}
 
 test('Isnor and Aena use entered decimals independently of Level and never add reference bonuses',()=>{
  for(const [name,kind] of [['Isnor','lethality'],['Aena','attack']]){

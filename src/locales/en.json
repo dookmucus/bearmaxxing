@@ -759,5 +759,7 @@
   },
   "troops.archers": "Archers",
   "player.guidance.replacementHit": "{skill}: {chance}% chance of a hit dealing {total}% total damage.",
-  "player.guidance.extraAttack": "{skill}: {chance}% chance of an extra {troop} attack dealing {total}% total damage."
+  "player.guidance.extraAttack": "{skill}: {chance}% chance of an extra {troop} attack dealing {total}% total damage.",
+  "results.join.optionalFiller": "Optional class filler",
+  "results.join.optionalFillerDetails": "Suggested only; ownership is unconfirmed. No damage or capacity bonus is calculated."
 }

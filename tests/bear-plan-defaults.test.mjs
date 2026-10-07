@@ -1,6 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {emptyProfile,mergeApi} from '../src/profile.mjs';
+import {mergeApi} from '../src/profile.mjs';
+import {enteredRosterProfile as emptyProfile} from './helpers/entered-roster.mjs';
 import {migrateProfile} from '../src/data/roster.mjs';
 import {calculate} from '../src/calculator.mjs';
 import {setSharedMarchCapacity} from '../src/march-capacity-inputs.mjs';

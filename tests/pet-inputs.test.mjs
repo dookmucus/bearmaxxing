@@ -8,7 +8,7 @@ import {accountEffects} from '../src/calculator.mjs';
 import {petLevelEffect,petActiveEffect,petBuffEffects,petRefinementEffect,replaceCombinedRefinement} from '../src/pet-effects.mjs';
 
 test('all fourteen pets default to not owned and contribute no effects',()=>{
- const p=emptyProfile();p.heroes.find(h=>h.name==='Helga').owned=false; // Isolate unowned-pet totals.
+ const p=emptyProfile(); // Isolate unowned-pet totals.
  assert.ok(p.pets.every(pet=>pet.level===0&&!pet.owned&&pet.levelSource==='assumed'));
  assert.equal(accountEffects(p).attack,0);
  assert.deepEqual(petRefinementEffect(p),{infantry:0,cavalry:0,archer:0});

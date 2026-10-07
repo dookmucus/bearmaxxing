@@ -759,5 +759,7 @@
   },
   "troops.archers": "Arqueros",
   "player.guidance.replacementHit": "{skill}: {chance}% de probabilidad de un golpe que inflige un {total}% de daño total.",
-  "player.guidance.extraAttack": "{skill}: {chance}% de probabilidad de un ataque adicional de {troop} que inflige un {total}% de daño total."
+  "player.guidance.extraAttack": "{skill}: {chance}% de probabilidad de un ataque adicional de {troop} que inflige un {total}% de daño total.",
+  "results.join.optionalFiller": "Héroe opcional para completar la clase",
+  "results.join.optionalFillerDetails": "Solo una sugerencia; no se ha confirmado que lo tengas. No se calcula ninguna bonificación de daño o capacidad."
 }

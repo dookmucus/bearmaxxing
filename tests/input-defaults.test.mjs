@@ -14,7 +14,7 @@ test('new numeric inputs default without inventing unknown reference effects or 
     assert.equal(p.troops[t].count,0);assert.equal(p.troops[t].tg,0);
     assert.equal(p.weights[t],null); // Unverified troop coefficients are not formulas of zero.
   }
-  assert.ok(p.heroes.every(h=>h.level===80&&h.stars===5));
+  assert.deepEqual(p.heroes,[]);
   assert.ok(p.pets.every(pet=>!pet.owned&&pet.level===0&&!pet.active&&pet.advancementConfirmed===null));
   assert.ok(p.pets.every(pet=>Object.values(pet.refinement).every(n=>n===0)));
   assert.ok(p.masters.every(m=>m.affinityLevel===1&&m.squadBonus===0));

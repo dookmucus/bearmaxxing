@@ -759,5 +759,7 @@
   },
   "troops.archers": "弓兵",
   "player.guidance.replacementHit": "{skill}：有 {chance}% 的機率使一次攻擊造成 {total}% 的總傷害。",
-  "player.guidance.extraAttack": "{skill}：有 {chance}% 的機率發動一次額外的{troop}攻擊，造成 {total}% 的總傷害。"
+  "player.guidance.extraAttack": "{skill}：有 {chance}% 的機率發動一次額外的{troop}攻擊，造成 {total}% 的總傷害。",
+  "results.join.optionalFiller": "可選的兵種補位英雄",
+  "results.join.optionalFillerDetails": "僅為建議，尚未確認擁有該英雄。不計算傷害或容量加成。"
 }

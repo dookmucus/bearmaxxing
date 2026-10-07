@@ -759,5 +759,7 @@
   },
   "troops.archers": "Okçular",
   "player.guidance.replacementHit": "{skill}: {total}% toplam hasar veren bir vuruş için {chance}% olasılık.",
-  "player.guidance.extraAttack": "{skill}: {total}% toplam hasar veren ek bir {troop} saldırısı için {chance}% olasılık."
+  "player.guidance.extraAttack": "{skill}: {total}% toplam hasar veren ek bir {troop} saldırısı için {chance}% olasılık.",
+  "results.join.optionalFiller": "Sınıfı tamamlamak için isteğe bağlı kahraman",
+  "results.join.optionalFillerDetails": "Yalnızca öneridir; kahramana sahip olduğunuz doğrulanmamıştır. Hasar veya kapasite bonusu hesaplanmaz."
 }

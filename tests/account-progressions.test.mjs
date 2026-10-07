@@ -54,7 +54,7 @@ test('entered owned pet levels stack rolls once and unlocked active effects use 
 test('legacy refinement Attack is retained without conversion or counting',()=>{
   const old=emptyProfile();
   // Isolate pet migration from Helga's separately modeled account talent.
-  old.heroes.find(h=>h.name==='Helga').owned=false;old.pets=[{id:'old',name:'Giant Rhino',owned:true,attack:8,lethality:12}];
+  old.pets=[{id:'old',name:'Giant Rhino',owned:true,attack:8,lethality:12}];
   const p=migrateProfile(old);const rhino=p.pets.find(x=>x.name==='Giant Rhino');
   assert.equal(rhino.attack,8);assert.equal(rhino.lethality,12);
   assert.deepEqual(rhino.refinement,{infantry:0,cavalry:0,archer:0}); // Existing migration defaults are unchanged.
@@ -83,7 +83,7 @@ test('mixed-tier inventory conserves exact troops including pusher and shortages
 test('masters default levels and entered progression apply without ownership',()=>{
   const p=emptyProfile();
   // This fixture tests Masters alone, not the owned hero account talent.
-  p.heroes.find(h=>h.name==='Helga').owned=false;
+
   for(const m of p.masters){
     assert.equal(m.affinityLevel,1);
     assert.equal(m.squadBonus,0);

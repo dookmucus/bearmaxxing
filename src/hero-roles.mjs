@@ -7,7 +7,7 @@ import {effectiveSkillLevel} from './hero-skill-unlocks.mjs';
 import capacity from './data/hero-capacity.json' with {type:'json'};
 import {heroBearEffects,joiningBearComparison} from './bear-comparison.mjs';
 export const roleEligible=h=>h?.owned===true&&h.marchAvailable!==false&&['infantry','cavalry','archer'].includes(h.troop);
-export const roleCapacity=h=>h?.level!=null&&h.level!==''&&Number.isInteger(Number(h.level))?capacity.deploymentByLevel[Number(h.level)]??null:null;
+export const roleCapacity=h=>!h?.optionalFiller&&h?.level!=null&&h.level!==''&&Number.isInteger(Number(h.level))?capacity.deploymentByLevel[Number(h.level)]??null:null;
 export function roleInventoryIssues(profile){
  const available=profile.heroes.filter(roleEligible),ids=available.map(heroIdentity),names=available.map(h=>String(h.name??'').normalize('NFKC').trim().toLowerCase());
  const issues=[];
