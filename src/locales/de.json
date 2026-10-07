@@ -342,8 +342,8 @@
   "results.upgrade.statGain": "Bringt {delta} Prozentpunkte {stat}.",
   "results.upgrade.widgetSharedAttack": "Bringt {delta} Prozentpunkte Spezialausrüstungstödlichkeit und {sharedAttack} Prozentpunkte gemeinsamen Gastgeberangriff.",
   "results.upgrade.yangConditional": "Bringt {delta} Prozentpunkte angeborenen Angriff, wenn {hero} Gastgeber ist.",
-  "results.join.offer": "Bietet {effects}.",
-  "results.join.skillDetail": "{skill}, Stufe {level}{assumption}. Wirkt, wenn von der Rallye ausgewählt.",
+  "results.join.offer": "{effects}",
+  "results.join.skillDetail": "{skill}, Stufe {level}. Wirkt, wenn von der Rallye ausgewählt.",
   "results.join.offeredEffect": "+{percentage}% {stat}",
   "results.upgrade.replacementTitle": "Behalte vorerst {currentHero}. Entwickle {hero} bis {target}.",
   "results.upgrade.replacementSkillTitle": "Behalte vorerst {currentHero}. Entwickle {skill} von {hero} auf Stufe {target}.",
@@ -768,7 +768,7 @@
   "pets.combined.archer": "Bogenschützen-Tödlichkeit (%)",
   "pets.combinedHelp": "Gib die vier Gesamtwerte aus Haustiere → Werte ein. Passive Werte und Veredelungen zählen einmal. Nützliche freigeschaltete Buffs gelten als aktiviert und werden separat addiert; Angriff und Tödlichkeit gelten nur für eigene Rallys.",
   "pets.activeLevelsHelp": "0 bedeutet nicht im Besitz. Stufen bestimmen aktive Fähigkeiten; Gesamtwerte enthalten bereits passive Beiträge.",
-  "pets.activeAdvancementHelp": "Frühere Aufstiege werden aus der Stufe abgeleitet. Markiere Aufgestiegen an einem Meilenstein nur bei abgeschlossenem Aufstieg. Das ändert aktive Fähigkeiten; aktualisiere geänderte Gesamtwerte aus dem Spiel.",
+  "pets.activeAdvancementHelp": "Der Aufstieg wird nur aus der Stufe abgeleitet. An einer Aufstiegsstufe ist er unvollständig; höhere Stufen setzen ihn voraus. Gespeicherte Aufstiegsentscheidungen sind inaktiv. Aktualisiere die Gesamtwerte anhand des Spiels, wenn sie sich ändern.",
   "pets.advanced": "Aufgestiegen",
   "pets.upgradeDelta": "Addiert {delta} Prozentpunkte zum gesamten Trupp-Angriff. Bisherige passive Werte sind bereits enthalten; Änderungen aktiver Fähigkeiten werden separat berechnet.",
   "pets.statsUnknown": "Prüfe die gesamten Haustierwerte: Ein gespeicherter Beitrag konnte nicht berechnet werden.",
@@ -780,8 +780,11 @@
   "troops.inventory.perGroup": "Pro Gruppe: {infantry} Infanterie, {cavalry} Kavallerie, {archers} Bogenschützen · {total} Truppen",
   "troops.inventory.limiting": "Begrenzende Truppentypen: {types}",
   "troops.inventory.unknown": "Gib gültige ganze Truppenmengen ein, um Gruppen aus dem Vorrat zu berechnen.",
-  "troops.inventory.showPusher": "Optionalen Plan mit 5 Gruppen anzeigen",
   "troops.inventory.scope": "Nur Mengen nach Vorrat: keine tatsächliche Marschkapazität oder garantierten Rally-Truppen. Der optionale Trupp zählt nicht zur Gesamtbewertung.",
   "results.join.classCompletion": "Vervollständigt den Truppentyp",
-  "results.join.classCompletionDetails": "Dieser Held vervollständigt die Truppentypen. Seine Stufe und Einsatzkapazität beeinflussen Team- oder Upgrade-Ranglisten nicht."
+  "results.join.classCompletionDetails": "Ergänzungshelden bevorzugen die höchste bekannte stufenabhängige Marschkapazität unter den verfügbaren eingetragenen Helden. Die Angriffsrangfolge der Gastgeber und Beitrittsführer bleibt unverändert.",
+  "pets.advancementUpgradeHelp": "Dieser Aufstieg erhöht {ability} um {delta} {effect}. Die Werte der aktuellen Stufe bleiben unverändert; dieses nächste Upgrade ist nicht bewertet. Die genauen Materialkosten sind nicht bestätigt.",
+  "results.join.fillerCapacity": "Fügt {capacity} Truppen hinzu.",
+  "results.join.fillerSubstitutes": "Kann durch {names} ersetzt werden.",
+  "results.join.suggested": "Vorgeschlagen"
 }

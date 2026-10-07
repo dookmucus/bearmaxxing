@@ -1,6 +1,6 @@
 import {heroIdentity} from './host-comparison.mjs';
 import {supportedJoiningPlans,assembleJoiningSquads} from './joint-plan.mjs';
-import {joiningRole,roleEligible} from './hero-roles.mjs';
+import {joiningRole,roleEligible,compareJoiningFillers} from './hero-roles.mjs';
 import {comparisonProfile,inventoryGroups} from './inventory-planning.mjs';
 import capacityData from './data/hero-capacity.json' with {type:'json'};
 import {TYPES} from './engine.mjs';
@@ -13,7 +13,7 @@ export const marchEligible=roleEligible;
 
 function candidateList(profile,used,classes){
   return profile.heroes.filter(h=>marchEligible(h)&&classes.includes(h.troop)&&!used.has(heroIdentity(h)))
-    .sort((a,b)=>String(heroIdentity(a)).localeCompare(String(heroIdentity(b))));
+    .sort(compareJoiningFillers);
 }
 export function assignMarchHeroes(profile,hostTeam=[],jointAssignment=null){
  profile=comparisonProfile(profile);

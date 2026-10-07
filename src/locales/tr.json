@@ -342,8 +342,8 @@
   "results.upgrade.statGain": "{delta} yüzde puan {stat} ekler.",
   "results.upgrade.widgetSharedAttack": "{delta} yüzde puan özel ekipman Öldürücülüğü ve {sharedAttack} yüzde puan paylaşılan başlatan Saldırısı ekler.",
   "results.upgrade.yangConditional": "{hero} başlatan rolündeyken {delta} yüzde puan doğal Saldırı ekler.",
-  "results.join.offer": "{effects} sağlar.",
-  "results.join.skillDetail": "{skill}, seviye {level}{assumption}. Toplanma seçerse katkı sağlar.",
+  "results.join.offer": "{effects}",
+  "results.join.skillDetail": "{skill}, seviye {level}. Toplanma seçerse katkı sağlar.",
   "results.join.offeredEffect": "+{percentage}% {stat}",
   "results.upgrade.replacementTitle": "Şimdilik {currentHero} kalsın. {hero} için {target} hedefine ilerleyin.",
   "results.upgrade.replacementSkillTitle": "Şimdilik {currentHero} kalsın. {hero} için {skill} becerisini {target} seviyesine geliştirin.",
@@ -768,7 +768,7 @@
   "pets.combined.archer": "Okçu Öldürücülüğü (%)",
   "pets.combinedHelp": "Evcil Hayvanlar → İstatistikler bölümündeki dört toplamı girin. Pasif istatistikler ve iyileştirmeler bir kez sayılır. Açılan yararlı güçlendirmeler etkin kabul edilir ve ayrı eklenir; Saldırı ve Öldürücülük yalnızca yönettiğiniz mitinge uygulanır.",
   "pets.activeLevelsHelp": "0 sahip olmadığınızı belirtir. Seviyeler aktif yetenekleri belirler; toplam istatistikler pasif katkıları zaten içerir.",
-  "pets.activeAdvancementHelp": "Önceki yükseltmeler seviyeden çıkarılır. Eşik seviyesinde yalnızca yükseltme tamamlandıysa Yükseltildi kutusunu işaretleyin. Bu, aktif yetenekleri değiştirir; toplamları değiştiklerinde oyundan güncelleyin.",
+  "pets.activeAdvancementHelp": "Yükseltme yalnızca seviyeden belirlenir. Eşik seviyesinde yükseltme tamamlanmamıştır; daha yüksek seviyeler tamamlandığını gösterir. Kaydedilmiş yükseltme seçimleri etkisizdir. Birleşik istatistikler değiştiğinde oyundaki değerlerle güncelleyin.",
   "pets.advanced": "Yükseltildi",
   "pets.upgradeDelta": "Toplam Birlik Saldırısına {delta} yüzde puanı ekler. Mevcut pasif istatistikler zaten dahildir; aktif yetenek değişiklikleri ayrı hesaplanır.",
   "pets.statsUnknown": "Toplam evcil hayvan istatistiklerini kontrol edin; kayıtlı bir katkı hesaplanamadı.",
@@ -780,8 +780,11 @@
   "troops.inventory.perGroup": "Grup başına: {infantry} Piyade, {cavalry} Süvari, {archers} Okçu · {total} birlik",
   "troops.inventory.limiting": "Sınırlayıcı birlik türleri: {types}",
   "troops.inventory.unknown": "Envanterin desteklediği miktarları hesaplamak için geçerli tam birlik sayıları girin.",
-  "troops.inventory.showPusher": "İsteğe bağlı 5 gruplu planı göster",
   "troops.inventory.scope": "Yalnızca envanterin desteklediği miktarlar: gerçek yürüyüş kapasitesi veya mitinge kabul garantisi değildir. İsteğe bağlı destek genel oyuncu değerlendirmesinin dışındadır.",
   "results.join.classCompletion": "Birlik türünü tamamlar",
-  "results.join.classCompletionDetails": "Bu kahraman birlik türlerini tamamlar. Seviyesi ve konuşlandırma kapasitesi takım veya geliştirme sıralamalarını etkilemez."
+  "results.join.classCompletionDetails": "Tamamlayıcı kahramanlar, girilmiş ve kullanılabilir kahramanlar arasında seviyeye dayalı bilinen en yüksek yürüyüş kapasitesini tercih eder. Ev sahibi veya katılım liderlerinin hücum sıralaması değişmez.",
+  "pets.advancementUpgradeHelp": "Bu yükseltmenin tamamlanması {ability} değerini {delta} {effect} artırır. Mevcut seviyeye dayalı toplamlar değişmez; bu sonraki geliştirme sıralanmamıştır. Kesin malzeme maliyeti doğrulanmamıştır.",
+  "results.join.fillerCapacity": "{capacity} asker ekler.",
+  "results.join.fillerSubstitutes": "{names} ile değiştirilebilir.",
+  "results.join.suggested": "Önerilen"
 }

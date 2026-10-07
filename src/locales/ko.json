@@ -342,8 +342,8 @@
   "results.upgrade.statGain": "{stat} {delta}%p를 추가합니다.",
   "results.upgrade.widgetSharedAttack": "전용 장비 살상력 {delta}%p와 공유 주최 공격력 {sharedAttack}%p를 추가합니다.",
   "results.upgrade.yangConditional": "{hero} 주최 시 고유 공격력 {delta}%p를 추가합니다.",
-  "results.join.offer": "{effects}을(를) 제공합니다.",
-  "results.join.skillDetail": "{skill}, 레벨 {level}{assumption}. 집결에서 선택될 때 기여합니다.",
+  "results.join.offer": "{effects}",
+  "results.join.skillDetail": "{skill}, 레벨 {level}. 집결에서 선택될 때 기여합니다.",
   "results.join.offeredEffect": "{stat} +{percentage}%",
   "results.upgrade.replacementTitle": "지금은 {currentHero}을(를) 유지하고 {hero}을(를) {target}까지 육성하세요.",
   "results.upgrade.replacementSkillTitle": "지금은 {currentHero}을(를) 유지하고 {hero}의 {skill}을(를) 레벨 {target}까지 육성하세요.",
@@ -768,7 +768,7 @@
   "pets.combined.archer": "궁병 살상력 (%)",
   "pets.combinedHelp": "펫 → 능력치에 표시된 네 가지 합계를 입력하세요. 패시브 능력치와 정련은 한 번만 반영됩니다. 해금된 유용한 버프는 활성화된 것으로 간주해 별도로 더합니다. 공격력과 살상력 버프는 자신이 여는 집결에만 적용됩니다.",
   "pets.activeLevelsHelp": "0은 미보유입니다. 레벨은 액티브 능력을 결정하며, 합산 능력치에는 패시브 효과가 이미 포함되어 있습니다.",
-  "pets.activeAdvancementHelp": "이전 승급은 레벨에서 추론합니다. 승급 기준 레벨에서는 승급을 완료한 경우에만 승급 완료를 체크하세요. 액티브 능력이 변경됩니다. 합산 능력치가 바뀌면 게임의 값으로 갱신하세요.",
+  "pets.activeAdvancementHelp": "승급은 레벨로만 결정됩니다. 승급 기준 레벨에서는 해당 승급이 미완료이며, 더 높은 레벨은 완료를 의미합니다. 저장된 승급 선택은 적용되지 않습니다. 게임의 합산 능력치가 바뀌면 입력값을 갱신하세요.",
   "pets.advanced": "승급 완료",
   "pets.upgradeDelta": "합산 부대 공격력에 {delta}%포인트를 더합니다. 기존 패시브 능력치는 이미 포함되어 있으며 액티브 능력 변화는 별도로 계산됩니다.",
   "pets.statsUnknown": "합산 펫 능력치를 확인하세요. 저장된 효과를 계산할 수 없습니다.",
@@ -780,8 +780,11 @@
   "troops.inventory.perGroup": "그룹당: 보병 {infantry}, 기병 {cavalry}, 궁병 {archers} · 총 {total} 병력",
   "troops.inventory.limiting": "제한 병종: {types}",
   "troops.inventory.unknown": "보유 병력으로 가능한 수량을 계산하려면 유효한 정수 병력 수를 입력하세요.",
-  "troops.inventory.showPusher": "선택적 5개 그룹 계획 표시",
   "troops.inventory.scope": "보유 병력 기준 수량입니다. 실제 행군 수용량이나 집결 참여가 보장되는 병력이 아닙니다. 선택적 지원은 전체 플레이어 평가에서 제외됩니다.",
   "results.join.classCompletion": "병종을 채웁니다",
-  "results.join.classCompletionDetails": "이 영웅은 병종을 채웁니다. 레벨과 출정 수용량은 팀이나 업그레이드 순위에 반영되지 않습니다."
+  "results.join.classCompletionDetails": "편성 보충 영웅은 입력된 가용 영웅 중 레벨에 따른 확인된 행군 수용량이 가장 높은 영웅을 우선합니다. 집결장이나 참여 대장의 공격 순위는 바뀌지 않습니다.",
+  "pets.advancementUpgradeHelp": "이 승급을 완료하면 {ability}이(가) {delta} {effect} 증가합니다. 현재 레벨 기준 합계는 변하지 않으며, 이 다음 업그레이드는 순위를 매기지 않습니다. 정확한 재료 비용은 확인되지 않았습니다.",
+  "results.join.fillerCapacity": "병력 {capacity}명을 추가합니다.",
+  "results.join.fillerSubstitutes": "{names}(으)로 교체할 수 있습니다.",
+  "results.join.suggested": "추천"
 }

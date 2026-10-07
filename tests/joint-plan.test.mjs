@@ -4,7 +4,7 @@ import {enteredRosterProfile as emptyProfile} from './helpers/entered-roster.mjs
 import {migrateProfile} from '../src/data/roster.mjs';
 import {accountEffects,calculate} from '../src/calculator.mjs';
 import {optimizeMarchPlan,assembleJoiningSquads} from '../src/joint-plan.mjs';
-import {joiningRole} from '../src/hero-roles.mjs';
+import {joiningRole,roleCapacity,compareJoiningFillers} from '../src/hero-roles.mjs';
 import {heroContributions} from '../src/hero-effects.mjs';
 import {heroIdentity} from '../src/host-comparison.mjs';
 import {joiningHeroCopy} from '../src/results-copy.mjs';
@@ -80,7 +80,29 @@ test('equivalent fillers are swap ties; hosting stats and later skills do not af
  const after=assembleJoiningSquads(p,r.selected.host.team,r.selected.leaders).joins[0];
  assert.deepEqual(after.heroes.map(h=>h.id),before);
  const copy=joiningHeroCopy(filler,1,row.equivalent[1],false,null,false);
- assert.match(copy.summary,/Completes/);assert.match(copy.detail,/level and deployment capacity do not enter team or upgrade rankings/);
+ assert.match(copy.summary,/Adds [\d,]+ troops\./);assert.match(copy.detail,/^Can be substituted with /);
+});
+test('fillers maximize known capacity across simultaneous squads without changing reserved roles',()=>{
+ const p=emptyProfile(),names=['Helga','Petra','Diana','Amane','Yeonwoo','Quinn','Howard','Forrest','Seth','Fahd','Jabel','Gordon','Edwin'];
+ p.heroes=p.heroes.filter(h=>names.includes(h.name));
+ for(const h of p.heroes){h.owned=true;h.included=true;h.marchAvailable=true;h.level=80;}
+ const get=name=>p.heroes.find(h=>h.name===name);
+ get('Fahd').level=1;get('Gordon').level=70;get('Edwin').level=60;
+ const host=['Helga','Petra','Diana'].map(get),leaders=['Amane','Yeonwoo','Quinn'].map(name=>({hero:get(name),id:heroIdentity(get(name)),effects:[]}));
+ const before=structuredClone(p),assignment=assembleJoiningSquads(p,host,leaders);
+ const cavalry=assignment.joins.flatMap(row=>row.heroes.slice(1)).filter(h=>h.troop==='cavalry');
+ assert.deepEqual(cavalry.map(h=>h.name),['Jabel','Gordon','Edwin']);
+ assert.equal(cavalry.reduce((sum,h)=>sum+roleCapacity(h),0),38910);
+ assert.equal(new Set([...assignment.host,...assignment.joins.flatMap(row=>row.heroes)].map(heroIdentity)).size,12);
+ assert.deepEqual(assignment.joins.map(row=>row.heroes[0].name),['Amane','Yeonwoo','Quinn']);
+ assert.deepEqual(p,before);
+ const reserved=assembleJoiningSquads(p,[get('Helga'),get('Jabel'),get('Diana')],leaders);
+ assert.ok(!reserved.joins.flatMap(row=>row.heroes).some(h=>h.name==='Jabel'));
+ get('Gordon').level=39;
+ assert.equal(roleCapacity(get('Gordon')),null);
+ assert.deepEqual(assembleJoiningSquads(p,host,leaders).joins.flatMap(row=>row.heroes.slice(1)).filter(h=>h.troop==='cavalry').map(h=>h.name),['Jabel','Edwin','Fahd']);
+ get('Fahd').level=80;
+ assert.equal(compareJoiningFillers(get('Fahd'),get('Jabel')),heroIdentity(get('Fahd')).localeCompare(heroIdentity(get('Jabel'))));
 });
 test('migration archives automatic reservations without changing inputs, configuration or explicit exclusions',()=>{
  const p=ready();p.activeBearPlanVersion=1;p.actualMarchCapacities={host:120000,joins:[90000,80000,70000]};p.differentMarchCapacities=true;

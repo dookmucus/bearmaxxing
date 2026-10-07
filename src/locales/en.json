@@ -342,8 +342,8 @@
   "results.upgrade.statGain": "Adds {delta} percentage points of {stat}.",
   "results.upgrade.widgetSharedAttack": "Adds {delta} percentage points of widget Lethality and {sharedAttack} percentage points of shared hosting Attack.",
   "results.upgrade.yangConditional": "Adds {delta} percentage points of inherent Attack while {hero} hosts.",
-  "results.join.offer": "Offers {effects}.",
-  "results.join.skillDetail": "{skill}, level {level}{assumption}. Contributes when selected by the rally.",
+  "results.join.offer": "{effects}",
+  "results.join.skillDetail": "{skill}, level {level}. Contributes when selected by the rally.",
   "results.join.offeredEffect": "+{percentage}% {stat}",
   "results.upgrade.replacementTitle": "Keep {currentHero} for now. Develop {hero} toward {target}.",
   "results.upgrade.replacementSkillTitle": "Keep {currentHero} for now. Develop {hero}’s {skill} to level {target}.",
@@ -768,7 +768,7 @@
   "pets.combined.archer": "Archer Lethality (%)",
   "pets.combinedHelp": "Enter the four totals shown in Pets → Stats. Passive stats and refinements are counted once. Useful unlocked buffs are assumed activated and added separately; Attack and Lethality buffs apply only to hosting.",
   "pets.activeLevelsHelp": "0 means not owned. Levels determine active abilities; combined Stats already include passive contributions.",
-  "pets.activeAdvancementHelp": "Earlier advancements are inferred from level. At a checkpoint, check Advanced only if advancement is complete. This changes active abilities; update combined Stats from the game when they change.",
+  "pets.activeAdvancementHelp": "Advancement is derived only from level. At a checkpoint its advancement is incomplete; higher levels imply it is complete. Saved advancement choices are inactive. Update combined Stats from the game when they change.",
   "pets.advanced": "Advanced",
   "pets.upgradeDelta": "Add {delta} percentage points to combined Squads’ Attack. Existing passive stats are already included; active ability changes are calculated separately.",
   "pets.statsUnknown": "Combined pet stats need review; a saved contribution could not be derived.",
@@ -780,8 +780,11 @@
   "troops.inventory.perGroup": "Per group: {infantry} Infantry, {cavalry} Cavalry, {archers} Archers · {total} troops",
   "troops.inventory.limiting": "Limiting troop type(s): {types}",
   "troops.inventory.unknown": "Enter valid whole troop quantities to calculate inventory-supported amounts.",
-  "troops.inventory.showPusher": "Show optional 5-group plan",
   "troops.inventory.scope": "Inventory-supported amounts only: not actual march capacity or guaranteed accepted rally troops. The optional pusher is outside overall player assessment.",
   "results.join.classCompletion": "Completes the troop class",
-  "results.join.classCompletionDetails": "This filler completes the troop classes. Its level and deployment capacity do not enter team or upgrade rankings."
+  "results.join.classCompletionDetails": "Fillers prefer the highest known level-based march capacity among available entered heroes. This does not change host or joining leader offense rankings.",
+  "pets.advancementUpgradeHelp": "Completing this advancement increases {ability} by {delta} {effect}. Current level-based totals stay unchanged; this next upgrade is unranked. Exact material cost is not verified.",
+  "results.join.fillerCapacity": "Adds {capacity} troops.",
+  "results.join.fillerSubstitutes": "Can be substituted with {names}.",
+  "results.join.suggested": "Suggested"
 }

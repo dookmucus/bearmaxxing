@@ -32,7 +32,7 @@ test('migration and import preserve saved decimals, levels, gear, and unconfirme
   assert.equal(next.pets[0].level,10);assert.equal(next.pets[0].refinement.infantry,'14.40');
   assert.equal(next.pets[0].refinement.archer,0);assert.equal(next.pets[0].active,false);
   assert.equal(petLevelEffect(next.pets[0]).attack,0.5);
-  assert.equal(next.pets[0].advancementSource,'assumed');
+  assert.equal(next.pets[0].advancementSource,undefined);
   assert.equal(next.masters[0].squadBonus,'14.40');assert.equal(next.gear[0].enhancement,55);
   const imported=mergeApi(next,{player:{heroes:[{id:8,name:'Gordon',level:63,stars:3,gear:[{slot:'helmet',troop_label:'Cavalry',quality_label:'Mythic',enhancement_level:44,refine_level:5}]}]}});
   assert.equal(imported.heroes.find(h=>h.name==='Gordon').level,63);

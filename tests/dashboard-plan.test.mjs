@@ -55,7 +55,10 @@ test('Results renders compact recommendations with portraits and no dashboard ed
  const {App}=await vite.ssrLoadModule('/src/main.jsx');const p=ready();p.troopsPerMarch=100000;
  for(const t of ['infantry','cavalry','archer'])p.troops[t].count=500000;
  const html=renderToStaticMarkup(React.createElement(App,{initialProfile:p,initialTab:'Home'}));
- for(const text of ['Hosting march','Joining marches','Next improvements','Completes the'])assert.ok(html.includes(text),text);
+ for(const text of ['Hosting march','Joining marches','Next improvements'])assert.ok(html.includes(text),text);
+ assert.ok(html.includes('class="editor-page-title">Results</h2>'));
+ assert.ok(html.includes('home-hero-images'));
+ assert.ok(!html.includes('Completes the troop class'));
  const ordered=['Next improvements','Hosting march','Joining marches'].map(label=>html.indexOf(label));assert.deepEqual([...ordered].sort((a,b)=>a-b),ordered);
  for(const text of ['Edit march setup','Edit teams','Filler 0','Filler 1','Optional: refine','Open Home','class="home-intro"','filler 1"','filler 2"'])assert.ok(!html.includes(text),text);
  assert.ok(!html.includes('Copy calculation diagnostics'));

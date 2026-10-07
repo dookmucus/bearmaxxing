@@ -8,6 +8,15 @@ import capacity from './data/hero-capacity.json' with {type:'json'};
 import {heroBearEffects,joiningBearComparison} from './bear-comparison.mjs';
 export const roleEligible=h=>heroAvailableInPlanner(h)&&h?.owned===true&&h.marchAvailable!==false&&['infantry','cavalry','archer'].includes(h.troop);
 export const roleCapacity=h=>!h?.optionalFiller&&h?.level!=null&&h.level!==''&&Number.isInteger(Number(h.level))?capacity.deploymentByLevel[Number(h.level)]??null:null;
+// Capacity orders class-completion fillers only. It never enters hosting or
+// joining-leader offense comparisons, and unknown capacity remains unknown.
+export function compareJoiningFillers(a,b){
+ if(Boolean(a.optionalFiller)!==Boolean(b.optionalFiller))return a.optionalFiller?1:-1;
+ const left=roleCapacity(a),right=roleCapacity(b);
+ if(left!==null&&right!==null&&left!==right)return right-left;
+ if((left===null)!==(right===null))return left===null?1:-1;
+ return String(heroIdentity(a)).localeCompare(String(heroIdentity(b)));
+}
 export function roleInventoryIssues(profile){
  const available=profile.heroes.filter(roleEligible),ids=available.map(heroIdentity),names=available.map(h=>String(h.name??'').normalize('NFKC').trim().toLowerCase());
  const issues=[];

@@ -342,8 +342,8 @@
   "results.upgrade.statGain": "Ajoute {delta} points de pourcentage de {stat}.",
   "results.upgrade.widgetSharedAttack": "Ajoute {delta} points de Létalité d’accessoire et {sharedAttack} points d’Attaque partagée de lancement.",
   "results.upgrade.yangConditional": "Ajoute {delta} points de pourcentage d’Attaque innée lorsque {hero} lance le ralliement.",
-  "results.join.offer": "Offre {effects}.",
-  "results.join.skillDetail": "{skill}, niveau {level}{assumption}. Contribue si sélectionné par le ralliement.",
+  "results.join.offer": "{effects}",
+  "results.join.skillDetail": "{skill}, niveau {level}. Contribue si sélectionné par le ralliement.",
   "results.join.offeredEffect": "+{percentage}% de {stat}",
   "results.upgrade.replacementTitle": "Gardez {currentHero} pour l’instant. Développez {hero} vers {target}.",
   "results.upgrade.replacementSkillTitle": "Gardez {currentHero} pour l’instant. Montez {skill} de {hero} au niveau {target}.",
@@ -768,7 +768,7 @@
   "pets.combined.archer": "Létalité des archers (%)",
   "pets.combinedHelp": "Saisissez les quatre totaux de Familiers → Statistiques. Les statistiques passives et les raffinements sont comptés une seule fois. Les bonus utiles débloqués sont supposés activés et ajoutés séparément ; l’Attaque et la Létalité s’appliquent uniquement au ralliement mené.",
   "pets.activeLevelsHelp": "0 signifie non possédé. Les niveaux déterminent les capacités actives ; les totaux incluent déjà les contributions passives.",
-  "pets.activeAdvancementHelp": "Les évolutions précédentes sont déduites du niveau. À un palier, cochez Évolué uniquement si l’évolution est terminée. Cela modifie les capacités actives ; actualisez les totaux depuis le jeu lorsqu’ils changent.",
+  "pets.activeAdvancementHelp": "L’évolution est déduite uniquement du niveau. Au palier, elle est incomplète ; les niveaux supérieurs indiquent qu’elle est terminée. Les anciens choix sauvegardés sont inactifs. Actualisez les statistiques combinées depuis le jeu lorsqu’elles changent.",
   "pets.advanced": "Évolué",
   "pets.upgradeDelta": "Ajoute {delta} points de pourcentage à l’Attaque totale des escouades. Les statistiques passives actuelles sont déjà incluses ; les changements de capacités actives sont calculés séparément.",
   "pets.statsUnknown": "Vérifiez les statistiques combinées des familiers : une contribution enregistrée n’a pas pu être calculée.",
@@ -780,8 +780,11 @@
   "troops.inventory.perGroup": "Par groupe : {infantry} Infanterie, {cavalry} Cavalerie, {archers} Archers · {total} troupes",
   "troops.inventory.limiting": "Type(s) limitant(s) : {types}",
   "troops.inventory.unknown": "Saisissez des quantités entières valides pour calculer les groupes permis par l’inventaire.",
-  "troops.inventory.showPusher": "Afficher le plan optionnel de 5 groupes",
   "troops.inventory.scope": "Quantités permises par l’inventaire : ni capacité réelle ni troupes garanties dans le ralliement. Le soutien optionnel reste hors de l’évaluation globale.",
   "results.join.classCompletion": "Complète le type de troupe",
-  "results.join.classCompletionDetails": "Ce héros complète les types de troupe. Son niveau et sa capacité de déploiement n’entrent pas dans le classement des équipes ou améliorations."
+  "results.join.classCompletionDetails": "Les héros de complément privilégient la plus grande capacité de marche connue selon le niveau parmi les héros saisis disponibles. Cela ne change pas le classement offensif de l’hôte ni des chefs de participation.",
+  "pets.advancementUpgradeHelp": "Terminer cette évolution augmente {ability} de {delta} {effect}. Les totaux du niveau actuel restent inchangés ; cette prochaine amélioration n’est pas classée. Le coût exact en matériaux n’est pas vérifié.",
+  "results.join.fillerCapacity": "Ajoute {capacity} troupes.",
+  "results.join.fillerSubstitutes": "Peut être remplacé par {names}.",
+  "results.join.suggested": "Suggéré"
 }

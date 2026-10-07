@@ -1,11 +1,19 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {enteredRosterProfile as emptyProfile} from './helpers/entered-roster.mjs';
-import {rallyCapacityCopy,improvementCopy,joiningLeaderCopy} from '../src/results-copy.mjs';
+import {rallyCapacityCopy,improvementCopy,joiningLeaderCopy,joiningHeroCopy} from '../src/results-copy.mjs';
 import {accountEffects,calculate} from '../src/calculator.mjs';
 import {actionableImprovements} from '../src/results-improvements.mjs';
 import {migrateProfile} from '../src/data/roster.mjs';
 import {compareHosts} from '../src/host-comparison.mjs';
+
+test('filler supporting text shows documented capacity and tooltip shows only substitutes',()=>{
+ const hero={name:'Gordon',level:80};
+ assert.deepEqual(joiningHeroCopy(hero,1,['Saul','Helga','Amadeus','Yang']),{summary:'Adds 13,470 troops.',detail:'Can be substituted with Saul, Helga, or Amadeus.'});
+ assert.deepEqual(joiningHeroCopy(hero,1),{summary:'Adds 13,470 troops.',detail:null});
+ assert.deepEqual(joiningHeroCopy({...hero,level:null},1),{summary:'Capacity not verified.',detail:null});
+ assert.match(joiningHeroCopy({...hero,optionalFiller:true},1).detail,/No damage or capacity bonus/);
+});
 
 test('per-class explanation receives the closest single-slot alternatives without changing the selected host',()=>{
  const p=migrateProfile(emptyProfile()),compared=compareHosts(p,accountEffects(p)),hosting=calculate(p,'hosting');
@@ -43,6 +51,6 @@ test('upgrade presentation keeps supported targets and effects separate from mod
  assert.match(copy.detail,/Estimated comparison|Verified stat improvement/);
  assert.deepEqual(actions,before);
  const leader=joiningLeaderCopy(p.heroes.find(h=>h.name==='Chenko'));
- assert.match(leader.summary,/\+25% rally Lethality/);
- assert.match(leader.detail,/assumed from stars/);
+ assert.equal(leader.summary,'+25% Lethality');
+ assert.ok(!leader.detail.includes('assumed from stars'));assert.match(leader.detail,/Contributes when selected by the rally/);
 });

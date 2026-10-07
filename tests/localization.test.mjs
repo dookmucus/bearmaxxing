@@ -1,6 +1,8 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
 import {t,englishMessage,localizeText,formatNumber,formatPercent,setLanguage,resolveLanguage,entityName,LANGUAGE_STORAGE_KEY} from '../src/i18n.mjs';
 import {languages} from '../src/locales/registry.mjs';
+import {joiningLeaderCopy,joiningHeroCopy} from '../src/results-copy.mjs';
+import {enteredRosterProfile} from './helpers/entered-roster.mjs';
 const storage=()=>{const values=new Map();return {getItem:key=>values.get(key)??null,setItem:(key,value)=>values.set(key,value),values};};
 test('English catalog, named placeholders, plural forms and safe fallback',()=>{
  assert.equal(t('results.rallyCapacity',{capacity:400000}),'Rally capacity contribution: +400,000');
@@ -43,6 +45,30 @@ test('inventory-supported copy translates equal-group counts and limiting types 
   assert.ok(t('troops.inventory.limiting',{types},code).includes(types));
   assert.ok(t('troops.inventory.groups3',{},code).includes('3'));assert.ok(t('troops.inventory.groups4',{},code).includes('4'));assert.ok(t('troops.inventory.groups5',{},code).includes('5'));
  }
+});
+
+test('recent joining copy stays concise and localized in all eight languages',()=>{
+ const leader=enteredRosterProfile().heroes.find(h=>h.name==='Chenko');
+ try{
+  for(const code of Object.keys(languages)){
+   setLanguage(code,{persist:false});
+   const copy=joiningLeaderCopy(leader),filler=joiningHeroCopy({name:'Gordon',level:80},1,['Saul','Helga','Amadeus']);
+   assert.ok(copy.summary.includes('25'));assert.ok(copy.summary.includes(t('stats.lethality')));
+   assert.ok(!copy.summary.includes(t('stats.rallyLethality')));
+   assert.ok(!copy.detail.includes(t('results.copy.joiningLeaderCopy.assumed.from.stars')));
+   assert.ok(!languages[code].messages['results.join.skillDetail'].includes('{assumption}'));
+   assert.equal(languages[code].messages['results.join.offer'],'{effects}');
+   assert.ok(filler.summary.includes(formatNumber(13470,{useGrouping:true},code)));
+   for(const name of ['Saul','Helga','Amadeus'])assert.ok(filler.detail.includes(name));
+   assert.ok(!filler.detail.includes('13470'));assert.ok(!filler.detail.includes(formatNumber(13470,{},code)));
+   if(code!=='en'){
+    assert.notEqual(filler.summary,'Adds 13,470 troops.');
+    assert.notEqual(filler.detail,'Can be substituted with Saul, Helga, or Amadeus.');
+    assert.notEqual(t('results.join.suggested'),'Suggested');
+    assert.notEqual(t('pets.activeAdvancementHelp'),languages.en.messages['pets.activeAdvancementHelp']);
+   }
+  }
+ }finally{setLanguage('en',{persist:false});}
 });
 
 const placeholders=text=>[...text.matchAll(/\{([a-zA-Z][\w]*)\}/g)].map(match=>match[1]).sort();

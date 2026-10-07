@@ -12,7 +12,7 @@ import {hostingBonusCopy,improvementCopy,joiningHeroCopy,rallyCapacityCopy} from
 import {actionableImprovements,hostingChoiceExplanation} from './results-improvements.mjs';
 import {activeGearInventory,activeGearLabel} from './active-gear.mjs';
 import {orderHeroes} from './hero-order.mjs';
-import {petOwned,setPetLevel,setPetAdvancement} from './pet-inputs.mjs';
+import {setPetLevel} from './pet-inputs.mjs';
 import {petPortraitColor} from './pet-refinement-quality.mjs';
 import React, {useEffect, useId, useMemo, useRef, useState} from 'react';
 import {createRoot} from 'react-dom/client';
@@ -31,7 +31,7 @@ import {commonSkillValue,setCommonSkillLevel,expeditionSlots} from './hero-skill
 import {heroRarity} from './hero-rarity.mjs';
 import {heroCatalogueOptions,setProfileHeroPresence} from './hero-roster-presence.mjs';
 import {GEAR_QUALITY,IMBUEMENT_GATES,gearIssues,gearLevelLabel,gearProgression,normalizeGearQuality,gearSlotEffect} from './gear-progression.mjs';
-import {PET_MAX_LEVEL,petLevelEffect,petCollectsProgression,setCombinedPetStat,petBuffDetails,petBuffDescription} from './pet-effects.mjs';
+import {PET_MAX_LEVEL,petCollectsProgression,setCombinedPetStat,petBuffDetails,petBuffDescription} from './pet-effects.mjs';
 import {heroPortraitFile,PET_PORTRAITS} from './portrait-assets.mjs';
 import {MAIN_TABS,SETUP_STEPS,PLAN_STEPS,planStepIndex,navigatePlanStep,essentialSetupError,persistAppState,restoreAppState} from './setup-state.mjs';
 import './styles.css';
@@ -137,7 +137,6 @@ export function App({initialTab, initialProfile} = {}) {
   const [importSummary, setImportSummary] = useState('');
   const [busy, setBusy] = useState(false);
   const [heroPickerOpen,setHeroPickerOpen]=useState(false);
-  const [showPusherInventory,setShowPusherInventory]=useState(false);
   const heroPickerRef=useRef(null);
   useEffect(()=>{
     if(!heroPickerOpen)return;
@@ -229,10 +228,10 @@ export function App({initialTab, initialProfile} = {}) {
 
   function petEditor() {
     return <div className="pets-design pets-combined-design">
-      <div className="pet-refinement-combined grid">{['attack',...TYPES].map(stat=><Field key={stat} label={tr(`pets.combined.${stat}`)} value={p.combinedPetRefinement?.[stat]??''} step="any" placeholder={tr('main.Select.review.saved.value')} onChange={value=>change(x=>setCombinedPetStat(x,stat,value))}/>)}</div>
-      <div className="pet-columns"><span aria-hidden="true"></span><span>{tr("main.petEditor.level")}<InfoTooltip label={tr("main.petEditor.pet.levels")}>{tr('pets.activeLevelsHelp')}</InfoTooltip></span><span>{tr("main.petEditor.advancement")}<InfoTooltip label={tr("main.petEditor.pet.advancement")}>{tr('pets.activeAdvancementHelp')}</InfoTooltip></span></div>
+      <div className="pet-refinement-combined grid">{[...TYPES,'attack'].map(stat=><Field key={stat} label={tr(`pets.combined.${stat}`)} value={p.combinedPetRefinement?.[stat]??''} step="any" placeholder={tr('main.Select.review.saved.value')} onChange={value=>change(x=>setCombinedPetStat(x,stat,value))}/>)}</div>
+      <div className="pet-columns"><span aria-hidden="true"></span><span>{tr("main.petEditor.level")}<InfoTooltip label={tr("main.petEditor.pet.levels")}>{tr('pets.activeLevelsHelp')} {tr('pets.activeAdvancementHelp')}</InfoTooltip></span><span aria-hidden="true"></span></div>
       <div className="pets-rows">{p.pets.filter(petCollectsProgression).map(pet=>{
-        const effect=petLevelEffect(pet),maxLevel=PET_MAX_LEVEL[pet.name];
+        const maxLevel=PET_MAX_LEVEL[pet.name];
         const levelOptions=Number.isInteger(maxLevel)?Array.from({length:maxLevel+1},(_,i)=>({value:String(i),label:String(i)})):[];
         if(pet.level!=null&&!levelOptions.some(option=>option.value===String(pet.level)))levelOptions.unshift({value:String(pet.level),label:tr("main.petEditor.saved.review", {level: pet.level})});
         const levelInfo=petGuidance(pet,supportedImprovements);
@@ -240,7 +239,7 @@ export function App({initialTab, initialProfile} = {}) {
           <IdentityPortrait name={pet.name} kind="pet" tooltip={levelInfo} src={PET_PORTRAITS[pet.name]&&`/figma-pets/${PET_PORTRAITS[pet.name]}`}/>
           {Number.isInteger(maxLevel)?<Select hideVisibleLabel label={tr("main.petEditor.level.2", {pet: pet.name})} displayLabel={tr("main.petEditor.level")} value={String(pet.level??'')} empty="Unknown" options={levelOptions} onChange={v=>change(x=>({...x,pets:x.pets.map(item=>item.id===pet.id?setPetLevel(item,v===''?0:Number(v)):item)}))}/>:<Field hideVisibleLabel displayLabel={tr("main.petEditor.level")} min={0} label={tr("main.petEditor.level.2", {pet: pet.name})} value={pet.level} onChange={v=>change(x=>({...x,pets:x.pets.map(item=>item.id===pet.id?setPetLevel(item,v):item)}))}/>}
 
-          <div className="pet-advancement-cell">{petOwned(pet)&&effect.checkpoint===true&&<label className="check pet-advancement-check"><input type="checkbox" aria-label={tr("main.petEditor.level.advanced.at.this.level", {pet:pet.name,level:pet.level})} checked={pet.advancementConfirmed===true} onChange={e=>change(x=>({...x,pets:x.pets.map(item=>item.id===pet.id?setPetAdvancement(item,e.target.checked):item)}))}/><span>{tr('pets.advanced')}</span></label>}</div>
+          <div className="pet-advancement-cell" aria-hidden="true"></div>
 
         </div>;
       })}</div>
@@ -261,11 +260,10 @@ export function App({initialTab, initialProfile} = {}) {
       })}</div>
       <div className="troop-inventory-plans">
         <h3>{tr('troops.inventory.title')}<InfoTooltip label={tr('troops.inventory.title')}>{tr('troops.inventory.help')}</InfoTooltip></h3>
-        {[3,4,...(showPusherInventory?[5]:[])].map(groups=>{const plan=inventoryGroups(p,groups);return <div className="troop-inventory-group" key={groups}>
+        <div className="troop-inventory-cards">{[3,4,5].map(groups=>{const plan=inventoryGroups(p,groups);return <div className="troop-inventory-group" key={groups}>
           <h3>{tr(`troops.inventory.groups${groups}`)}</h3>
           {plan.known?<><p>{tr('troops.inventory.perGroup',{infantry:plan.perGroup.infantry,cavalry:plan.perGroup.cavalry,archers:plan.perGroup.archer,total:plan.totalPerGroup})}</p><p className="hint">{tr('troops.inventory.limiting',{types:plan.limiting.map(t=>tr(`troops.${t}`)).join(', ')})}</p></>:<p className="hint">{tr('troops.inventory.unknown')}</p>}
-        </div>;})}
-        <label className="check"><input type="checkbox" checked={showPusherInventory} onChange={e=>setShowPusherInventory(e.target.checked)}/><span>{tr('troops.inventory.showPusher')}</span></label>
+        </div>;})}</div>
         <p className="hint">{tr('troops.inventory.scope')}</p>
       </div>
     </div>;
@@ -316,7 +314,7 @@ export function App({initialTab, initialProfile} = {}) {
     <nav className={`setup-progress${setup.completed?' completed-navigation':''}`} aria-label={setup.completed?tr("main.App.bearmaxxing.pages"):tr("main.App.bear.plan.progress")}>{!setup.completed&&<div><strong>{tr("main.App.your.bear.plan")}</strong><span>{tr('wizard.progress',{currentStep:currentStep+1,stepCount:SETUP_STEPS.length,page:pageName(currentTab)})}</span></div>}<ol role="tablist" aria-label={setup.completed?tr("main.App.bearmaxxing.pages"):tr("main.App.bear.plan.steps")}>{(setup.completed?PLAN_STEPS:SETUP_STEPS).map((name,index)=><li key={name} className={name===currentTab?'current':!setup.completed&&index<currentStep?'done':''} aria-current={name===currentTab?(setup.completed?'page':'step'):undefined}><button type="button" role="tab" id={`tab-${name.toLowerCase()}`} aria-selected={name===currentTab} aria-controls="calculator-tabpanel" onClick={()=>navigateStep(PLAN_STEPS.indexOf(name))}>{pageName(name)}</button></li>)}</ol></nav>
 
     <div id="calculator-tabpanel" className="tab-panel" role="tabpanel" aria-labelledby={`tab-${currentTab.toLowerCase()}`} tabIndex={0}>
-      {currentTab!=='Home'&&<div className="editor-page-heading"><h2 className="editor-page-title">{pageName(currentTab)}{currentTab==='Pets'&&<span className="pet-title-info">{petEffectsTooltip()}</span>}</h2>{currentTab==='Heroes'&&heroPicker()}</div>}
+      <div className="editor-page-heading"><h2 className="editor-page-title">{pageName(currentTab)}{currentTab==='Pets'&&<span className="pet-title-info">{petEffectsTooltip()}</span>}</h2>{currentTab==='Heroes'&&heroPicker()}</div>
       {currentTab === 'Home' && <HomeDashboard profile={p} results={results} improvements={supportedImprovements} status={calculationStatus} retry={retryCalculation}/>}
       {currentTab === 'Heroes' && <section className="panel heroes-panel"><section className="input-section">{heroEditor()}</section></section>}
       {currentTab === 'Gear' && <section className="panel gear-panel"><Section title={tr("main.App.gear")}>{gearEditor}</Section></section>}
@@ -358,7 +356,7 @@ function ImprovementImage({item,profile}) {
   </div>;
 }
 function HomeDashboard({profile,results,improvements,status='ready',retry}) {
-  if(status==='loading'||status==='error')return <div className="home-dashboard" aria-live="polite"><section className="panel"><h2>{tr("main.HomeDashboard.results")}</h2><p className="hint">{status==='error'?tr("main.HomeDashboard.calculations.could.not.finish.your.saved.inputs.are.unchanged"):tr("main.HomeDashboard.calculating.your.current.plan")}</p>{status==='error'&&<button type="button" onClick={retry}>{tr("main.HomeDashboard.retry.calculations")}</button>}</section></div>;
+  if(status==='loading'||status==='error')return <div className="home-dashboard" aria-live="polite"><section className="panel"><p className="hint">{status==='error'?tr("main.HomeDashboard.calculations.could.not.finish.your.saved.inputs.are.unchanged"):tr("main.HomeDashboard.calculating.your.current.plan")}</p>{status==='error'&&<button type="button" onClick={retry}>{tr("main.HomeDashboard.retry.calculations")}</button>}</section></div>;
   const joint=results.hosting.joint??results.joining.joint,plan=joint?.canRecommend===false?null:results.joining.plan,host=results.hosting.team;
   const exactGaps=results.hosting.modelGaps??[];
   const rallyInfo=rallyCapacityCopy(profile,results.hosting.shared?.rally);
@@ -367,10 +365,10 @@ function HomeDashboard({profile,results,improvements,status='ready',retry}) {
     <section className="panel home-priority"><div className="home-section-heading"><h2>{tr("main.HomeDashboard.next.improvements")}</h2></div>{improvements.length?improvements.map((item,index)=>{const copy=improvementCopy(item,profile);return <React.Fragment key={item.id}>{index>0&&<hr className="improvement-divider"/>}<article className="improvement-row"><ImprovementImage item={item} profile={profile}/><div className="improvement-text"><div className="home-section-heading"><h3>{localizeText(copy.title)}</h3></div><p>{localizeText(copy.benefit)}<InfoTooltip bounded label={tr("main.HomeDashboard.details", {title: copy.title})}>{copy.detail}</InfoTooltip></p>{item.modelComparison?.selectionDependent&&<p className="hint">{tr("main.HomeDashboard.conditional.hero.investment")}</p>}</div></article></React.Fragment>;}):<p className="hint">{status==='improvements'?tr("main.HomeDashboard.checking.your.next.improvements"):tr("main.HomeDashboard.no.supported.next.improvement.identified.from.the.entered.data")}</p>}</section>
     <section className="panel"><div className="home-section-heading"><div className="home-heading-with-info"><h2>{tr("main.HomeDashboard.hosting.march")}</h2>{joint?.canRecommend&&<InfoTooltip label={tr("main.HomeDashboard.estimated.recommendation")}>{localizeText(joint.recommendationUncertainty.replace(/^Provisional: /,'')).replace(/^\p{Ll}/u,letter=>letter.toUpperCase())}</InfoTooltip>}</div></div>
       {joint&&!joint.canRecommend&&<p className="hint">{tr('results.noRecommendation',{reason:localizeText(joint.recommendationUncertainty)})}</p>}
-      {host?.length===3?<><div className="home-hero-grid">{host.map(entry=>{const {hero,gear}=entry,why=hostingChoiceExplanation(entry,results.hosting);return <article className="home-hero" key={hero.id}><div className="home-hero-title"><IdentityPortrait name={hero.name} src={heroPortraitFile(hero)&&`/figma-heroes/${heroPortraitFile(hero)}`}/><div><strong>{heroName(hero)}</strong><small>{hostingBonusCopy(entry,why.summary)}<InfoTooltip bounded label={tr("main.HomeDashboard.comparison.figures", {hero: hero.name})}>{why.detail}</InfoTooltip></small></div></div><div className="home-assigned-gear">{gear.map(g=><GearIcon key={g.id} troop={g.troop} slot={g.slot} quality={g.quality}/>)}</div>{!gear.length&&<small>{tr("main.HomeDashboard.no.gear.entered")}</small>}</article>;})}</div></>:<div className="hint">{blockingValidation.length?tr("main.HomeDashboard.host.comparison.is.blocked.by.profile.validation"):exactGaps.length?tr("main.HomeDashboard.host.comparison.is.unavailable.for.the.entered.progression"):joint?.canRecommend===false?tr("main.HomeDashboard.a.supported.hosting.recommendation.is.not.established"):tr("main.HomeDashboard.include.an.eligible.hero.from.each.class.in.heroes")}{blockingValidation.length>0&&<ul>{blockingValidation.map(reason=><li key={reason}>{localizeText(reason)}</li>)}</ul>}{!blockingValidation.length&&exactGaps.length>0&&<InfoTooltip bounded label={tr("main.HomeDashboard.host.formula.gaps")}>{tr("main.HomeDashboard.provisional.a.reliable.hosting.recommendation.is.not.established.for")}</InfoTooltip>}</div>}
+      {host?.length===3?<><div className="home-hero-grid">{host.map(entry=>{const {hero,gear}=entry,why=hostingChoiceExplanation(entry,results.hosting);return <article className="home-hero" key={hero.id}><div className="home-hero-images"><IdentityPortrait name={hero.name} src={heroPortraitFile(hero)&&`/figma-heroes/${heroPortraitFile(hero)}`}/><div className="home-assigned-gear">{gear.map(g=><GearIcon key={g.id} troop={g.troop} slot={g.slot} quality={g.quality}/>)}</div></div><div className="home-hero-title"><div><strong>{heroName(hero)}</strong><small>{hostingBonusCopy(entry,why.summary)}<InfoTooltip bounded label={tr("main.HomeDashboard.comparison.figures", {hero: hero.name})}>{why.detail}</InfoTooltip></small></div></div>{!gear.length&&<small>{tr("main.HomeDashboard.no.gear.entered")}</small>}</article>;})}</div></>:<div className="hint">{blockingValidation.length?tr("main.HomeDashboard.host.comparison.is.blocked.by.profile.validation"):exactGaps.length?tr("main.HomeDashboard.host.comparison.is.unavailable.for.the.entered.progression"):joint?.canRecommend===false?tr("main.HomeDashboard.a.supported.hosting.recommendation.is.not.established"):tr("main.HomeDashboard.include.an.eligible.hero.from.each.class.in.heroes")}{blockingValidation.length>0&&<ul>{blockingValidation.map(reason=><li key={reason}>{localizeText(reason)}</li>)}</ul>}{!blockingValidation.length&&exactGaps.length>0&&<InfoTooltip bounded label={tr("main.HomeDashboard.host.formula.gaps")}>{tr("main.HomeDashboard.provisional.a.reliable.hosting.recommendation.is.not.established.for")}</InfoTooltip>}</div>}
       {rallyInfo&&<div className="home-rally-capacity"><span>{tr('results.rallyCapacity',{capacity:results.hosting.shared.rally})}</span><InfoTooltip bounded label={tr("main.HomeDashboard.hosting.rally.capacity")}>{rallyInfo}</InfoTooltip></div>}
     </section>
-    <section className="panel"><div className="home-section-heading"><h2>{tr("main.HomeDashboard.joining.marches")}</h2></div><div className="home-joins">{plan?.marches.filter(m=>m.joinIndex!=null&&m.heroes?.[0]).map(m=><article className="home-join" key={m.name}><h3>{tr('results.joinTitle',{number:m.joinIndex+1})}</h3><div className="home-squad">{[0,1,2].map(slot=>{const hero=m.heroes?.[slot],why=joiningHeroCopy(hero,slot,m.equivalent?.[slot]??[],m.manual?.[slot]===true,m.leaderRole,m.basis==='derived');return <div key={slot} className="home-squad-member">{hero?<IdentityPortrait name={hero.name} src={heroPortraitFile(hero)&&`/figma-heroes/${heroPortraitFile(hero)}`}/>:<span className="home-empty-portrait" aria-hidden="true">?</span>}<span>{hero?heroName(hero):tr("main.HomeDashboard.unassigned")}<small>{localizeText(why.summary)}<InfoTooltip bounded label={tr("main.HomeDashboard.joining.reason", {name: hero?.name??tr("main.HomeDashboard.slot", {bonus: slot+1})})}>{why.detail}</InfoTooltip></small></span></div>;})}</div>{m.heroes.some(h=>!h)&&<small>{tr("main.HomeDashboard.complete.the.available.roster.in.heroes")}</small>}</article>)}</div>{!plan&&<p className="hint">{tr("main.HomeDashboard.joining.squads.are.unavailable.while.the.current.plan.cannot")}</p>}</section>
+    <section className="panel"><div className="home-section-heading"><h2>{tr("main.HomeDashboard.joining.marches")}</h2></div><div className="home-joins">{plan?.marches.filter(m=>m.joinIndex!=null&&m.heroes?.[0]).map(m=><article className="home-join" key={m.name}><h3>{tr('results.joinTitle',{number:m.joinIndex+1})}</h3><div className="home-squad">{[0,1,2].map(slot=>{const hero=m.heroes?.[slot],why=joiningHeroCopy(hero,slot,m.equivalent?.[slot]??[],m.manual?.[slot]===true,m.leaderRole,m.basis==='derived');return <div key={slot} className="home-squad-member">{hero?<IdentityPortrait name={hero.name} src={heroPortraitFile(hero)&&`/figma-heroes/${heroPortraitFile(hero)}`}/>:<span className="home-empty-portrait" aria-hidden="true">?</span>}<span className="home-squad-name">{hero?heroName(hero):tr("main.HomeDashboard.unassigned")}{hero?.optionalFiller&&<span className="home-filler-suggestion">{tr("results.join.suggested")}</span>}{slot>0&&<small>{localizeText(why.summary)}{why.detail&&<InfoTooltip bounded label={tr("main.HomeDashboard.joining.reason", {name: hero?.name??tr("main.HomeDashboard.slot", {bonus: slot+1})})}>{why.detail}</InfoTooltip>}</small>}{slot===0&&<small>{localizeText(why.summary)}<InfoTooltip bounded label={tr("main.HomeDashboard.joining.reason", {name: hero?.name??tr("main.HomeDashboard.slot", {bonus: slot+1})})}>{why.detail}</InfoTooltip></small>}</span></div>;})}</div>{m.heroes.some(h=>!h)&&<small>{tr("main.HomeDashboard.complete.the.available.roster.in.heroes")}</small>}</article>)}</div>{!plan&&<p className="hint">{tr("main.HomeDashboard.joining.squads.are.unavailable.while.the.current.plan.cannot")}</p>}</section>
   </div>;
 }
 if (typeof document !== 'undefined') {

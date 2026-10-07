@@ -30,7 +30,7 @@ test('all verified unlocked buffs apply automatically, ignoring preserved legacy
 });
 test('locked, unconfirmed and unmapped abilities never gain invented temporary effects',()=>{
  const p=ready();p.pets=p.pets.filter(pet=>pet.name==='Giant Rhino');const pet=p.pets[0];
- for(const [level,advancement,expected] of [[9,null,0],[10,false,0],[10,null,0],[10,true,2.5],[11,null,2.5],[100,false,9],[100,true,10],[101,true,0]]){
+ for(const [level,advancement,expected] of [[9,null,0],[10,false,0],[10,null,0],[10,true,0],[11,null,2.5],[100,false,9],[100,true,9],[101,true,0]]){
   Object.assign(pet,{level,advancementConfirmed:advancement});
   assert.equal(petBuffEffects(p).attack,expected,`level ${level}, advancement ${advancement}`);
  }

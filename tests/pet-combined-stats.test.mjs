@@ -4,10 +4,12 @@ import fs from 'node:fs';
 import {emptyProfile} from '../src/profile.mjs';
 import {migrateProfile} from '../src/data/roster.mjs';
 import {accountEffects,calculate} from '../src/calculator.mjs';
-import {combinedPetStats,petLevelEffect,petBuffEffects,petUpgradeProfile,setCombinedPetStat} from '../src/pet-effects.mjs';
-import {setPetLevel,setPetAdvancement,petMilestones,normalizePetInput} from '../src/pet-inputs.mjs';
+import {combinedPetStats,petLevelEffect,petBuffEffects,petUpgradeProfile,petAdvancementUpgrade,setCombinedPetStat} from '../src/pet-effects.mjs';
+import {setPetLevel,petMilestones,normalizePetInput} from '../src/pet-inputs.mjs';
 import {actionableImprovements} from '../src/results-improvements.mjs';
 import {persistAppState,restoreAppState} from '../src/setup-state.mjs';
+import {petGuidance} from '../src/player-guidance.mjs';
+import {improvementCopy} from '../src/results-copy.mjs';
 
 const legacy=()=>{const p=emptyProfile();delete p.petStatsVersion;delete p.combinedPetRefinement;delete p.combinedPetRefinementSources;return p;};
 test('migration: derive absent totals once and retain contributing saved provenance',()=>{
@@ -16,14 +18,14 @@ test('migration: derive absent totals once and retain contributing saved provena
   {id:'rhino',name:'Giant Rhino',level:10,advancementConfirmed:true,refinement:{infantry:'4.40',cavalry:5,archer:6}},
   {id:'off',name:'Lion',level:0,advancementConfirmed:true,refinement:{infantry:99}}];
  const saved=structuredClone(p),m=migrateProfile(p);
- assert.deepEqual(combinedPetStats(m),{attack:3.83,infantry:5.9,cavalry:7,archer:9});
+ assert.deepEqual(combinedPetStats(m),{attack:2.65,infantry:5.9,cavalry:7,archer:9});
  assert.equal(m.combinedPetRefinementSources.attack.source,'derived from saved pet calculations');
  assert.equal(m.combinedPetRefinementSources.attack.contributions[0].levelSource,'user-confirmed');
  assert.equal(m.combinedPetRefinementSources.infantry.contributions[0].source,'saved refinement');
  assert.deepEqual(migrateProfile(m),m);assert.deepEqual(p,saved);
  // Updating the retained level is only an active-ability input now.
  m.pets.find(p=>p.id==='rhino').level=50;
- assert.deepEqual(combinedPetStats(m),{attack:3.83,infantry:5.9,cavalry:7,archer:9});
+ assert.deepEqual(combinedPetStats(m),{attack:2.65,infantry:5.9,cavalry:7,archer:9});
 });
 test('migration: unknown contributions stay unknown and existing totals survive partial migration',()=>{
  const p=legacy();p.pets=[{id:'unknown',name:'Unmapped pet',level:30,refinement:{infantry:2}}];
@@ -60,10 +62,10 @@ test('double-counting: combined passives count once and buffs stay separate with
 test('double-counting: retained-pet upgrade preview adds only documented delta to combined Attack',()=>{
  const p=emptyProfile();p.combinedPetRefinement={attack:40,infantry:5,cavalry:6,archer:7};
  p.pets=p.pets.map(p=>p.name==='Giant Rhino'?setPetLevel(p,10):p);
- const pet=p.pets.find(p=>p.name==='Giant Rhino'),candidate=setPetAdvancement(pet,true),saved=structuredClone(p);
+ const pet=p.pets.find(p=>p.name==='Giant Rhino'),candidate=setPetLevel(pet,11),saved=structuredClone(p);
  const next=petUpgradeProfile(p,pet,candidate);
- assert.equal(next.combinedPetRefinement.attack,41.18);
- assert.ok(Math.abs(accountEffects(next).attack-accountEffects(p).attack-3.68)<1e-10);
+ assert.equal(next.combinedPetRefinement.attack,41.34);
+ assert.ok(Math.abs(accountEffects(next).attack-accountEffects(p).attack-3.84)<1e-10);
  assert.deepEqual(accountEffects(next).classLethality,accountEffects(p).classLethality);
  assert.deepEqual(p,saved);
  assert.equal(petUpgradeProfile(p,p.pets[0],setPetLevel(p.pets[0],20)),null);
@@ -76,24 +78,54 @@ test('saved-inputs: editing totals and reloading preserve individual pet history
  let saved;const storage={setItem:(_,v)=>saved=v,getItem:()=>saved};
  assert.ok(persistAppState(storage,next,{completed:true,step:4}));const reloaded=restoreAppState(storage).profile;
  assert.deepEqual(reloaded.pets,pets);assert.equal(reloaded.combinedPetRefinement.attack,0);
+ const reloadedPet=reloaded.pets.find(p=>p.id===pet.id);
+ assert.equal(reloadedPet.advancementConfirmed,true);
+ assert.deepEqual(reloadedPet.advancementByLevel,{10:true,20:true});
+ assert.equal(petLevelEffect(reloadedPet).rank,1);
+ assert.deepEqual(petBuffEffects(reloaded),petBuffEffects({...reloaded,pets:reloaded.pets.map(p=>({...p,advancementConfirmed:false,advancementByLevel:{}}))}));
  assert.equal(reloaded.combinedPetRefinementSources.attack.source,'user-confirmed');
  for(const field of ['stats','troops','otherPetRefinement','hostCapacity','petRefinementMode'])assert.deepEqual(reloaded[field],m[field]);
 });
-test('advancement: each documented threshold infers earlier ranks and defaults only the current checkpoint',()=>{
+test('checkpoint upgrade advice isolates documented advancement gains from the next level',()=>{
+ const pet={id:'rhino',name:'Giant Rhino',level:10,advancementConfirmed:true};
+ assert.deepEqual(petAdvancementUpgrade(pet),{attackDelta:1.18,activeKind:'attack',activeDelta:2.5});
+ assert.equal(petLevelEffect(pet).attack,1.68);
+ assert.equal(petBuffEffects({pets:[pet]}).attack,0);
+ assert.equal(petAdvancementUpgrade({...pet,level:11}),null);
+ const final=petAdvancementUpgrade({...pet,level:100});
+ assert.ok(final.attackDelta>0);assert.equal(final.activeDelta,1);
+ assert.equal(petAdvancementUpgrade({...pet,level:0}),null);
+ assert.equal(petAdvancementUpgrade({name:'Lion',level:60}),null);
+});
+test('checkpoint advice survives legacy completion flags without changing current totals',()=>{
+ const p=emptyProfile();
+ p.pets=[{id:'rhino',name:'Giant Rhino',level:10,advancementConfirmed:true,advancementByLevel:{10:true}}];
+ p.combinedPetRefinement={attack:40,infantry:5,cavalry:6,archer:7};
+ const saved=structuredClone(p),audit=[];
+ const results={hosting:calculate(p,'hosting'),joining:calculate(p,'joining'),upgrades:calculate(p,'upgrades')};
+ const advice=actionableImprovements(p,results,accountEffects,{audit}).find(item=>item.id==='rhino-passive');
+ assert.ok(advice);assert.equal(advice.resource,'Pet advancement materials');
+ assert.equal(advice.petStatDelta,1.18);assert.equal(advice.petActiveDelta,2.5);
+ assert.equal(advice.modelComparison,undefined);
+ assert.match(improvementCopy(advice,p).detail,/Wild Charge.*2.5.*unranked/);
+ assert.match(petGuidance(p.pets[0]),/Next advancement: level 10/);
+ assert.deepEqual(p,saved);assert.equal(accountEffects(p).attack,40);
+});
+test('advancement: each documented threshold derives earlier ranks and ignores current legacy flags',()=>{
  for(const name of ['Alpha Black Panther','Giant Rhino','Mighty Bison','Great Moose']){
   const thresholds=petMilestones(name);
   for(const [index,level] of thresholds.entries()){
    const p=normalizePetInput({name,level,refinement:{}});
-   assert.equal(p.advancementConfirmed,false);assert.equal(p.advancementSource,'assumed');
+   assert.equal(p.advancementConfirmed,undefined);
    assert.equal(petLevelEffect(p).rank,index);
-   const advanced=setPetAdvancement(p,true);assert.equal(petLevelEffect(advanced).rank,index+1);
-   assert.equal(petLevelEffect({name,level,advancementByLevel:{[level]:true}}).rank,index+1);
+   const advanced={...p,advancementConfirmed:true,advancementByLevel:{[level]:true}};assert.equal(petLevelEffect(advanced).rank,index);
+   assert.equal(petLevelEffect({name,level,advancementByLevel:{[level]:true}}).rank,index);
    if(level<thresholds.at(-1)){
     const next=setPetLevel(p,level+1);assert.equal(petLevelEffect(next).rank,index+1);assert.equal(petLevelEffect(next).checkpoint,false);
     assert.equal(setPetLevel(setPetLevel(advanced,level+1),level).advancementConfirmed,true);
    }
   }
-  const off=setPetLevel(setPetAdvancement(setPetLevel({name,level:0},thresholds.at(-1)),true),0);
+  const off=setPetLevel({name,level:thresholds.at(-1),advancementConfirmed:true},0);
   assert.equal(petLevelEffect(off).attack,0);assert.equal(petLevelEffect(off).rank,0);
   assert.deepEqual(petBuffEffects({pets:[off]}),{attack:0,lethality:0,deploy:0,rally:0,unsupported:[]});
  }

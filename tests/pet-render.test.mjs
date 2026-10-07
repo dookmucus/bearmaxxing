@@ -4,10 +4,11 @@ import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 import {createServer} from 'vite';
 import {emptyProfile} from '../src/profile.mjs';
-import {setPetLevel,setPetAdvancement,petMilestones} from '../src/pet-inputs.mjs';
+import {migrateProfile} from '../src/data/roster.mjs';
+import {setPetLevel,petMilestones} from '../src/pet-inputs.mjs';
 
 const retained=['Alpha Black Panther','Giant Rhino','Mighty Bison','Great Moose'];
-test('Pets shows four Stats inputs and four compact progression rows with checkpoint-only checkboxes',async t=>{
+test('Pets shows four Stats inputs and four compact progression rows without manual advancement controls',async t=>{
  const vite=await createServer({server:{middlewareMode:true,hmr:false,ws:false},appType:'custom'});t.after(()=>vite.close());
  const {App}=await vite.ssrLoadModule('/src/main.jsx');
  const p=emptyProfile();p.pets.push({id:'saved-utility',name:'Unmapped utility pet',level:8,notes:'saved'});
@@ -25,10 +26,11 @@ test('Pets shows four Stats inputs and four compact progression rows with checkp
   const pet=p.pets.find(p=>p.name===name),level=petMilestones(name).at(-1);
   p.pets=p.pets.map(p=>p===pet?setPetLevel(p,level):p);
  }
- html=render();assert.equal((html.match(/type="checkbox"/g)??[]).length,4);
+ html=render();assert.ok(!html.includes('type="checkbox"'));
  assert.ok(!/type="checkbox"[^>]*checked/.test(html));
- p.pets=p.pets.map(p=>retained.includes(p.name)?setPetAdvancement(p,true):p);
- html=render();assert.equal((html.match(/type="checkbox"[^>]*checked=""/g)??[]).length,4);
+ p.pets=p.pets.map(p=>retained.includes(p.name)?{...p,advancementConfirmed:true,advancementByLevel:{[p.level]:true}}:p);
+ p.pets=migrateProfile(JSON.parse(JSON.stringify(p))).pets;
+ html=render();assert.ok(!html.includes('type="checkbox"'));
  p.pets=p.pets.map(p=>retained.includes(p.name)?setPetLevel(p,11):p);
  html=render();assert.ok(!html.includes('type="checkbox"'));
  p.pets=p.pets.map(p=>retained.includes(p.name)?setPetLevel(p,0):p);

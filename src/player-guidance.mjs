@@ -106,6 +106,6 @@ export function petGuidance(pet,improvements=[]){
  if(!petOwned(pet))return tr("player.guidance.petGuidance.not.owned", {pet: pet.name});
  const effect=petLevelEffect(pet),active=petActiveEffect(pet),recommended=improvements.some(i=>i.id===`${pet.id}-passive`);
  const statements=[active?.value>0?tr("player.guidance.petGuidance.message", {hero: active.name, bonus: fmt(active.value), capacity: ['capacity','rallyCapacity'].includes(active.kind)?' troops '+(active.kind==='capacity'?tr("player.guidance.petGuidance.personal.march.capacity"):tr("player.guidance.petGuidance.total.rally.capacity")):'% '+(active.kind==='attack'?tr("player.guidance.petGuidance.hosting.attack"):tr("player.guidance.petGuidance.hosting.lethality"))}):null].filter(Boolean);
- const next=petMilestones(pet.name).find(level=>level>Number(pet.level)||level===Number(pet.level)&&pet.advancementConfirmed!==true);
+ const next=petMilestones(pet.name).find(level=>level>=Number(pet.level));
  return [`${pet.name}. ${effect.attack===null&&!statements.length?tr("player.guidance.petGuidance.provisional.upgrade.priority.is.not.established"):recommended?tr("player.guidance.petGuidance.recommended"):tr("player.guidance.petGuidance.bear.offense")}.`,statements.length?`${statements.join('; ')}.`:'',next?tr("player.guidance.petGuidance.next.advancement.level", {next: next}):''].filter(Boolean).join(' ');
 }

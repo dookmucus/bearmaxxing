@@ -342,8 +342,8 @@
   "results.upgrade.statGain": "Añade {delta} puntos porcentuales de {stat}.",
   "results.upgrade.widgetSharedAttack": "Añade {delta} puntos de Letalidad de artilugio y {sharedAttack} puntos de Ataque compartido anfitrión.",
   "results.upgrade.yangConditional": "Añade {delta} puntos porcentuales de Ataque inherente mientras {hero} es anfitrión.",
-  "results.join.offer": "Ofrece {effects}.",
-  "results.join.skillDetail": "{skill}, nivel {level}{assumption}. Contribuye si la reunión lo selecciona.",
+  "results.join.offer": "{effects}",
+  "results.join.skillDetail": "{skill}, nivel {level}. Contribuye si la reunión lo selecciona.",
   "results.join.offeredEffect": "+{percentage}% de {stat}",
   "results.upgrade.replacementTitle": "Mantén a {currentHero} por ahora. Desarrolla a {hero} hacia {target}.",
   "results.upgrade.replacementSkillTitle": "Mantén a {currentHero} por ahora. Desarrolla {skill} de {hero} a nivel {target}.",
@@ -768,7 +768,7 @@
   "pets.combined.archer": "Letalidad de arqueros (%)",
   "pets.combinedHelp": "Introduce los cuatro totales de Mascotas → Estadísticas. Las estadísticas pasivas y los refinamientos se cuentan una vez. Las mejoras útiles desbloqueadas se consideran activas y se añaden por separado; Ataque y Letalidad solo se aplican al liderar.",
   "pets.activeLevelsHelp": "0 indica no poseído. Los niveles determinan las habilidades activas; las estadísticas combinadas ya incluyen las contribuciones pasivas.",
-  "pets.activeAdvancementHelp": "Los ascensos anteriores se deducen del nivel. En un punto de ascenso, marca Ascendido solo si está completo. Esto cambia las habilidades activas; actualiza los totales con los del juego cuando cambien.",
+  "pets.activeAdvancementHelp": "El ascenso se deduce solo del nivel. En un punto de ascenso está incompleto; los niveles superiores indican que se completó. Las opciones de ascenso guardadas están inactivas. Actualiza las estadísticas combinadas del juego cuando cambien.",
   "pets.advanced": "Ascendido",
   "pets.upgradeDelta": "Añade {delta} puntos porcentuales al Ataque combinado de escuadrones. Las estadísticas pasivas actuales ya están incluidas; los cambios de habilidades activas se calculan por separado.",
   "pets.statsUnknown": "Revisa las estadísticas combinadas de mascotas: no se pudo calcular una contribución guardada.",
@@ -780,8 +780,11 @@
   "troops.inventory.perGroup": "Por grupo: {infantry} Infantería, {cavalry} Caballería, {archers} Arqueros · {total} tropas",
   "troops.inventory.limiting": "Tipo(s) limitante(s): {types}",
   "troops.inventory.unknown": "Introduce cantidades enteras válidas para calcular lo que permite el inventario.",
-  "troops.inventory.showPusher": "Mostrar plan opcional de 5 grupos",
   "troops.inventory.scope": "Cantidades según inventario: no son capacidad real ni tropas garantizadas en el mitin. El apoyo opcional queda fuera de la evaluación general.",
   "results.join.classCompletion": "Completa el tipo de tropa",
-  "results.join.classCompletionDetails": "Este héroe completa los tipos de tropa. Su nivel y capacidad de despliegue no afectan la clasificación de equipos o mejoras."
+  "results.join.classCompletionDetails": "Los héroes de relleno priorizan la mayor capacidad de marcha conocida según el nivel entre los héroes introducidos disponibles. Esto no cambia la clasificación ofensiva del anfitrión ni de los líderes de unión.",
+  "pets.advancementUpgradeHelp": "Completar este ascenso aumenta {ability} en {delta} {effect}. Los totales del nivel actual no cambian; esta próxima mejora no está clasificada. El coste exacto de materiales no está verificado.",
+  "results.join.fillerCapacity": "Añade {capacity} tropas.",
+  "results.join.fillerSubstitutes": "Se puede sustituir por {names}.",
+  "results.join.suggested": "Sugerido"
 }

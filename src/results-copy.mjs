@@ -1,11 +1,11 @@
 import {canonicalHeroId} from './hero-identity.mjs';
 import {canonicalPetId} from './pet-identity.mjs';
 import {t as tr,formatNumber,formatPercent,localizeText,entityName,formatList} from './i18n.mjs';
-import {joiningRole} from './hero-roles.mjs';
+import {joiningRole,roleCapacity} from './hero-roles.mjs';
 import {offerText} from './joint-plan.mjs';
 import {gearProgression,gearLevelLabel,normalizeGearQuality} from './gear-progression.mjs';
 import {masterInputDetails} from './master-effects.mjs';
-import {petBuffDetails} from './pet-effects.mjs';
+import {petBuffDetails,PET_ACTIVE_NAMES} from './pet-effects.mjs';
 import {joiningLeaderSkill} from './hero-effects.mjs';
 import {effectiveSkillLevel} from './hero-skill-unlocks.mjs';
 import {starStageLabel} from './star-progression.mjs';
@@ -32,7 +32,7 @@ function improvementDescription(item,profile){
  if(item.widgetGains?.rallyAttack>0&&delta!==null)benefit=tr('results.upgrade.widgetSharedAttack',{delta,sharedAttack:number(item.widgetGains.rallyAttack)});
  if(hero?.name==='Yang'&&item.modelComparison?.selectionDependent&&delta!==null)benefit=tr('results.upgrade.yangConditional',{delta,hero:name});
  const title=hero?item.id.endsWith('-stars')?tr('results.upgrade.heroStars',{hero:name,current:starStageLabel(Number(hero.starStep)),target:item.target}):tr('results.upgrade.heroWidget',{hero:name,current:hero.widget,target:item.target.replace('Widget level ','')}):pet?item.title.includes('advancement')?tr('results.upgrade.petAdvance',{pet:name,level:pet.level}):tr('results.upgrade.petLevel',{pet:name,current:pet.level,target:item.target.replace('Level ','')}):localizeText(item.title);
- if(pet&&item.petStatDelta!=null)return {title,benefit:tr('pets.upgradeDelta',{delta:item.petStatDelta}),detail:tr('results.copy.improvementDescription.estimated.comparison.this.improves.the.listed.bonus.at.your')};
+ if(pet&&item.petStatDelta!=null)return {title,benefit:tr('pets.upgradeDelta',{delta:item.petStatDelta}),detail:item.petActiveDelta!=null?tr('pets.advancementUpgradeHelp',{ability:PET_ACTIVE_NAMES[pet.name],delta:formatNumber(item.petActiveDelta),effect:['capacity','rallyCapacity'].includes(item.petActiveKind)?tr(item.petActiveKind==='capacity'?'player.guidance.petGuidance.personal.march.capacity':'player.guidance.petGuidance.total.rally.capacity'):`% ${tr(item.petActiveKind==='attack'?'player.guidance.petGuidance.hosting.attack':'player.guidance.petGuidance.hosting.lethality')}`}):tr('results.copy.improvementDescription.estimated.comparison.this.improves.the.listed.bonus.at.your')};
  return {title,benefit,detail:tr('results.copy.improvementDescription.estimated.comparison.this.improves.the.listed.bonus.at.your')};
 }
 
@@ -54,16 +54,18 @@ export function hostingBonusCopy(entry,fallback){
 export function joiningLeaderCopy(hero,role=hero&&joiningRole(hero)){
  if(!hero)return {summary:tr("results.copy.joiningLeaderCopy.leader.unavailable"),detail:tr("results.copy.joiningLeaderCopy.review.availability.in.heroes")};
  if(role.rejection)return {summary:tr("results.copy.joiningLeaderCopy.joining.effect.cannot.be.compared"),detail:tr("results.copy.joiningLeaderCopy.provisional.this.leader.s.bear.priority.is.not.established")};
- const statKeys={attack:'rallyAttack',lethality:'rallyLethality',damageTaken:'enemyDamageTaken',attackMultiplier:'attackMultiplier',lethalityMultiplier:'lethalityMultiplier',damageDealt:'damageDealt',extraDamage:'extraDamage',extraStrike:'extraStrike',damageOverTime:'damageOverTime'};
+ const statKeys={attack:'attack',lethality:'lethality',damageTaken:'enemyDamageTaken',attackMultiplier:'attackMultiplier',lethalityMultiplier:'lethalityMultiplier',damageDealt:'damageDealt',extraDamage:'extraDamage',extraStrike:'extraStrike',damageOverTime:'damageOverTime'};
  const effects=role.effects.map(effect=>tr(effect.scope!=='all'?effect.conditional?'results.join.classConditionalEffect':'results.join.classEffect':effect.conditional?'results.join.conditionalEffect':'results.join.offeredEffect',{percentage:effect.value,stat:tr(`stats.${statKeys[effect.stat]}`),troop:tr(`troops.${effect.scope}`)}));
- return {summary:tr('results.join.offer',{effects:formatList(effects)}),detail:tr('results.join.skillDetail',{skill:entityName('skills',`${canonicalHeroId(hero.name)}-expedition-1`,role.name),level:role.level,assumption:role.assumed?tr('results.copy.joiningLeaderCopy.assumed.from.stars'):''})};
+ return {summary:tr('results.join.offer',{effects:formatList(effects)}),detail:tr('results.join.skillDetail',{skill:entityName('skills',`${canonicalHeroId(hero.name)}-expedition-1`,role.name),level:role.level})};
 }
 
 export function joiningHeroCopy(hero,slot,equivalent=[],manual=false,role=null,capacityCalculated=true){
  if(!hero)return {summary:tr("results.copy.joiningHeroCopy.no.available.hero"),detail:tr("results.copy.joiningHeroCopy.include.an.available.hero.of.the.missing.class.in")};
- if(hero.optionalFiller)return {summary:tr('results.join.optionalFiller'),detail:tr('results.join.optionalFillerDetails')};
+ if(hero.optionalFiller)return {summary:tr('results.copy.joiningHeroCopy.capacity.not.verified'),detail:tr('results.join.optionalFillerDetails')};
  if(slot===0)return joiningLeaderCopy(hero,role??joiningRole(hero));
- return {summary:tr('results.join.classCompletion'),detail:tr('results.join.classCompletionDetails')};
+ const capacity=roleCapacity(hero),names=equivalent.slice(0,3).map(name=>entityName('heroes',canonicalHeroId(name),name));
+ const summary=capacity===null?tr('results.copy.joiningHeroCopy.capacity.not.verified'):tr('results.join.fillerCapacity',{capacity});
+ return {summary,detail:names.length?tr('results.join.fillerSubstitutes',{names:formatList(names,{type:'disjunction'})}):null};
 }
 
 export function rallyCapacityCopy(profile,total){
@@ -88,6 +90,6 @@ export function improvementCopy(item,profile){
  const costs=verified?Object.entries(item.verifiedCost.quantities).filter(([,value])=>value>0).map(([key,value])=>tr("results.copy.improvementCopy.message", {bonus: value, bonus2: labels[key]??key})).join(', '):null;
  const pet=(profile.pets??[]).find(p=>item.id===`${p.id}-passive`);
  const advance=pet&&item.title.includes('advancement');
- const detail=costs?tr("results.copy.improvementCopy.requires", {detail: copy.detail, costs: costs}):advance?tr("results.copy.improvementCopy.if.advancement.at.level.is.incomplete.this.adds.the", {level: pet.level}):item.resource?tr("results.copy.improvementCopy.exact.material.cost.is.not.verified.no.resource.efficiency", {bonus: item.modelComparison?.selectionDependent?tr("results.copy.improvementCopy.benefit.depends.on.this.hero.s.hosting.role"):tr("results.copy.improvementCopy.at.your.entered.progression")}):copy.detail;
+ const detail=costs?tr("results.copy.improvementCopy.requires", {detail: copy.detail, costs: costs}):advance&&item.petActiveDelta!=null?copy.detail:advance?tr("results.copy.improvementCopy.if.advancement.at.level.is.incomplete.this.adds.the", {level: pet.level}):item.resource?tr("results.copy.improvementCopy.exact.material.cost.is.not.verified.no.resource.efficiency", {bonus: item.modelComparison?.selectionDependent?tr("results.copy.improvementCopy.benefit.depends.on.this.hero.s.hosting.role"):tr("results.copy.improvementCopy.at.your.entered.progression")}):copy.detail;
  return {...copy,title:advance?tr("results.copy.improvementCopy.level.advancement.complete", {pet: pet.name, level: pet.level}):copy.title,detail};
 }

@@ -2,7 +2,7 @@ import{test}from'node:test';import assert from'node:assert/strict';import fs fro
 import{improvementCopy,joiningLeaderCopy}from'../src/results-copy.mjs';
 import{gearProgression}from'../src/gear-progression.mjs';import{gearUpgradeCost,gearCostEfficiency}from'../src/gear-upgrade-costs.mjs';
 import{activeGearInventory}from'../src/active-gear.mjs';import{bestGear}from'../src/engine.mjs';
-import{normalizePetInput,setPetAdvancement}from'../src/pet-inputs.mjs';import{petLevelEffect,petBuffEffects,petRefinementEffect}from'../src/pet-effects.mjs';
+import{normalizePetInput}from'../src/pet-inputs.mjs';import{petLevelEffect,petBuffEffects,petRefinementEffect}from'../src/pet-effects.mjs';
 import{restoreAppState,persistAppState}from'../src/setup-state.mjs';
 const r=JSON.parse(fs.readFileSync(new URL('../audits/incoming-hosting-2026-10-06/replay.json',import.meta.url))),p=r.profileSnapshot;
 test('release snapshot retains twelve legal distinct heroes and active transferable pieces',()=>{
@@ -27,7 +27,7 @@ test('release upgrade copy uses actual offensive deltas, verified gear costs and
 test('unowned level-zero pets contribute nothing even with saved refinements and advancement flags',()=>{
  const pet=normalizePetInput({...p.pets.find(p=>p.name==='Giant Rhino'),level:0,advancementConfirmed:true,refinement:{infantry:99,cavalry:99,archer:99}});
  assert.equal(pet.owned,false);assert.equal(petLevelEffect(pet).attack,0);assert.deepEqual(petRefinementEffect({pets:[pet]}),{infantry:0,cavalry:0,archer:0});assert.equal(petBuffEffects({pets:[pet]}).attack,0);
- const panther=p.pets.find(p=>p.name==='Alpha Black Panther'),complete=setPetAdvancement(panther,true);assert.equal(normalizePetInput(complete).advancementConfirmed,true);assert.equal(complete.advancementByLevel[60],true);assert.equal(petLevelEffect(complete).checkpoint&&!complete.advancementConfirmed,false);
+ const panther=p.pets.find(p=>p.name==='Alpha Black Panther'),complete=normalizePetInput({...panther,advancementConfirmed:true,advancementByLevel:{60:true}});assert.equal(complete.advancementConfirmed,true);assert.equal(complete.advancementByLevel[60],true);assert.equal(petLevelEffect(complete).rank,5);
 });
 test('reload preserves entered progression, active gear, exact refinements and unconfirmed zero inputs',()=>{
  const data=new Map(),storage={getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v)};

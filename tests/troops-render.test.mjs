@@ -21,7 +21,11 @@ test('Troops editor exposes only compact inventory while preserving saved planni
  assert.ok(html.includes('Inventory-supported'));
  assert.ok(html.includes('3 groups'));assert.ok(html.includes('4 groups'));
  assert.ok(html.includes('troop-inventory-plans'));
- assert.ok(!html.includes('5 groups:'));
+ assert.ok(html.includes('5 groups · includes optional hero-free pusher'));
+ assert.ok(html.includes('troop-inventory-cards'));
+ assert.equal((html.match(/class="troop-inventory-group"/g)??[]).length,3);
+ assert.ok(!html.includes('Show optional 5-group plan'));
+ assert.ok(!html.includes('type="checkbox"'));
  assert.ok(html.includes('Limiting'));
  assert.ok(!html.includes('troop-capacity-options'));
  assert.ok(!html.includes('Full-capacity requirements'));

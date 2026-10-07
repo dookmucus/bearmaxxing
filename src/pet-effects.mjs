@@ -21,8 +21,8 @@ export function petLevelEffect(pet){
   const level=Number(pet.level),entry=levels.pets[pet.name];
   if(!valid(pet.level)||!Number.isInteger(level)||level<1||!entry?.attackByLevel[level])return {attack:null,rank:null,issue:valid(pet.level)?`${pet.name} level ${pet.level} has no verified passive lookup`:null};
   const values=entry.attackByLevel[level];
-  const {checkpoint,advanced,rank}=petAdvancementStage(pet);
-  const attack=values[checkpoint&&advanced?1:0];
+  const {checkpoint,rank}=petAdvancementStage(pet);
+  const attack=values[0];
   return {attack,rank,checkpoint,issue:null,source:entry.source};
 }
 
@@ -48,7 +48,7 @@ export function normalizeCombinedPetStats(profile){
    const absent=raw==null||raw==='';
    return {petId:pet.id,value:stat==='attack'?raw:absent?0:valid(raw)?Number(raw):null,
     source:stat==='attack'?effect.source??'unknown passive lookup':profile.assumedInputs?.[`pets.${pet.id}.refinement.${stat}`]??pet.provenance?.refinement??(absent?'assumed zero':'saved refinement'),
-    levelSource:pet.levelSource??'saved',advancementSource:pet.advancementSource??'not at checkpoint'};
+    levelSource:pet.levelSource??'saved',advancementSource:'derived from level'};
   });
   totals[stat]=contributions.some(c=>c.value===null)?null:Number(contributions.reduce((sum,c)=>sum+c.value,0).toFixed(10));
   sources[stat]={source:totals[stat]===null?'unknown saved contribution':contributions.length?'derived from saved pet calculations':'assumed zero',contributions};
@@ -72,6 +72,18 @@ export function petUpgradeProfile(profile,pet,candidate){
  if(stats.attack===null||before.attack===null||after.attack===null)return null;
  const delta=Number((after.attack-before.attack).toFixed(10)),next=normalizeCombinedPetStats(profile);
  return {...next,pets:profile.pets.map(p=>p.id===pet.id?candidate:p),combinedPetRefinement:{...next.combinedPetRefinement,attack:Number((stats.attack+delta).toFixed(10))},combinedPetRefinementSources:{...next.combinedPetRefinementSources,attack:{source:'documented upgrade delta',delta,previous:next.combinedPetRefinementSources.attack,reference:after.source}}};
+}
+
+// A checkpoint advancement is a documented next action, not a saved input or
+// an extra level. Keep its isolated delta separate from level-derived totals.
+export function petAdvancementUpgrade(pet){
+ const before=petLevelEffect(pet);
+ if(!petCollectsProgression(pet)||!before.checkpoint||before.attack===null)return null;
+ const attack=levels.pets[pet.name].attackByLevel[Number(pet.level)][1];
+ const ref=PET_ACTIVE_CATALOG.find(p=>p.name===pet.name);
+ const activeBefore=petActiveEffect(pet),activeAfter=ref.stages[before.rank]??null;
+ return {attackDelta:Number((attack-before.attack).toFixed(10)),activeKind:ref.kind,
+  activeDelta:activeAfter===null?null:activeAfter-(activeBefore.value??0)};
 }
 
 // Temporary combat stats are host-only. Deployment capacity belongs to each

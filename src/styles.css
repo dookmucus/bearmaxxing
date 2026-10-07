@@ -349,7 +349,13 @@ h3{font-size:14px;font-weight:600;color:var(--text-primary)}
 .setup-progress li button:focus-visible{outline:2px solid var(--accent-yellow);outline-offset:4px;border-radius:2px}
 .setup-actions .primary:disabled{opacity:.45;cursor:default}
 
-.home-assigned-gear{display:flex;gap:6px;margin-top:8px}
+.home-hero-images{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.home-hero-images .hero-portrait,.home-squad-member .hero-portrait,.home-squad-member .home-empty-portrait{width:48px;height:48px;flex:none}
+.home-assigned-gear{display:flex;flex-wrap:nowrap;gap:6px}
+.home-squad{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:start}
+.home-squad-member{flex-direction:column;align-items:center;text-align:center;min-width:0}
+.home-squad-name{min-width:0;overflow-wrap:anywhere}
+.home-filler-suggestion{display:block;color:var(--text-secondary);font-size:10px}
 .home-assigned-gear .gear-icon,.home-assigned-gear .gear-icon img{width:28px;height:28px}
 .home-hero>.text-button{margin-top:10px;font-size:12px}
 .home-join h3{display:flex;align-items:center;gap:7px;color:var(--text-primary);font-weight:600}
@@ -452,8 +458,8 @@ html:lang(zh-Hans) body{font-family:system-ui,-apple-system,"PingFang SC","Micro
 html:lang(zh-Hant) body{font-family:system-ui,-apple-system,"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif}
 
 /* Combined Pets Stats share the existing fields and compact progression rows. */
-.pets-combined-design{max-width:508px}
-.pets-combined-design .pet-refinement-combined{grid-template-columns:repeat(2,minmax(0,1fr));margin:0 0 20px}
+.pets-combined-design{max-width:800px}
+.pets-combined-design .pet-refinement-combined{grid-template-columns:repeat(4,minmax(0,1fr));margin:0 0 20px}
 .pets-combined-design .pet-columns,.pets-combined-design .pet-compact-row{grid-template-columns:48px 76px 112px;justify-content:center}
 .pets-combined-design .pet-columns>span:first-child,.pets-combined-design .pet-portrait{grid-row:auto}
 .pets-combined-design .pet-advancement-check{margin:0;gap:6px;font-size:var(--label-size)}
@@ -461,4 +467,4 @@ html:lang(zh-Hant) body{font-family:system-ui,-apple-system,"PingFang TC","Micro
 @media(max-width:700px){.pets-combined-design .pet-refinement-combined{grid-template-columns:1fr}.pets-combined-design .pet-columns,.pets-combined-design .pet-compact-row{grid-template-columns:44px 96px 112px;gap:8px}}
 @media(max-width:380px){.pets-combined-design .pet-columns,.pets-combined-design .pet-compact-row{grid-template-columns:40px 84px 96px}}
 
-.troop-inventory-plans{margin-top:20px;border-top:1px solid var(--border);padding-top:16px}.troop-inventory-plans>h3{display:flex;align-items:center;gap:6px}.troop-inventory-group{margin:14px 0}.troop-inventory-group h3{margin:0 0 6px}.troop-inventory-group p{font-size:12px;margin:4px 0}.troop-inventory-plans>.hint{font-size:12px}
+.troop-inventory-plans{margin-top:20px;border-top:1px solid var(--border);padding-top:16px}.troop-inventory-plans>h3{display:flex;align-items:center;gap:6px}.troop-inventory-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:var(--row-gap);margin:14px 0}.troop-inventory-group{min-width:0;border:1px solid var(--border);border-radius:var(--panel-radius);background:var(--control-surface);padding:16px}.troop-inventory-group h3{margin:0 0 6px}.troop-inventory-group p{font-size:12px;margin:4px 0}.troop-inventory-plans>.hint{font-size:12px}

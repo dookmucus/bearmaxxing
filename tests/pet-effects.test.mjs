@@ -37,9 +37,9 @@ test('verified level passives and active ranks follow advancement stage',()=>{
   assert.equal(petLevelEffect(rhino).attack,1.68);
   assert.equal(petActiveEffect(rhino).rank,0);
   rhino.advancementConfirmed=true;
-  assert.equal(petLevelEffect(rhino).attack,2.86);
-  assert.equal(petActiveEffect(rhino).rank,1);
-  assert.equal(petActiveEffect(rhino).value,2.5);
+  assert.equal(petLevelEffect(rhino).attack,1.68);
+  assert.equal(petActiveEffect(rhino).rank,0);
+  assert.equal(petActiveEffect(rhino).value,null);
   rhino.level=11;
   assert.equal(petLevelEffect(rhino).attack,3.02);
   assert.equal(petActiveEffect(rhino).rank,1);
@@ -85,8 +85,8 @@ test('migration keeps legacy values and ambiguous checkpoints explicit',()=>{
   assert.equal(petLevelEffect(rhino).attack,1.68);
   assert.equal(p.petRefinementMode,'per-pet');
   assert.deepEqual(accountEffects(p).classLethality,{infantry:2,cavalry:0,archer:0});
-  assert.equal(rhino.advancementConfirmed,false);
-  assert.equal(rhino.advancementSource,'assumed');
+  assert.equal(rhino.advancementConfirmed,null);
+  assert.equal(rhino.advancementSource,undefined);
   assert.match(accountEffects(p).unsupported.join(' '),/saved manual active-skill level/);
   assert.deepEqual(p.otherPetRefinement,{attack:9,lethality:6});
 });

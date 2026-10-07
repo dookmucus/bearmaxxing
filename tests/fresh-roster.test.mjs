@@ -75,7 +75,7 @@ test('joining fillers prefer entered available heroes and optional fillers have 
  const assignment=assembleJoiningSquads(p,host,leaders,true);
  assert.ok(assignment.joins.flatMap(r=>r.heroes).some(h=>h?.name==='Alcar'&&!h.optionalFiller));
  const suggestions=assignment.joins.flatMap(r=>r.heroes).filter(h=>h?.optionalFiller);assert.ok(suggestions.length>0);
- for(const h of suggestions){assert.equal(h.owned,false);assert.equal(h.level,null);assert.equal(roleCapacity(h),null);assert.ok(joiningRole(h).rejection);const copy=joiningHeroCopy(h,1);assert.match(copy.summary,/Optional/);assert.match(copy.detail,/No damage or capacity bonus/);}
+ for(const h of suggestions){assert.equal(h.owned,false);assert.equal(h.level,null);assert.equal(roleCapacity(h),null);assert.ok(joiningRole(h).rejection);const copy=joiningHeroCopy(h,1);assert.match(copy.summary,/Capacity not verified/);assert.match(copy.detail,/No damage or capacity bonus/);}
  assert.equal(assignment.fillerCapacity,null);assert.equal(new Set(identities(assignment)).size,identities(assignment).length);
  assert.deepEqual(p.heroes.map(h=>h.name),['Zoe','Petra','Yang','Chenko','Amane','Vivian','Alcar']);
 });
