@@ -1,6 +1,7 @@
 import {heroDisplayName} from './entity-display.mjs';
 import {useLanguage} from './use-language.jsx';
 import {WelcomeModal} from './welcome-modal.jsx';
+import {useKeyboardFocus} from './use-keyboard-focus.jsx';
 import {languages} from './locales/registry.mjs';
 import {canonicalHeroId,heroAvailableInPlanner} from './hero-identity.mjs';
 import {canonicalPetId} from './pet-identity.mjs';
@@ -129,6 +130,7 @@ function BoolField({label, displayLabel, value, onChange, hint, info}) {
   return <Select label={label} displayLabel={displayLabel} value={typeof value === 'boolean' ? String(value) : ''} onChange={v => onChange(v === '' ? null : v === 'true')} empty={tr("main.BoolField.choose")} options={[{value: 'true', label: tr("main.BoolField.yes")}, {value: 'false', label: tr("main.BoolField.no")}]} hint={hint} info={info}/>;
 }
 export function App({initialTab, initialProfile} = {}) {
+  useKeyboardFocus();
   const {locale,select:selectLanguage}=useLanguage();
   const [restored] = useState(() => restoreAppState(deviceStorage(),initialProfile));
   const [profile, setProfile] = useState(restored.profile);

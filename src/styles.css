@@ -481,3 +481,5 @@ html:lang(zh-Hant) body{font-family:system-ui,-apple-system,"PingFang TC","Micro
 .welcome-footer label{display:flex;align-items:center;gap:8px;font-size:12px;line-height:1.4;cursor:pointer}
 .welcome-footer input{width:16px;height:16px;flex:none;margin:0;accent-color:var(--accent-yellow)}
 .welcome-footer button{flex:none}
+/* Suppress automatic/pointer outlines until keyboard navigation begins. */
+html:not([data-keyboard-focus]) :focus{outline:none!important}
