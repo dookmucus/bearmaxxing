@@ -790,7 +790,7 @@
   "troops.balance.surplus": "이 배분 기준의 여유 병종: {types}. 추가 병력은 사용하지 않아도 됩니다.",
   "troops.balance.priority": "동시 행군에 더 많은 병력이 필요하다면 {types} 훈련을 우선하세요.",
   "troops.balance.priorityBalanced": "동시 행군에 더 많은 병력이 필요하다면 10/10/80 비율로 균형 있게 훈련하세요.",
-  "welcome.title": "BearMaxxing에 오신 것을 환영합니다 · v1.2",
+  "welcome.title": "BearMaxxing에 오신 것을 환영합니다 · v1.3",
   "welcome.introduction": "가장 강력한 곰 사냥 팀과 다음으로 투자할 만한 업그레이드를 찾아보세요. 성장 정보를 입력하여 집결장 영웅, 집결 참여 부대, 장비, 업그레이드 우선순위를 비교할 수 있습니다.",
   "welcome.estimates": "추천은 추정치이며 점수를 보장하지 않습니다. 스킬 발동 시점, 중첩되는 보너스, 다른 집결 참여자에 따라 실제 피해량이 달라질 수 있습니다.",
   "welcome.privacy": "계산기에 입력한 정보는 사용자의 브라우저에만 저장되며, BearMaxxing은 이를 수집하거나 저장하지 않습니다. Kingshot ID로 일부 값을 불러올 수 있으며 나머지는 직접 입력해야 합니다. 이 사이트의 브라우저 데이터를 삭제하면 입력 정보도 삭제되며, 다른 브라우저에서는 처음부터 다시 입력해야 합니다.",

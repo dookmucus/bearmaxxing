@@ -1,0 +1,20 @@
+{
+  "version": "2026-10-08",
+  "retrieved": "2026-10-08",
+  "source": "User-supplied portrait images, 2026-10-08",
+  "rights": "Kingshot game artwork supplied by the user for these hero portraits. No separate redistribution license was supplied.",
+  "assets": {
+    "Charles": {
+      "file": "public/figma-heroes/charles.png",
+      "sourceFile": "charles.png"
+    },
+    "Ava": {
+      "file": "public/figma-heroes/ava.png",
+      "sourceFile": "ava.png"
+    },
+    "Wee & Woo": {
+      "file": "public/figma-heroes/wee-woo.png",
+      "sourceFile": "weeandwoo.png"
+    }
+  }
+}

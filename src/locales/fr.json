@@ -790,7 +790,7 @@
   "troops.balance.surplus": "Surplus par rapport à cette répartition : {types}. Les troupes supplémentaires peuvent rester inutilisées.",
   "troops.balance.priority": "Privilégiez {types} si vous avez besoin de plus de troupes pour des marches simultanées.",
   "troops.balance.priorityBalanced": "Si vous avez besoin de plus de troupes pour des marches simultanées, gardez un entraînement équilibré en 10/10/80.",
-  "welcome.title": "Bienvenue sur BearMaxxing · v1.2",
+  "welcome.title": "Bienvenue sur BearMaxxing · v1.3",
   "welcome.introduction": "Trouvez vos équipes les plus fortes pour la Chasse à l’ours et les prochaines améliorations qui en valent la peine. Saisissez votre progression pour comparer les héros hôtes, les escouades de renfort, l’équipement et les priorités d’amélioration.",
   "welcome.estimates": "Les recommandations sont des estimations, pas des scores garantis. Le moment des compétences, les bonus qui se chevauchent et les autres participants au ralliement peuvent modifier les dégâts réels.",
   "welcome.privacy": "Vos données de calcul sont enregistrées uniquement dans votre navigateur ; BearMaxxing ne les collecte ni ne les stocke. Votre identifiant Kingshot permet d’importer certaines valeurs ; vous saisissez le reste. Effacer les données de ce site dans votre navigateur supprime vos saisies, et changer de navigateur signifie recommencer.",

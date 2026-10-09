@@ -1,6 +1,6 @@
 import {heroIdentity} from './host-comparison.mjs';
 import {supportedJoiningPlans,assembleJoiningSquads} from './joint-plan.mjs';
-import {joiningRole,roleEligible,compareJoiningFillers} from './hero-roles.mjs';
+import {joiningRole,joiningEligible,compareJoiningFillers} from './hero-roles.mjs';
 import {comparisonProfile,inventoryGroups} from './inventory-planning.mjs';
 import capacityData from './data/hero-capacity.json' with {type:'json'};
 import {TYPES} from './engine.mjs';
@@ -9,7 +9,7 @@ import {inventoryCount} from './troop-inventory.mjs';
 const whole=n=>n!==null&&n!==undefined&&n!==''&&Number.isInteger(Number(n))&&Number(n)>=0;
 export const heroCapacity=level=>whole(level)?capacityData.deploymentByLevel[Number(level)]??null:null;
 export const capacitySource=capacityData.source;
-export const marchEligible=roleEligible;
+export const marchEligible=joiningEligible;
 
 function candidateList(profile,used,classes){
   return profile.heroes.filter(h=>marchEligible(h)&&classes.includes(h.troop)&&!used.has(heroIdentity(h)))

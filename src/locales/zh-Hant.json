@@ -790,7 +790,7 @@
   "troops.balance.surplus": "相對此分配的富餘兵種：{types}。額外兵力可以不使用。",
   "troops.balance.priority": "如果同時行軍需要更多兵力，請優先訓練{types}。",
   "troops.balance.priorityBalanced": "如果同時行軍需要更多兵力，請按10/10/80比例保持訓練平衡。",
-  "welcome.title": "歡迎使用 BearMaxxing · v1.2",
+  "welcome.title": "歡迎使用 BearMaxxing · v1.3",
   "welcome.introduction": "找到你最強的巨熊狩獵隊伍，以及下一步值得投入的升級。輸入你的養成進度，比較集結發起英雄、加入集結的隊伍、裝備和升級優先順序。",
   "welcome.estimates": "推薦結果是估算，並非保證得分。技能時機、重疊加成和其他集結參與者都可能影響實際傷害。",
   "welcome.privacy": "你在計算器中輸入的資料僅儲存在你的瀏覽器中，BearMaxxing 不會收集或儲存這些資料。你的 Kingshot ID 可用於匯入部分數值，其餘內容由你輸入。清除此網站的瀏覽器資料會刪除你的輸入，切換瀏覽器則需要重新開始。",

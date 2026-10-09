@@ -1,6 +1,6 @@
 import {englishMessage} from './english-messages.mjs';
 import {compareHosts,heroIdentity} from './host-comparison.mjs';
-import {roleEligible,joiningRole,roleInventoryIssues,compareJoiningFillers} from './hero-roles.mjs';
+import {roleEligible,joiningEligible,joiningRole,roleInventoryIssues,compareJoiningFillers} from './hero-roles.mjs';
 import {TYPES} from './engine.mjs';
 import {comparisonProfile} from './inventory-planning.mjs';
 import {planBearDimensions,dimensionDominates,joiningBearComparison} from './bear-comparison.mjs';
@@ -15,9 +15,10 @@ function combinations(items,count,start=0,prefix=[],out=[]){
 export function assembleJoiningSquads(profile,host,leaders,allowPartial=false){
  profile=comparisonProfile(profile);
  if(roleInventoryIssues(profile).length)return null;
+ if(leaders.some(role=>!joiningEligible(role.hero)))return null;
  const occupied=new Set([...host.map(e=>id(e.hero??e)),...leaders.map(l=>l.id)]);
  if(occupied.size!==host.length+leaders.length)return null;
- const pools=Object.fromEntries(TYPES.map(t=>[t,profile.heroes.filter(h=>roleEligible(h)&&h.troop===t&&!occupied.has(id(h))).sort(compareJoiningFillers)]));
+ const pools=Object.fromEntries(TYPES.map(t=>[t,profile.heroes.filter(h=>joiningEligible(h)&&h.troop===t&&!occupied.has(id(h))).sort(compareJoiningFillers)]));
  const suggestions=optionalFillerPool(profile);
  for(const t of TYPES)pools[t].push(...suggestions.filter(h=>h.troop===t&&!occupied.has(id(h))));
  const joins=leaders.map((role,index)=>({name:`Join ${index+1}`,heroes:[role.hero,null,null],leaderRole:role,equivalent:[[],[],[]],manual:[false,false,false],joiner:{...profile.joiners?.[index],name:role.hero.name},reason:`${role.hero.name} offers ${offerText(role)}; the other heroes complete the troop classes.`}));
@@ -28,7 +29,7 @@ export function assembleJoiningSquads(profile,host,leaders,allowPartial=false){
  const used=new Set(joins.flatMap(row=>row.heroes).filter(Boolean).map(id));
  for(const row of joins)for(const slot of [1,2]){
   const chosen=row.heroes[slot];if(!chosen||chosen.optionalFiller)continue;
-  row.equivalent[slot]=profile.heroes.filter(h=>roleEligible(h)&&h.troop===chosen.troop&&id(h)!==id(chosen)&&!host.some(e=>id(e.hero??e)===id(h))&&!leaders.some(l=>l.id===id(h))).sort(compareJoiningFillers).map(h=>h.name);
+  row.equivalent[slot]=profile.heroes.filter(h=>joiningEligible(h)&&h.troop===chosen.troop&&id(h)!==id(chosen)&&!host.some(e=>id(e.hero??e)===id(h))&&!leaders.some(l=>l.id===id(h))).sort(compareJoiningFillers).map(h=>h.name);
  }
  return {host:host.map(e=>e.hero??e),joins,issues:joins.flatMap(row=>row.heroes.flatMap((h,i)=>h?[]:[`${row.name} slot ${i+1}: no available compatible hero.`])),fillerCapacity:null,used};
 }

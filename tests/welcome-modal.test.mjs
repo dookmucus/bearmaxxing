@@ -51,7 +51,7 @@ test('welcome content is complete in every language with unchanged source names 
   assert.ok(html.includes('aria-labelledby='));
  }
  setLanguage('en',{persist:false});
- assert.equal(languages.en.messages['welcome.title'],'Welcome to BearMaxxing · v1.2');
+ assert.equal(languages.en.messages['welcome.title'],'Welcome to BearMaxxing · v1.3');
  assert.equal(languages.en.messages['welcome.introduction'],'Find your strongest Bear Hunt teams and the next upgrades worth working on. Enter your progression to compare hosting heroes, joining squads, gear, and upgrade priorities.');
  assert.equal(languages.en.messages['welcome.estimates'],'Recommendations are estimates, not guaranteed scores. Skill timing, overlapping bonuses, and other rally participants can affect actual damage.');
  assert.equal(languages.en.messages['welcome.privacy'],'Your calculator entries are saved only in your browser, not collected or stored by BearMaxxing. Your Kingshot ID can import some values; you enter the rest. Clearing this site’s browser data deletes your entries, and switching browsers means starting over.');

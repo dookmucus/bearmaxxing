@@ -58,7 +58,7 @@ test('Troops editor exposes only compact inventory while preserving saved planni
    for(const key of ['troops.balance.title','troops.balance.limit.infantry'])assert.ok(translated.includes(translate(key)),`${language}: ${key}`);
    assert.ok(translated.includes('troop-inventory-balance'));
    assert.ok(!translated.includes('troop-inventory-cards'));assert.ok(!translated.includes('troops.balance.'));
-   assert.equal((translated.match(/type="number"/g)??[]).length,6);
+   assert.equal((translated.match(/type="number"/g)??[]).length,3);
    if(language!=='en')assert.ok(!/Inventory balance|Prioritize Infantry|Extra troops can remain unused/.test(translated));
   }
  }finally{setLanguage('en',{persist:false});}

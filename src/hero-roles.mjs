@@ -2,11 +2,12 @@ import {englishMessage} from './english-messages.mjs';
 import {heroIdentity} from './host-comparison.mjs';
 import {heroReference,heroContributions,heroSkillName} from './hero-effects.mjs';
 import offensive from './data/hero-offensive-effects.json' with {type:'json'};
-import {heroReferenceName,heroAvailableInPlanner} from './hero-identity.mjs';
+import {heroReferenceName,heroAvailableInPlanner,heroAvailableForJoining} from './hero-identity.mjs';
 import {effectiveSkillLevel} from './hero-skill-unlocks.mjs';
 import capacity from './data/hero-capacity.json' with {type:'json'};
 import {heroBearEffects,joiningBearComparison} from './bear-comparison.mjs';
 export const roleEligible=h=>heroAvailableInPlanner(h)&&h?.owned===true&&h.marchAvailable!==false&&['infantry','cavalry','archer'].includes(h.troop);
+export const joiningEligible=h=>roleEligible(h)&&heroAvailableForJoining(h);
 export const roleCapacity=h=>!h?.optionalFiller&&h?.level!=null&&h.level!==''&&Number.isInteger(Number(h.level))?capacity.deploymentByLevel[Number(h.level)]??null:null;
 // Capacity orders class-completion fillers only. It never enters hosting or
 // joining-leader offense comparisons, and unknown capacity remains unknown.
@@ -30,6 +31,7 @@ export function joiningRole(hero){
  const effective=effectiveSkillLevel(hero,1),name=heroSkillName(hero,1);
  const base={hero,id:heroIdentity(hero),name,level:effective.level,assumed:effective.source==='assumed',effects:[],coverageComplete:false};
  if(!roleEligible(hero))return {...base,rejection:'Not owned, unavailable for marches, or unknown troop class.'};
+ if(!heroAvailableForJoining(hero))return {...base,rejection:'Joining use is disabled for this hero at the user’s request.'};
  if(effective.conflict)return {...base,rejection:`${name}: entered level exceeds the unlocked cap.`};
  if(effective.level===0)return {...base,rejection:`${name} is not upgraded.`};
  if(effective.unlock.max===null)return {...base,rejection:`The app has no verified ${name} unlock limit at the entered stars.`};

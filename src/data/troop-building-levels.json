@@ -1,0 +1,9 @@
+{
+  "version": "2026-10-08",
+  "retrieved": "2026-10-08",
+  "source": "https://kingshotdata.kr/en/buildings/range.html",
+  "evidence": "Community building table lists completed Truegold levels TG1 through TG10; its Truegold data still needs in-game verification.",
+  "uncertainty": "This is an input range, not a publisher-confirmed maximum or a guarantee of availability in every kingdom. No combat coefficients or upgrade costs are inferred from these choices.",
+  "zeroMeaning": "No completed Truegold building level",
+  "completedLevels": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+}

@@ -4,14 +4,15 @@ import fs from 'node:fs';
 import {emptyProfile,mergeApi} from '../src/profile.mjs';
 import {migrateProfile,defaultHeroes} from '../src/data/roster.mjs';
 import {heroCatalogueOptions,setProfileHeroPresence} from '../src/hero-roster-presence.mjs';
-import {assembleJoiningSquads,optimizeMarchPlan} from '../src/joint-plan.mjs';
+import {assembleJoiningSquads,optimizeMarchPlan,supportedJoiningPlans} from '../src/joint-plan.mjs';
 import {accountEffects,calculate} from '../src/calculator.mjs';
 import {roleCapacity,joiningRole} from '../src/hero-roles.mjs';
 import {joiningHeroCopy} from '../src/results-copy.mjs';
 import {essentialSetupError,restoreAppState,persistAppState} from '../src/setup-state.mjs';
 import {setSharedMarchCapacity} from '../src/march-capacity-inputs.mjs';
 import {includedHostCandidates} from '../src/host-comparison.mjs';
-import {roleEligible} from '../src/hero-roles.mjs';
+import {roleEligible,joiningEligible} from '../src/hero-roles.mjs';
+import {availableFillers,assignMarchHeroes} from '../src/march-plan.mjs';
 
 const snapshot=JSON.parse(fs.readFileSync(new URL('../audits/incoming-hosting-2026-10-06/replay.json',import.meta.url))).profileSnapshot;
 const entered=name=>structuredClone(snapshot.heroes.find(h=>h.name===name));
@@ -41,21 +42,51 @@ test('partial imports activate imported heroes only and do not add unreleased ca
 });
 
 test('hidden unreleased heroes stay saved but never appear in selectors or simultaneous teams',()=>{
- const hidden=new Set(['Charles','Ava','Diego','Wee & Woo','Liz','Luna']);
+ const hidden=new Set(['Diego','Liz','Luna']);
  const p=roster(['Zoe','Petra','Yang','Chenko','Amane','Vivian']);
  const saved=defaultHeroes().filter(h=>hidden.has(h.name)).map(h=>({...h,owned:true,included:true,marchAvailable:true}));
  p.heroes.push(...saved);
- assert.equal(saved.length,6);
+ assert.equal(saved.length,3);
  assert.ok(heroCatalogueOptions(emptyProfile()).every(h=>!hidden.has(h.name)));
  assert.ok(heroCatalogueOptions(p).every(h=>!hidden.has(h.name)));
  assert.ok(saved.every(h=>!roleEligible(h)));
  assert.ok(includedHostCandidates(p).flat().every(h=>!hidden.has(h.name)));
  for(const h of saved)assert.equal(setProfileHeroPresence(p,h.id,true),p);
  const migrated=migrateProfile(p);
- assert.equal(migrated.heroes.filter(h=>hidden.has(h.name)).length,6);
+ assert.equal(migrated.heroes.filter(h=>hidden.has(h.name)).length,3);
  const result=optimizeMarchPlan(migrated,accountEffects(migrated));assert.ok(result.canRecommend);
  const assignment=result.selected.assignment;
  assert.ok([...assignment.host,...assignment.joins.flatMap(r=>r.heroes)].filter(Boolean).every(h=>!hidden.has(h.name)));
+});
+
+test('Gen 7 can be added and edited but cannot lead, fill, or substitute in joining groups',()=>{
+ const gen7=new Set(['Charles','Ava','Wee & Woo']);
+ let p=roster(['Zoe','Petra','Yang','Chenko','Amane','Vivian','Alcar','Gordon','Diana']);
+ for(const name of gen7){
+  const option=heroCatalogueOptions(p).find(h=>h.name===name);assert.ok(option,name);
+  p=setProfileHeroPresence(p,option.id,true);
+ }
+ const saved=p.heroes.filter(h=>gen7.has(h.name));
+ assert.equal(saved.length,3);assert.ok(saved.every(roleEligible));
+ assert.ok(saved.every(h=>!joiningEligible(h)&&joiningRole(h).rejection));
+ assert.equal(includedHostCandidates(p).flat().filter(h=>gen7.has(h.name)).length,3);
+ const renamed=saved.map(h=>({...h,name:`Saved ${h.name}`}));
+ assert.ok(renamed.every(h=>!joiningEligible(h)&&joiningRole(h).rejection));
+ const host=p.heroes.slice(0,3),leaders=p.heroes.slice(3,6).map(joiningRole);
+ const assertNoGen7=assignment=>{
+  assert.ok(assignment.joins.flatMap(row=>row.heroes).filter(Boolean).every(h=>!gen7.has(h.name)));
+  assert.ok(assignment.joins.flatMap(row=>row.equivalent.flat()).every(name=>!gen7.has(name)));
+  for(let index=0;index<assignment.joins.length;index++)for(const slot of [1,2])assert.ok(availableFillers(p,assignment,index,slot).every(h=>!gen7.has(h.name)));
+ };
+ assertNoGen7(assembleJoiningSquads(p,host,leaders,true));
+ assertNoGen7(assignMarchHeroes(p,host));
+ const plans=supportedJoiningPlans(p,host).plans;assert.ok(plans.length);
+ for(const plan of plans)assertNoGen7(plan.assignment);
+ const optimized=optimizeMarchPlan(p,accountEffects(p));assert.ok(optimized.selected);
+ for(const plan of optimized.comparisons)assertNoGen7(plan.assignment);
+ assert.equal(assembleJoiningSquads(p,host,[{hero:saved[0],id:saved[0].id,effects:[]}],true),null);
+ const migrated=migrateProfile(p);
+ for(const h of saved){const restored=migrated.heroes.find(x=>x.id===h.id);assert.equal(restored.owned,true);assert.equal(restored.marchAvailable,true);assert.deepEqual(restored.skillLevels,h.skillLevels);}
 });
 
 test('saved roster ownership, exclusions, entered progression and explicit skills survive migration and reload',()=>{

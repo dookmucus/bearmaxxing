@@ -790,7 +790,7 @@
   "troops.balance.surplus": "Excedente respecto a esta distribución: {types}. Las tropas adicionales pueden quedar sin usar.",
   "troops.balance.priority": "Prioriza {types} si necesitas más tropas para marchas simultáneas.",
   "troops.balance.priorityBalanced": "Si necesitas más tropas para marchas simultáneas, mantén el entrenamiento equilibrado en 10/10/80.",
-  "welcome.title": "Te damos la bienvenida a BearMaxxing · v1.2",
+  "welcome.title": "Te damos la bienvenida a BearMaxxing · v1.3",
   "welcome.introduction": "Encuentra tus equipos más fuertes para la Caza del Oso y las próximas mejoras que merecen la pena. Introduce tu progreso para comparar héroes anfitriones, escuadrones de unión, equipo y prioridades de mejora.",
   "welcome.estimates": "Las recomendaciones son estimaciones, no puntuaciones garantizadas. El momento de las habilidades, las bonificaciones superpuestas y otros participantes de la concentración pueden afectar al daño real.",
   "welcome.privacy": "Los datos que introduces en la calculadora se guardan únicamente en tu navegador; BearMaxxing no los recopila ni almacena. Tu ID de Kingshot permite importar algunos valores; el resto lo introduces tú. Borrar los datos de este sitio en el navegador elimina tus entradas, y cambiar de navegador significa empezar de nuevo.",

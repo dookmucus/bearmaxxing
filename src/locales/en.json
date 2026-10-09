@@ -790,7 +790,7 @@
   "troops.balance.surplus": "Surplus relative to this allocation: {types}. Extra troops can remain unused.",
   "troops.balance.priority": "Prioritize {types} if you need more troops for simultaneous marches.",
   "troops.balance.priorityBalanced": "If you need more troops for simultaneous marches, keep training balanced at 10/10/80.",
-  "welcome.title": "Welcome to BearMaxxing · v1.2",
+  "welcome.title": "Welcome to BearMaxxing · v1.3",
   "welcome.introduction": "Find your strongest Bear Hunt teams and the next upgrades worth working on. Enter your progression to compare hosting heroes, joining squads, gear, and upgrade priorities.",
   "welcome.estimates": "Recommendations are estimates, not guaranteed scores. Skill timing, overlapping bonuses, and other rally participants can affect actual damage.",
   "welcome.privacy": "Your calculator entries are saved only in your browser, not collected or stored by BearMaxxing. Your Kingshot ID can import some values; you enter the rest. Clearing this site’s browser data deletes your entries, and switching browsers means starting over.",

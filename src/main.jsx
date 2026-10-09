@@ -25,7 +25,7 @@ import {migrateProfile} from './data/roster.mjs';
 import {readPlayerResponse} from './player-response.mjs';
 import {LABELS, SLOTS, accountEffects, calculate, known} from './calculator.mjs';
 import {MASTER_SKILLS,masterEffects,masterInputDetails,masterSquadInputValue,masterAffinityDefinition} from './master-effects.mjs';
-import {TROOP_TIERS,tierFor} from './troop-inventory.mjs';
+import {TROOP_TIERS,BUILDING_TG_LEVELS,tierFor} from './troop-inventory.mjs';
 import {heroContributions,heroReference,heroHasWidget,heroProgression} from './hero-effects.mjs';
 import {STAR_OPTIONS,starStageParts} from './star-progression.mjs';
 import {levelInfo} from './hero-tooltips.mjs';
@@ -79,9 +79,12 @@ function InfoTooltip({label,children}) {
 function FieldHeader({id,label,displayLabel,info}) {
   return <div className="field-label"><label htmlFor={id}>{localizeText(displayLabel??label)}</label>{info&&<InfoTooltip label={label}>{info}</InfoTooltip>}</div>;
 }
-function Field({label, displayLabel, value, onChange, hint, info, type = 'number', step = 1, min = 0, max, placeholder, disabled=false, hideVisibleLabel=false}) {
+function Field({label, displayLabel, value, onChange, hint, info, type = 'number', step = 1, min = 0, max, placeholder, disabled=false, hideVisibleLabel=false, decimalPlaces}) {
   const id=useId();
-  return <div className={`field${hideVisibleLabel?' visually-hidden-label':''}`}><FieldHeader id={id} label={label} displayLabel={displayLabel} info={hideVisibleLabel?undefined:info??hint}/><input id={id} aria-label={localizeText(label)} type={type} value={value ?? (type==='number'?min:'')} step={step} min={min} max={max} disabled={disabled} placeholder={placeholder ?? (type === 'number' ? String(min) : '')} onChange={e => onChange(type === 'number' ? (e.target.value === '' ? min : Number(e.target.value)) : e.target.value)}/>{hideVisibleLabel&&(info??hint)&&<InfoTooltip label={label}>{info??hint}</InfoTooltip>}</div>;
+  const [draft,setDraft]=useState(null);
+  const inputValue=value ?? (type==='number'?min:'');
+  const displayValue=decimalPlaces!=null&&inputValue!==''&&Number.isFinite(Number(inputValue))?Number(inputValue).toFixed(decimalPlaces):inputValue;
+  return <div className={`field${hideVisibleLabel?' visually-hidden-label':''}`}><FieldHeader id={id} label={label} displayLabel={displayLabel} info={hideVisibleLabel?undefined:info??hint}/><input id={id} aria-label={localizeText(label)} type={type} value={draft??displayValue} step={step} min={min} max={max} disabled={disabled} placeholder={placeholder ?? (type === 'number' ? String(min) : '')} onFocus={e=>{if(decimalPlaces!=null)setDraft(e.target.value);}} onBlur={()=>setDraft(null)} onChange={e => {if(decimalPlaces!=null)setDraft(e.target.value);onChange(type === 'number' ? (e.target.value === '' ? min : Number(e.target.value)) : e.target.value);}}/>{hideVisibleLabel&&(info??hint)&&<InfoTooltip label={label}>{info??hint}</InfoTooltip>}</div>;
 }
 function Select({label, displayLabel, hideVisibleLabel=false, value, onChange, options, hint, info, empty, disabled=false}) {
   const id=useId();
@@ -98,8 +101,11 @@ function MasterControl({label,displayLabel,info,offensive=false,showTooltip=true
 }
 function MasterSquadControl({master,onChange,info,offensive=false,showTooltip=true}) {
   const id=useId();
+  const [draft,setDraft]=useState(null);
   const displayLabel=masterAffinityDefinition(master.name)?.label;
-  return <div className={`master-control${offensive?' bear-offense-field':''}`}><div className="field visually-hidden-label"><FieldHeader id={id} label={tr("main.MasterSquadControl.message", {hero: master.name, displayLabel: displayLabel})} displayLabel={tr("main.MasterSquadControl.atk.or.lth")}/><input id={id} aria-label={tr("main.MasterSquadControl.message", {hero: master.name, displayLabel: displayLabel})} type="number" min="0" step="any" value={masterSquadInputValue(master)} placeholder={tr("main.MasterSquadControl.0")} onChange={e=>onChange(e.target.value===''?0:e.target.value)}/></div><ControlInfo show={showTooltip} label={tr("main.MasterSquadControl.message", {hero: master.name, displayLabel: displayLabel})} info={info}/></div>;
+  const inputValue=masterSquadInputValue(master);
+  const displayValue=inputValue!==''&&Number.isFinite(Number(inputValue))?Number(inputValue).toFixed(2):inputValue;
+  return <div className={`master-control${offensive?' bear-offense-field':''}`}><div className="field visually-hidden-label"><FieldHeader id={id} label={tr("main.MasterSquadControl.message", {hero: master.name, displayLabel: displayLabel})} displayLabel={tr("main.MasterSquadControl.atk.or.lth")}/><input id={id} aria-label={tr("main.MasterSquadControl.message", {hero: master.name, displayLabel: displayLabel})} type="number" min="0" step="0.01" value={draft??displayValue} placeholder="0.00" onFocus={e=>setDraft(e.target.value)} onBlur={()=>setDraft(null)} onChange={e=>{setDraft(e.target.value);onChange(e.target.value===''?0:e.target.value);}}/></div><ControlInfo show={showTooltip} label={tr("main.MasterSquadControl.message", {hero: master.name, displayLabel: displayLabel})} info={info}/></div>;
 }
 function GearControl({label,displayLabel,info,offensive=false,showTooltip=true,...props}) {
   return <div className={`gear-control${offensive?' bear-offense-field':''}`}><Select label={label} displayLabel={displayLabel} {...props}/><ControlInfo show={showTooltip} label={label} info={info}/></div>;
@@ -232,7 +238,7 @@ export function App({initialTab, initialProfile} = {}) {
 
   function petEditor() {
     return <div className="pets-design pets-combined-design">
-      <div className="pet-refinement-combined grid">{[...TYPES,'attack'].map(stat=><Field key={stat} label={tr(`pets.combined.${stat}`)} value={p.combinedPetRefinement?.[stat]??''} step="any" placeholder={tr('main.Select.review.saved.value')} onChange={value=>change(x=>setCombinedPetStat(x,stat,value))}/>)}</div>
+      <div className="pet-refinement-combined grid">{[...TYPES,'attack'].map(stat=><Field key={stat} label={tr(`pets.combined.${stat}`)} value={p.combinedPetRefinement?.[stat]??''} step="0.01" decimalPlaces={2} placeholder={tr('main.Select.review.saved.value')} onChange={value=>change(x=>setCombinedPetStat(x,stat,value))}/>)}</div>
       <div className="pet-columns"><span aria-hidden="true"></span><span>{tr("main.petEditor.level")}<InfoTooltip label={tr("main.petEditor.pet.levels")}>{tr('pets.activeLevelsHelp')} {tr('pets.activeAdvancementHelp')}</InfoTooltip></span><span aria-hidden="true"></span></div>
       <div className="pets-rows">{p.pets.filter(petCollectsProgression).map(pet=>{
         const maxLevel=PET_MAX_LEVEL[pet.name];
@@ -260,7 +266,7 @@ export function App({initialTab, initialProfile} = {}) {
           <div className="troop-class"><img src={`/figma-heroes/${t}.png`} alt=""/><span>{tr(`troops.${t}`)}</span></div>
           <Field hideVisibleLabel displayLabel={tr("main.troopInventory.quantity")} label={tr("main.troopInventory.quantity.2", {t: LABELS[t]})} value={troop.count} onChange={v=>troopValue(t,'count',v)}/>
           <Select hideVisibleLabel displayLabel={tr("main.troopInventory.tier")} label={tr("main.troopInventory.tier.2", {t: LABELS[t]})} value={String(troop.tier??tierFor(p,t))} options={TROOP_TIERS.map(n=>({value:String(n),label:tr('troops.tierValue',{level:n})}))} onChange={v=>troopValue(t,'tier',Number(v))}/>
-          <Field hideVisibleLabel displayLabel={tr("main.troopInventory.building.tg")} label={tr("main.troopInventory.building.tg.2", {t: LABELS[t]})} value={troop.tg} onChange={v=>troopValue(t,'tg',v)}/>
+          <Select hideVisibleLabel displayLabel={tr("main.troopInventory.building.tg")} label={tr("main.troopInventory.building.tg.2", {t: LABELS[t]})} value={String(troop.tg??'')} empty="Unknown" options={BUILDING_TG_LEVELS.map(n=>({value:String(n),label:String(n)}))} onChange={v=>troopValue(t,'tg',v===''?null:Number(v))}/>
         </div>;
       })}</div>
       <div className="troop-inventory-balance">

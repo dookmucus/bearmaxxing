@@ -1,5 +1,8 @@
+import buildingLevels from './data/troop-building-levels.json' with {type:'json'};
+
 export const TROOP_CLASSES=['infantry','cavalry','archer'];
 export const TROOP_TIERS=Array.from({length:11},(_,i)=>i+1);
+export const BUILDING_TG_LEVELS=buildingLevels.completedLevels;
 export function tierFor(profile,troop){return profile.troops?.[troop]?.tier??profile.defaultTroopTier??10;}
 export function inventoryCount(profile,troop){
   if(!profile.mixedTiersEnabled)return profile.troops?.[troop]?.count??null;
